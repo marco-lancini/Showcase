@@ -1,0 +1,51 @@
+
+{% if form.non_field_errors %}
+    <div class="alert alert-block alert-error fade in">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <p>Error</p>
+        <ul>
+            {% for error in form.non_field_errors %}
+                <li><strong>{{ error|escape }}</strong></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
+
+{% for hidden in form.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+
+{% for field in form.visible_fields %}
+    <div class="control-group">
+        <!-- ERROR MESSAGES -->
+        {% if field.errors %}
+            <div class="alert alert-block alert-error fade in">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{ field.label }}
+                <ul>
+                    {% for error in field.errors %}
+                        <li><strong>{{ error|escape }}</strong></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <!-- FIELD -->
+        <label class="control-label" for="id_{{ field.label|lower }}">
+            {{ field.label }}
+            {% if field.field.required %}<p class="inline text-error"><strong>*</strong></p>{% endif %}
+        </label>
+        <div class="controls">
+            <div class="input-prepend">
+                {{ field }}
+            </div>
+            {% if field.help_text %}
+                <span class="help-inline">{{ field.help_text }}</span>
+                {% comment %}
+                <a href="#" rel="tooltip" title="{{ field.help_text }}"><i class="icon-question-sign"></i></a>        
+                {% endcomment %}
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}

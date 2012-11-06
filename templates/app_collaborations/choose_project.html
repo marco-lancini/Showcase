@@ -1,0 +1,24 @@
+{% extends "app_users/layout.html" %}
+{% block title %}{{ u.username }}{% endblock %}
+
+{% block pagetitle %}Find Collaborators{% endblock %}
+{% block pagesubtitle %}{{ u.username }}{% endblock %}
+
+{% block content %}
+
+<div class="well span9">
+    <p class="text-info">Choose the project for which you want automatic suggestions</p>
+    <div>
+        <ul>
+            {% for p in project_list %}
+                <li><a href="{% url app_collaborations.find_collaborators p.id %}">{{ p.title }} - [{{ p.category }}]</a></li>
+            {% empty %}
+                <span class="text-error">You don't have any project! Try to create one project</span>
+            {% endfor %}
+        </ul>
+    </div>
+    <br>
+    <p><a href="{% url app_users.user_view u.username %}" class="btn btn-small"><i class="icon-circle-arrow-left"></i> Back to {% firstof u.full_name u.username %} Profile</a></p>
+</div>
+
+{% endblock %}

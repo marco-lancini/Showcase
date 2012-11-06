@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Login Error{% endblock %}
+
+{% block content %}
+    <div class="alert alert-block alert-error">
+        <h4 class="alert-heading">Sorry but some error made you impossible to login</h4>
+        {% if messages %}
+            {% for msg in messages %}
+                <p class="error">{{ msg.message }} ({{ msg.extra_tags }})</p>
+            {% endfor %}
+        {% endif %}
+        {% if error_msg %}
+            <p>Details:</p>
+            <p class="error">{{ error_msg }}</p>
+        {% endif %}
+        <br>
+        <p><a class="btn btn-danger" href="/"><i class="icon-circle-arrow-left"></i> Home</a></p>
+    </div>
+{% endblock %}

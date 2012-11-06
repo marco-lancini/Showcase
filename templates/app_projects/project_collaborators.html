@@ -1,0 +1,47 @@
+{% extends "app_projects/layout_project.html" %}
+{% block title %}{{ p.title }}{% endblock %}
+
+{% block pagetitle %}{{ p.title }}{% endblock %}
+{% block pagesubtitle %}Manage Collaborators{% endblock %}
+
+{% block content %}
+{% url app_projects.project_view p.id as url_project %}
+{% url app_projects.collaborators_manage p.id  as url_confirm %}
+{% url app_projects.project_view p.id as url_cancel %}
+
+<div class="well span9">
+	<h4>Current Collaborators</h4>
+	{% for cl in collaborators %}
+		<form class="form-horizontal form-compact" method="post" action="{% url app_projects.collaborators_delete p.id cl.username %}">
+			{% csrf_token %}        
+			<div class="control-group control-group-compact">
+				<label class="control-label control-label-compact"><a href="{% url app_users.user_view cl.username %}">{% firstof cl.full_name cl.username %}</a></label>
+	        	
+	                <button type="submit" name="collaborator-delete" class="btn btn-small btn-danger"><i class="icon-warning-sign"> </i>Remove</button>
+	        	
+	        </div>
+		</form>
+	{% empty %}
+		<p>This project has no collaborators</p>
+	{% endfor %}
+
+
+	<a href="{{ url_project }}" class="btn btn-small btn-info done"><i class="icon-circle-arrow-left"></i> DONE</a>
+	
+	
+	<hr>
+	
+	<h4>Add Collaborator</h4>
+	<form class="form-horizontal" method="post" action="{{ url_confirm }}">
+		{% csrf_token %}        
+		{% include "form_template.html" %}
+
+		<div class="control-group">
+			<div class="controls">
+				<button type="submit" name="collaborator-add" class="btn btn-success">Confirm</button>
+				<a class="btn btn-danger" href="{{ url_cancel }}">Cancel</a>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}

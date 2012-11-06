@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Account activated{% endblock %}
+
+{% block content %}
+    {% load humanize %}
+    {% if account %}
+        <div class="alert alert-block alert-success fade in">
+            <h4 class="alert-heading">Account activated</h4>
+            <p>Thanks for signing up! Now you can log in.</p>
+            <br>
+            <p><a href="/login/" class="btn btn-success">Login <i class="icon-circle-arrow-right"></i></a></p>
+        </div>
+  {% else %}
+        <div class="alert alert-block alert-error fade in">
+            <h4 class="alert-heading">Sorry, it didn't work</h4>
+            <p>Either your activation link was incorrect, or the activation key for your account has expired; activation keys are only valid for {{ expiration_days|apnumber }} days after registration.</p>
+            <br>
+            <p><a class="btn btn-danger" href="/"><i class="icon-circle-arrow-left"></i> Home</a></p>
+        </div>
+  {% endif %}  
+{% endblock %}

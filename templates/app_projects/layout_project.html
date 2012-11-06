@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+
+{% block pagetitle %}{% endblock %}
+{% block pagesubtitle %}{% endblock %}
+
+{% block content %}
+    {% block internal_content %}
+    {% endblock %}
+{% endblock %}
+
+
+
+
+{% block sidebar %}
+{% url app_users.user_view p.owner.username  as url_owner %}
+{% url app_projects.project_vote p.id as url_vote %}
+{% url app_projects.project_unvote p.id as url_unvote %}
+{% url app_projects.project_list_by_category p.category.id as url_category %}
+
+
+<div class="span2">
+    <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+            <li class="nav-header">Project By</li>
+                <li><a href="{{ url_owner }}"><i class="icon-user"></i> {% firstof p.owner.full_name p.owner.username %}</a></li>
+            
+            {% if p.collaborators %}
+                <li class="nav-header">Collaborators</li>
+                    {% for cl in p.collaborators %}
+                        <li><a href="{% url app_users.user_view cl.username %}"><i class="icon-share-alt"></i> {% firstof cl.full_name cl.username %}</a></li>
+                    {% empty %}
+                        This project has no collaborators
+                    {% endfor %}
+            {% endif %}
+
+            <li class="divider"></li>
+            <li class="nav-header">Appreciations</li>
+                <li><span class="badge badge-info">{{ p.num_votes }}</span> <p class="text-info inline">Vote{{ p.num_votes|pluralize }}</p></li>
+
+                {% if not privileges.is_owner and not privileges.is_collaborator %}
+                    {% if privileges.can_vote %}
+                        <form class="form-horizontal" method="post" action="{{ url_vote }}">
+                            {% csrf_token %}
+                            <li><a href="#" onclick="$(this).parents('form').submit();"><i class="icon-star"></i> Vote</a></li>
+                        </form>
+                    {% endif %}
+                    {% if privileges.can_unvote %}
+                        <form class="form-horizontal" method="post" action="{{ url_unvote }}">
+                            {% csrf_token %}
+                            <li><a href="#" onclick="$(this).parents('form').submit();"><i class="icon-star-empty"></i> Unvote</a></li>
+                        </form>
+                    {% endif %}
+                {% endif %}
+
+            <li class="divider"></li>
+            <li class="nav-header">Category</li>
+                <li><a href="{{ url_category }}"><i class="icon-tag"></i>{{ p.category.name }}</a></li>
+
+
+            <li class="divider"></li>
+            <li class="nav-header">Share</li>
+                <div class="share-count">
+                    <span class='st_facebook_vcount' displayText='Facebook'></span>
+                    <span class='st_twitter_vcount' displayText='Tweet'></span>
+                </div>
+                <div class="share">
+                    <span class='st_tumblr_large' displayText='Tumblr'></span>
+                    <span class='st_linkedin_large' displayText='LinkedIn'></span>
+                    <span class='st_wordpress_large' displayText='WordPress'></span>
+                    <span class='st_googleplus_large' displayText='Google +'></span>
+                    <span class='st_pinterest_large' displayText='Pinterest'></span>
+                    <span class='st_email_large' displayText='Email'></span>
+                </div>
+
+        </ul>
+    </div>
+</div>
+{% endblock %}

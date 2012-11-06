@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+
+{% block pagetitle %}{% endblock %}
+{% block pagesubtitle %}{% endblock %}
+
+{% block content %}
+    {% block internal_content %}
+    {% endblock %}
+{% endblock %}
+
+
+
+{% block sidebar %}
+{% url app_projects.index as url_index %}
+{% url app_projects.project_browse_by_category as url_category %}
+{% url app_projects.project_browse_by_votes as url_votes %}
+
+<div class="span2">
+    <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+            <li class="nav-header">Discover</li>
+                <li><a href="{{ url_index }}"><i class="icon-book"></i> All Projects</a></li>
+
+            <li class="divider"></li>
+            <li class="nav-header">Browse By</li>
+                <li {% ifequal request.path url_category %}class="active"{% endifequal %}>
+                    <a href="{{ url_category }}"><i class="icon-folder-open"></i> Category</a></li>
+                <li {% ifequal request.path url_votes %}class="active"{% endifequal %}>
+                    <a href="{{ url_votes }}"><i class="icon-bar-chart"></i> Votes</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

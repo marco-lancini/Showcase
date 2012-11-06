@@ -1,6 +1,22 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block title %}Server error{% endblock %}
 
 {% block content %}
-There was an error while handling your request.
+    <div class="alert alert-error">
+        <h4 class="alert-heading">Server error!</h4>
+        {% if errors %}
+            <p class="error">Reason:</p>
+        	<ul>
+        		{% for error in errors %}
+					<li><strong>{{ error|escape }}</strong></li>
+				{% endfor %}
+			</ul>
+        {% else %}
+            <p class="error">There was an error while handling your request.</p>
+        {% endif %}
+        {{ error }}
+        {{ errors }}
+        <br>
+        <p><a class="btn btn-danger" href="/"><i class="icon-circle-arrow-left"></i> Home</a></p>
+    </div>
 {% endblock %}

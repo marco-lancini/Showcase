@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+
+{% block pagetitle %}{% endblock %}
+{% block pagesubtitle %}{% endblock %}
+
+{% block content %}
+    {% block internal_content %}
+    {% endblock %}
+{% endblock %}
+
+
+{% block sidebar %}
+{% url app_users.user_view u.username as url_profile %}
+{% url app_users.user_edit u.username  as url_edit %}
+{% url app_users.user_fields u.username as url_fields %}
+{% url app_users.user_settings u.username  as url_settings %}
+{% url app_users.user_voted u.username as url_voted %}
+{% url app_users.user_employment u.username as url_employment %}
+{% url app_hints.hints_projects as url_hints %}
+{% url app_collaborations.choose_project as url_collaborations %}
+
+<div class="span2">
+    <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+            {% if itself %}
+                <li class="nav-header">Manage Profile</li>
+                    <li {% ifequal request.path url_profile %}class="active"{% endifequal %}>
+                        <a href="{{ url_profile }}"><i class="icon-home"></i> My Profile</a></li>
+                    <li><a href="{{ url_edit }}"><i class="icon-edit"></i> Edit Profile</a></li>
+                    <li {% ifequal request.path url_settings %}class="active"{% endifequal %}>
+                        <a href="{{ url_settings }}"><i class="icon-wrench"></i> My Account</a></li>
+
+                <li class="divider"></li>
+                <li class="nav-header">Characteristics</li>
+                    <li><a href="{{ url_employment }}"><i class="icon-briefcase"></i> Employment</a></li>
+                    <li><a href="{{ url_fields }}"><i class="icon-beaker"></i> Creative Fields</a></li>
+                
+                <li class="divider"></li>
+                <li class="nav-header">Suggestions</li>
+                    <li {% ifequal request.path url_hints %}class="active"{% endifequal %}>
+                        <a href="{{ url_hints }}"><i class="icon-hand-left"></i> Interesting Projects</a></li>
+                    <li {% ifequal request.path url_collaborations %}class="active"{% endifequal %}>
+                        <a href="{{ url_collaborations }}"><i class="icon-search"></i> Find Collaborators</a></li>
+            {% else %}
+                <li class="nav-header">Get in contact</li>
+                    {% if u.email and u.email != "" %}    
+                        <li><a href="mailto:{{ u.email }}" target="blank"><i class="icon-envelope-alt"></i> Message</a></li>
+                    {% endif %}
+                    {% if u.website %}
+                        <li><a href="{{ u.website }}" target="blank"><i class="icon-link"></i> Website</a></li>
+                    {% endif %}
+                    {% if u.phone %}
+                        <li><a href="tel://{{ u.phone }}"><i class="icon-phone"></i> Call</a></li>
+                    {% endif %}
+            {% endif %}
+
+            {% if u.connected_accounts.list %}
+                <li class="divider"></li>
+                <li class="nav-header">Social</li>
+                    {% for c in u.connected_accounts.list %}
+                        {% if c.provider == "flickr" %}
+                            <li><a href="{{ c.url }}" target="blank"><i class="icon-camera"></i>{{ c.provider|title }}</a></li>
+                        {% else %}
+                            {% if c.provider == "tumblr" %}
+                                <li><a href="{{ c.url }}" target="blank"><i class="icon-list-alt"></i>{{ c.provider|title }}</a></li>
+                            {% else %}
+                                <li><a href="{{ c.url }}" target="blank"><i class="icon-{{ c.provider }}-sign"></i>{{ c.provider|title }}</a></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+            {% endif %}
+
+            <li class="divider"></li>
+            <li class="nav-header">Votes</li>
+                <li {% ifequal request.path url_voted %}class="active"{% endifequal %}>
+                    <a href="{{ url_voted }}"><i class="icon-star"></i> View Appreciations</a></li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

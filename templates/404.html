@@ -1,6 +1,22 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block title %}Page not found{% endblock %}
 
 {% block content %}
-The page you requested could not be found.
+    <div class="alert alert-error">
+        <h4 class="alert-heading">Page not found! (404)</h4>
+        
+        {% if errors %}
+            <p class="error">Reason:</p>
+        	<ul>
+        		{% for error in errors %}
+					<li><strong>{{ error|escape }}</strong></li>
+				{% endfor %}
+			</ul>
+        {% else %}
+            <p class="error">The page you requested could not be found.</p>
+        {% endif %}
+
+		<br>
+        <p><a class="btn btn-danger" href="/"><i class="icon-circle-arrow-left"></i> Home</a></p>
+    </div>
 {% endblock %}

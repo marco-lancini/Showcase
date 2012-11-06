@@ -1,16 +1,42 @@
-# Initialize App Engine and import the default settings (DB backend, etc.).
-# If you want to use a different backend you have to remove all occurences
-# of "djangoappengine" from this file.
+#=========================================================================
+# IMPORT
+#=========================================================================
 from djangoappengine.settings_base import *
-
+from settings_private import *
+import social_auth
 import os
+
+#=========================================================================
+# SETTINGS
+#=========================================================================
+#TODO - deploy
+DEBUG          = False      # true = show errors, false = 404
+DEVELOPMENT    = False       # true = localhost, false = gae
+TEMPLATE_DEBUG = DEBUG
+
+PROJECT_NAME = 'Showcase'
+ADMINS       = ( ('Marco Lancini', 'marco@marcolancini.it'), )
+MANAGERS     = ADMINS
+ROOT_PATH    = os.path.abspath( os.path.dirname(__file__) )
+
+
+#=========================================================================
+# ACTIVATION EMAILS
+#=========================================================================
+ACCOUNT_ACTIVATION_DAYS = 7
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST    = 'smtp.gmail.com'
+EMAIL_PORT    = 587
+EMAIL_USE_TLS = True
+
+
 
 # Activate django-dbindexer for the default database
 DATABASES['native'] = DATABASES['default']
 DATABASES['default'] = {'ENGINE': 'dbindexer', 'TARGET': 'native'}
 AUTOLOAD_SITECONF = 'indexes'
 
-SECRET_KEY = '^n(j932h$czj=cav9j#s^)7z@z73&amp;yc$w=puu!9lthcccc!2%7'
+#SECRET_KEY = '^n(j932h$czj=cav9j#s^)7z@z73&amp;yc$w=puu!9lthcccc!2%7'
 
 INSTALLED_APPS = (
 #    'django.contrib.admin',

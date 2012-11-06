@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Manage Employment Details{% endblock %}
+
+{% block pagetitle %}Manage Employment Details{% endblock %}
+{% block pagesubtitle %}{{ user.username }}{% endblock %}
+
+
+{% block content %}
+
+{% url app_users.user_employment user.username as url_submit %}
+{% url app_users.user_view user.username as url_cancel %}
+
+{% url app_users.user_employment_linkedin user.username as url_linkedin %}
+
+<div class="well span9 offset1">
+    <div>
+        {% if linkedin %}
+            <p class="text-info">
+                Fill the form or autocomplete with LinkedIn data  
+                <a href="{{ url_linkedin }}" class="btn btn-small btn-info"><i class="icon-linkedin"></i> Import Data</a>
+            </p>
+        {% else %}
+            <p class="text-info">Connect your LinkedIn account if you want to import these informations</p>
+        {% endif %}
+    </div>
+    <br>
+
+    <form class="form-horizontal" method="post" action="{{ url_submit }}">
+        {% csrf_token %}        
+        {% include "form_template.html" %}
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-success">Submit <i class="icon-circle-arrow-right"></i></button>
+                <a class="btn btn-danger" href="{{ url_cancel }}"><i class="icon-remove"></i> Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

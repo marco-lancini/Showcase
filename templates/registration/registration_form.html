@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="well span5 offset3">
+            <form class="form-horizontal" method="post" action=".">
+                <legend>Create an account</legend>
+                {% csrf_token %}
+
+                <!-- MESSAGES -->
+                {% if form.errors %}
+                    <div class="alert alert-block alert-error fade in">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <h4 class="alert-heading">Login Error</h4>
+                        <p class="errors">Please correct the errors below: {{ form.non_field_errors }}</p>
+                        <ul>
+                            {% if form.username.errors %}<li><strong>Username:</strong> {{ form.username.errors.as_text }}</li>{% endif %}
+                            {% if form.email.errors %}<li><strong>Email:</strong> {{ form.email.errors.as_text }}</li>{% endif %}
+                            {% if form.password1.errors %}<li><strong>Password:</strong> {{ form.password1.errors.as_text }}</li>{% endif %}
+                            {% if form.password2.errors %}<li><strong>Password Confirmation:</strong> {{ form.password2.errors.as_text }}</li>{% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div class="control-group">
+                    <label for="id_username" class="control-label">{{ form.username.label_tag }}</label>
+                    <div class="controls">
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-user"></i></span>
+                            {{ form.username }}
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="id_email" class="control-label">Email address <a href="#" rel="tooltip" title="We'll only use your email to send you signup instructions. We hate spam as much as you do"><i class="icon-question-sign"></i></a></label>
+                    <div class="controls">
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-envelope"></i></span>
+                            {{ form.email }}
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="id_password1" class="control-label">Password</label>
+                    <div class="controls">
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-lock"></i></span>
+                            {{ form.password1 }}
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="id_password2" class="control-label">Confirm Password</label>
+                    <div class="controls">
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-lock"></i></span>
+                            {{ form.password2 }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-success">Register <i class="icon-circle-arrow-right"></i></button>
+                    </div>
+                </div>            
+            </form>
+        </div>
+    </div>
+{% endblock %}

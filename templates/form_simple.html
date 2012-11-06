@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ param_title }}{% endblock %}
+
+{% block pagetitle %}{{ param_title }}{% endblock %}
+{% block pagesubtitle %}{{ param_subtitle }}{% endblock %}
+
+{% block content %}
+
+<div class="well span9 offset1">
+    <form class="form-horizontal" method="post" action="{{ url_confirm }}" {% if param_media %} enctype="multipart/form-data" {% endif %}>
+        {% csrf_token %}
+        {% include "form_template.html" %}
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-success">Confirm <i class="icon-circle-arrow-right"></i></button>
+                <a class="btn btn-danger" href="{{ url_cancel }}"><i class="icon-remove"></i> Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

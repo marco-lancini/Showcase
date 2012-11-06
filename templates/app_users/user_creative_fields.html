@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Creative Fields{% endblock %}
+
+{% block pagetitle %}Your Creative Fields{% endblock %}
+{% block pagesubtitle %}{{ user.username }}{% endblock %}
+
+
+{% block content %}
+
+{% url app_users.user_fields user.username as url_submit %}
+{% url app_users.user_view user.username as url_cancel %}
+
+
+<div class="well span9 offset1">
+	<h4>Your Creative Fields</h4>
+	{% for cf in u.creative_fields %}
+		<form class="form-horizontal form-compact" method="post" action="{% url app_users.creative_fields_delete u.username cf.id %}">
+			{% csrf_token %}
+			<div class="control-group control-group-compact">
+				<label class="control-label control-label-compact">{{ cf.name }}</label>
+				<button type="submit" name="creative-delete" class="btn btn-small btn-danger"><i class="icon-warning-sign"> </i>Remove</button>
+	        </div>
+		</form>
+	{% empty %}
+		<p>You haven't selected any Creative Field</p>
+	{% endfor %}
+
+
+	<a href="{{ url_cancel }}" class="btn btn-small btn-info done"><i class="icon-circle-arrow-left"></i> DONE</a>
+	
+	<hr>
+	
+	<h4>Add Creative Field</h4>
+	<form class="form-horizontal" method="post" action="{{ url_confirm }}">
+		{% csrf_token %}        
+		{% include "form_template.html" %}
+
+		<div class="control-group">
+			<div class="controls">
+				<button type="submit" name="creative-add" class="btn btn-success">Confirm</button>
+				<a class="btn btn-danger" href="{{ url_cancel }}">Cancel</a>
+			</div>
+		</div>
+	</form>
+
+
+</div>
+{% endblock %}

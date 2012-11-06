@@ -1,0 +1,23 @@
+{% extends "app_users/layout.html" %}
+{% block title %}{{ u.username }}{% endblock %}
+
+{% block pagetitle %}Projects that may interest you{% endblock %}
+{% block pagesubtitle %}{{ u.username }}{% endblock %}
+
+{% block content %}
+
+<div class="well span9">
+    <div>
+        <ul>
+            {% for p in project_list %}
+                <li><a href="{% url app_projects.project_view p.id %}">{{ p.title }} - [{{ p.category }}]</a></li>
+            {% empty %}
+                <span class="text-error">Not enough data to find suggestions. Try to complete your profile and start some projects!</span>
+            {% endfor %}
+        </ul>
+    </div>
+    <br>
+    <p><a href="{% url app_users.user_view u.username %}" class="btn btn-small"><i class="icon-circle-arrow-left"></i> Back to {% firstof u.full_name u.username %} Profile</a></p>
+</div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "app_users/layout.html" %}
+{% block title %}{{ u.username }}{% endblock %}
+
+{% block pagetitle %}Settings{% endblock %}
+{% block pagesubtitle %}{{ u.username }}{% endblock %}
+
+{% block content %}
+{% url app_users.user_settings_edit u.username  as url_settings_edit %}
+{% url app_auth.password_change as url_change_pwd %}
+{% url app_users.user_destroy u.username as url_delete_account %}
+
+<div class="well span9">
+    <div class="personal-settings">
+        <dl class="dl-horizontal dl-horizontal-settings">
+            <dt>Username <i class="icon-user"></i></dt>
+                <dd>{{ u.username|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+            <dt>Email <i class="icon-envelope-alt"></i></dt>
+                <dd><a href="mailto:{{ u.email }}" target="blank">{{ u.email|default:'<p class="inline text-error">--Not Available--</p>' }}</a></dd>
+            <dt>Date Joined <i class="icon-pushpin"></i></dt>
+                <dd>{{ u.date_joined|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+            <dt>Last Login <i class="icon-calendar"></i></dt>
+                <dd>{{ u.last_login|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+
+            <dt>Connected Accounts <i class="icon-lock"></i></dt>
+                <dd>
+                    <table class="table table-condensed table-social">  
+                        {% for name in social_auth.backends %}    
+                            {% if name in u.connected_accounts.names %}
+                                <tr>
+                                    <td>{{ name|title }}</td>
+                                    <td><span class="text-success">Connected</span></td>
+                                    <td><a href="/disconnect/{{ name }}/">Disconnect</a></td>
+                            {% else %}
+                            <tr>
+                                    <td>{{ name|title }}</td>
+                                    <td><span class="text-error">Not Connected</span></td>
+                                    <td><a href="/associate/{{ name }}/">Connect</a></td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </dd>
+            
+        </dl>
+        
+        
+        <a href="{{ url_settings_edit }}" class="btn btn-small btn-info"><i class="icon-edit"></i> Change Email</a>
+
+        {% if custom %}
+            <a href="{{ url_change_pwd }}" class="btn btn-small btn-info"><i class="icon-edit"></i> Change Password</a>
+        {% endif %}
+        
+        <!-- Modal -->
+        <a data-toggle="modal" href="#myModal" class="btn btn-small btn-danger"><i class="icon-trash"></i> Delete Account</a>
+        <div id="myModal" class="modal hide fade" style="display: none; ">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">×</button>
+                <h3>Are you sure?</h3>
+            </div>
+            <div class="modal-body">
+                <h4><i class="icon-warning-sign"></i> This action cannot be undone</h4>
+                <p>All your data on <strong>Showcase</strong> will be deleted</p>
+            </div>
+            <div class="modal-footer">
+                <a href="{{ url_delete_account }}" class="btn btn-primary btn-danger"><i class="icon-warning-sign"></i> Delete</a>
+                <a href="#" class="btn" data-dismiss="modal"><i class="icon-remove"></i> Close</a>
+            </div>
+        </div>​
+
+    </div>
+</div>
+{% endblock %}

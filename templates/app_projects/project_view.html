@@ -1,0 +1,228 @@
+{% extends "app_projects/layout_project.html" %}
+{% block title %}{{ p.title }}{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "572aee89-adfb-405e-9888-e6517574de12"});</script>
+{% endblock %}
+
+{% block pagetitle %}{{ p.title }}{% endblock %}
+{% block pagesubtitle %}Overview{% endblock %}
+
+{% block content %}
+{% url app_projects.project_edit p.id as url_edit %}
+{% url app_projects.project_material p.id as url_material %}
+{% url app_projects.collaborators_manage p.id  as url_collaborators %}
+{% url app_projects.project_destroy p.id as url_delete_project %}
+
+{% url app_collaborations.find_collaborators p.id as url_collaborators_find %}
+
+{% url app_projects.flickr_add p.id as url_flickr_add %}
+
+{% url app_projects.tumblr_text p.id as url_tumblr_text %}
+{% url app_projects.tumblr_link p.id as url_tumblr_link %}
+{% url app_projects.tumblr_quote p.id as url_tumblr_quote %}
+{% url app_projects.tumblr_chat p.id as url_tumblr_chat %}
+{% url app_projects.tumblr_photo p.id as url_tumblr_photo %}
+{% url app_projects.tumblr_audio p.id as url_tumblr_audio %}
+
+
+<div class="well span9">
+    <!-- INFO -->
+    <div class="project-info">
+        <dl class="dl-horizontal dl-horizontal-project">            
+            <dt>Period</dt><dd>{{ p.start_date|default_if_none:"ND" }} - {{ p.end_date|default_if_none:"ND" }}</dd>
+            {% if p.website %}
+                <dt>Website</dt><dd><a href="{{ p.website }}">{{ p.website }}</a></dd>
+            {% endif %}
+            <dt>Summary</dt><dd>{{ p.summary }}</dd>
+            <dt>Description</dt><dd>{{ material.description|default:'<p class="inline text-error">--Not Available--</p>'|capfirst }}</dd>
+        </dl>
+    </div>
+
+
+    <!-- MANAGE -->
+    {% if privileges.is_owner %}
+        <div class="project-manage">    
+            <dl class="dl-horizontal dl-horizontal-project2">
+                <dt>Base</dt>
+                <dd>
+                    <table class="table table-condensed table-social">
+                        <tr>
+                            <td><a href="{{ url_edit }}" class="btn btn-small btn-info"><i class="icon-edit"></i> Edit Basic Info</a></td>
+                            <td><a href="{{ url_material }}" class="btn btn-small btn-info"><i class="icon-edit"></i> Manage Material</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="{{ url_collaborators }}" class="btn btn-small btn-info"><i class="icon-edit"></i> Collaborators</a></td>
+                            <td><a data-toggle="modal" href="#myModal" class="btn btn-danger"><i class="icon-trash"></i> Delete Project</a></td>
+                        </tr>
+                    </table>
+                </dd>
+
+                {% if privileges.is_owner %}
+                    <dt>Suggestions</dt>
+                    <dd>
+                        <table class="table table-condensed table-social">
+                            <tr>
+                                <td><a href="{{ url_collaborators_find }}" class="btn btn-small btn-success"><i class="icon-search"></i> Find Collaborators</a></td>
+                            </tr>
+                        </table>
+                    </dd>
+                {% endif %}
+
+
+                {% if p.material.flickr %}
+                <dt>Flickr</dt>
+                <dd>
+                    <table class="table table-condensed table-social">
+                        <tr>
+                            <td><a href="{{ url_flickr_add }}" class="btn btn-small btn-success"><i class="icon-camera"></i> Add Photo</a></td>
+                        </tr>
+                    </table>
+                </dd>
+                {% endif %}
+
+
+                {% if p.material.tumblr %}
+                <dt>Tumblr</dt>
+                <dd>
+                    <table class="table table-condensed table-social">
+                        <tr>
+                            <td><a href="{{ url_tumblr_text }}" class="btn btn-small btn-success"><i class="icon-edit"></i> Text Post</a></td>
+                            <td><a href="{{ url_tumblr_link }}" class="btn btn-small btn-success"><i class="icon-link"></i> Link Post</a></td>
+                            <td><a href="{{ url_tumblr_quote }}" class="btn btn-small btn-success"><i class="icon-font"></i> Quote Post</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="{{ url_tumblr_chat }}"  class="btn btn-small btn-success"><i class="icon-comments"></i> Chat Post</a></td>
+                            <td><a href="{{ url_tumblr_photo }}" class="btn btn-small btn-success"><i class="icon-picture"></i> Photo Post</a></td>
+                            <td><a href="{{ url_tumblr_audio }}" class="btn btn-small btn-success"><i class="icon-headphones"></i> Audio Post</a></td>
+                        </tr>
+                    </table>
+                </dd>
+                {% endif %}
+
+            </dl>
+        </div>
+    {% endif %}
+
+
+    <!-- MATERIAL -->
+    <div class="project-material">
+
+        <!-- TUMBLR -->
+        {% if p.material.tumblr %}
+            <h3 class="material-category">Tumblr Blog</h3>
+            
+            {% for t in material.tumblr_posts %}
+                <a href="{{ t.post_url }}" target="blank"><h4>{{ t.date }}</h4></a>
+                <blockquote>
+                {% if t.type == "video" %}
+                    {{ t.player.1.embed_code|safe }}
+                    {{ t.caption|safe }}
+                {% else %}
+                    {% if t.type == "text" %}
+                        {% if t.title %}<h5>{{ t.title }}</h5>{% endif %}<p>{{ t.body|safe }}</p>
+                    {% else %}
+                        {% if t.type == "photo" %}
+                            {% for ph in t.photos %}
+                                <img src="{{ ph.original_size.url }}" width="200" height="200" />
+                                <p>{{ ph.caption }}</p>
+                            {% endfor %}
+                        {% else %}
+                            {% if t.type == "quote" %}
+                                <i><p>{{ t.text }}</p></i>
+                            {% else %}
+                                {% if t.type == "link" %}
+                                    <a href="{{ t.url }}" target="blank"><p><i class="icon-link"></i> {{ t.title }}{% if t.description %}: {{ t.description|safe }}{% endif %}</p></a>
+                                {% else %}
+                                    {% if t.type == "answer" %}
+                                        {{ t.question }}
+                                    {% else %}
+                                        {% if t.type == "chat" %}
+                                            {% for d in t.dialogue %}
+                                                <p><strong>{{ d.label }}</strong> {{ d.phrase }}</p>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% if t.type == "audio" %}
+                                                {{ t.player|safe }}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                </blockquote>
+                <br>
+            {% endfor %}
+
+
+            <p><a href="http://{{ material.tumblr_posts.0.blog_name }}.tumblr.com" target="blank" class="btn btn-small right">See more <i class="icon-circle-arrow-right"></i></a></p>
+        {% endif %}
+
+
+        <!-- FLICKR -->
+        {% if p.material.flickr %}
+            <h3 class="material-category">Flickr Photos</h3>
+            <table class="table table-condensed table-social">
+            {% for p in material.flickr_photos %}
+            
+                {% if forloop.counter0|divisibleby:3 %}<tr>{% endif %}
+                    <td><a href="{{ p.url }}" target="blank"><img src="{{ p.source }}" width="200" height="200" /></a></td>
+                {% if forloop.counter|divisibleby:3 %}</tr>{% endif %}
+            {% endfor %}
+            </table>
+            <p><a href="{{ material.flickr_url }}" target="blank" class="btn btn-small right">See more <i class="icon-circle-arrow-right"></i></a></p>
+        {% endif %}
+
+
+        <!-- YOUTUBE -->
+        {% if p.material.youtube1 or p.material.youtube2 %}
+            <h3 class="material-category">Youtube Videos</h3>
+            {% for yt in material.youtube_videos %}
+                {% if yt %}
+                    <iframe id="ytplayer" type="text/html" width="400" height="260" src="https://www.youtube.com/embed/{{ yt }}" frameborder="0" allowfullscreen/>
+                    </iframe>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+    </div>
+
+    <!-- COMMENTS -->
+    <div class="comments">
+        <hr>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_shortname = 'showcasetest';
+
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+</div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal hide fade" style="display: none; ">
+        <div class="modal-header">
+            <button class="close" data-dismiss="modal">×</button>
+            <h3>Are you sure?</h3>
+        </div>
+        <div class="modal-body">
+          <h4><i class="icon-warning-sign"></i> This action cannot be undone</h4>
+        </div>
+        <div class="modal-footer">
+            <a href="{{ url_delete_project }}" class="btn btn-primary btn-danger"><i class="icon-warning-sign"></i> Delete</a>
+            <a href="#" class="btn" data-dismiss="modal"><i class="icon-remove"></i> Close</a>
+        </div>
+    </div>​
+    <!-- Modal -->
+{% endblock %}
+

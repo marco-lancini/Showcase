@@ -1,0 +1,137 @@
+{% extends "app_users/layout.html" %}
+{% block title %}{{ u.username }}{% endblock %}
+
+{% block pagetitle %}Personal Profile{% endblock %}
+{% block pagesubtitle %}{{ u.username }}{% endblock %}
+
+   
+
+{% block content %}
+
+{% if not u.creative_fields or not u.availability %}
+    <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        Remember to choose your <i>Creative Fields</i> and to define your <i>Availability</i> preferences if you want to be contacted to collaborate in new projects!
+    </div>
+{% endif %}
+
+
+<div class="well span9">
+    <div class="profile-pic">
+        <!-- GRAVATAR -->
+        <img src="{{ u.profile_pic }}" class="img-polaroid profile">
+            {% comment %}
+                {% if u.profile_pic %}
+                    <img src="{{ MEDIA_URL}}{{ u.profile_pic }}" class="img-polaroid profile">
+                {% else %}
+                    <img src="{{ STATIC_PREFIX }}img/default_profile_pic.jpg" class="img-polaroid profile">
+                {% endif %}
+            {% endcomment %}
+    </div>
+    <div class="personal-infos">
+        <dl class="dl-horizontal dl-horizontal-profile">
+            <dt>Name <i class="icon-user"></i></dt><dd>{{ u.full_name|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+            <dt>Sex <i class="icon-group"></i></dt><dd>{{ u.sex|default:'<p class="inline text-error">--Not Available--</p>'|capfirst }}</dd>
+            <dt>Birthday <i class="icon-gift"></i></dt><dd>{{ u.birthday|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+            
+            <dt>Country <i class="icon-globe"></i></dt><dd>{{ u.country|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+            <dt>Address <i class="icon-map-marker"></i></dt><dd>{{ u.address|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+
+            <br>
+            <dt>Availability <i class="icon-time"></i></dt><dd>{{ u.availability|default:'<p class="inline text-error">--Not Available--</p>'|capfirst }}</dd>
+            <dt>Fee <i class="icon-money"></i></dt>
+                <dd>
+                    {% if u.fee == None %}
+                        <p class="inline text-error">--Not Available--</p>
+                        <a href="#" rel="tooltip" title="The user has not specified his preferences yet"><i class="icon-question-sign"></i></a>
+                    {% else %}
+                        {% if u.fee %}
+                            <p class="inline text-success">Free</p> 
+                            <a href="#" rel="tooltip" title="The user is available to work for free"><i class="icon-question-sign"></i></a>
+                        {% else %}
+                            <p class="inline text-warning">Payment</p>
+                            <a href="#" rel="tooltip" title="The user is unavailable to work for free"><i class="icon-question-sign"></i></a>
+                        {% endif %}
+                    {% endif %}
+                </dd>
+        </dl>
+        {% if itself %}
+            <dl class="dl-horizontal dl-horizontal-profile">
+            <dt>Email <i class="icon-envelope-alt"></i></dt><dd><a href="mailto:{{ u.email }}" target="blank">{{ u.email|default:'<p class="inline text-error">--Not Available--</p>' }}</a></dd>
+                <dt>Website <i class="icon-home"></i></dt>
+                <dd>
+                    {% if u.website %}
+                        <a href="{{ u.website }}" target="blank">{{ u.website }}</a>
+                    {% else %}
+                        <p class="inline text-error">--Not Available--</p>
+                    {% endif %}
+                </dd>
+                <dt>Phone  <i class="icon-phone"></i></dt><dd>{{ u.phone|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+            </dl>
+        {% endif %}
+    </div>
+
+    <div class="dl-horizontal personal-infos-2">
+        <dl class="dl-horizontal dl-horizontal-profile-2">
+            <dt>Headline <i class="icon-credit-card"></i></dt>
+                <dd>{{ u.employment.headline|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+            <dt>Industry <i class="icon-cogs"></i></dt>
+                <dd>{{ u.employment.industry|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+            <dt>Company <i class="icon-group"></i></dt>
+                <dd>{{ u.employment.company|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+            <dt>Title <i class="icon-briefcase"></i></dt>
+                <dd>{{ u.employment.title|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+
+            <br>
+            <dt>Creative Fields <i class="icon-beaker"></i></dt>
+            <dd>
+                <ul>
+                    {% for cf in u.creative_fields %}
+                        <li>{{ cf.name }}</li>
+                    {% empty %}
+                        <p class="text-error">No Creative Fields Selected</p>
+                    {% endfor %}
+                </ul>
+            </dd>
+        </dl>
+    </div>
+
+    <div class="personal-bio">
+        <dl class="dl-horizontal">
+            <dt>Short Bio <i class="icon-bold"></i></dt><dd>{{ u.bio|default:'<p class="inline text-error">--Not Available--</p>' }}</dd>
+        </dl>
+    </div>
+
+
+    <hr>
+    <div class="personal-projects">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab1" data-toggle="tab">Projects</a></li>
+                <li><a href="#tab2" data-toggle="tab">Collaborations</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <ul>
+                        {% for ow in projects_own %}
+                            <li><a href="{% url app_projects.project_view ow.id %}">{{ ow.title }} - [{{ ow.category.name }}]</a></li>
+                        {% empty %}
+                            <span class="text-error">No projects started</span>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <ul>
+                        {% for cl in projects_collab %}
+                            <li><a href="{% url app_projects.project_view cl.id %}">{{ cl.title }} - [{{ cl.category.name }}]</a></li>
+                        {% empty %}
+                            <span class="text-error">There are no collaborations</span>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

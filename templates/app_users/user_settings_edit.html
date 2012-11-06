@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Edit Your Settings{% endblock %}
+
+{% block pagetitle %}Edit Your Settings{% endblock %}
+{% block pagesubtitle %}{{ user.username }}{% endblock %}
+
+{% block content %}
+{% url app_users.user_settings_edit user.username as url_submit %}
+{% url app_users.user_settings user.username as url_cancel %}
+
+
+<div class="well span9 offset1">
+    <form class="form-horizontal" method="post" action="{{ url_submit }}">
+        {% csrf_token %}
+        
+        {% include "form_template.html" %}
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-success">Submit <i class="icon-circle-arrow-right"></i></button>
+                <a class="btn btn-danger" href="{{ url_cancel }}"><i class="icon-remove"></i> Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

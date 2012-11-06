@@ -1,53 +1,180 @@
-<!DOCTYPE html 
-     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-    dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"
-    xml:lang="{% firstof LANGUAGE_CODE 'en' %}"
-    lang="{% firstof LANGUAGE_CODE 'en' %}">
-  <head>
-    <title>{% block title %}{% endblock %} - Nonrel-testapp</title>
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Showcase{% endblock title %}</title>
+    <!-- TODO -->
+    <meta name="description" content="Create, Collaborate and Share your Projects">
+    <meta name="author" content="Marco Lancini">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ STATIC_PREFIX }}img/favicon.png">
 
+    <!-- CSS -->
     {% block css %}
+        <link href="{{ STATIC_PREFIX }}css/bootstrap.css" rel="stylesheet">
+        <link href="{{ STATIC_PREFIX }}css/custom.css" rel="stylesheet">
+        <link href="{{ STATIC_PREFIX }}css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="{{ STATIC_PREFIX }}css/font-awesome.css" rel="stylesheet">
+
+    <!--[if lt IE 7]>
+        <link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css">
+    <![endif]-->    
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {% endblock css %}
+
+    <!-- JQUERY -->
+    <script src="{{ STATIC_PREFIX }}js/jquery.js"></script> 
+
+    {% block scripts %}
+    {% endblock scripts %}
+</head>
+
+{% url app_auth.home as url_home %}
+{% url app_auth.login as url_login %}
+{% url app_auth.logout as url_logout %}
+{% url app_users.user_view user.username as url_profile %}
+{% url app_users.user_settings user.username as url_settings %}
+{% url app_projects.index as url_discover %}
+{% url app_projects.new as url_create %}
+{% url app_hints.hints_projects as url_hints %}
+{% url app_collaborations.choose_project as url_collaborations %}
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="{{ url_home }}">Showcase</a>
+
+                {% if user.is_authenticated %}
+                    <ul class="nav pull-right">
+                        {% comment %}
+                        <li><a href="{{ url_hints }}" data-toggle="modal">Hints</a></li>
+                        <li class="divider-vertical"></li>
+                        {% endcomment %}
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="icon-user icon-white"></i> {{user.username}} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ url_profile }}"><i class="icon-home"></i> My Profile</a></li>
+                                <li><a href="{{ url_settings }}"><i class="icon-wrench"></i> My Account</a></li>
+
+                                <li class="divider"></li>
+                                <li><a href="{{ url_hints }}"><i class="icon-hand-left"></i> Hints</a></li>
+                                <li><a href="{{ url_collaborations }}"><i class="icon-search"></i> Find Collaborators</a></li>
+
+                                <li class="divider"></li>
+                                <li><a href="{{ url_logout }}"><i class="icon-off"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% else %}
+                    <ul class="nav pull-right">
+                        <li {% ifequal request.path url_login %}class="active"{% endifequal %}>
+                            <a href="{{ url_login }}" data-toggle="modal">Login</a>
+                        </li>
+                        <li class="divider-vertical"></li>
+                        <li {% ifequal request.path "/accounts/register/" %}class="active"{% endifequal %}>
+                            <a href="/accounts/register/">Sign up</a>
+                        </li>
+                    </ul>
+                {% endif %}
+                <div class="nav-collapse">
+                    <ul class="nav">
+                        <li class="divider-vertical"></li>
+                        <li {% ifequal request.path url_discover %}class="active"{% endifequal %}>
+                            <a href="{{ url_discover }}">Discover</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            <li {% ifequal request.path url_create %}class="active"{% endifequal %}>
+                                <a href="{{ url_create }}">Create Project</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div><!--/.nav-collapse -->
+
+                {% comment %}
+                <form class="navbar-search pull-left" action="">
+                    <input type="text" class="search-query span4" placeholder="Search">
+                </form>
+                {% endcomment %}
+            </div><!-- /.container-fluid -->
+        </div><!-- /.navbar-inner -->
+    </div><!-- /.navbar -->
+
+
+    {% block fullwidth %}
     {% endblock %}
+    
+    <div class="container-fluid">
+        <div id="main-content" class="row-fluid">
+            <!-- PAGE TITLE -->
+            <div class="page-header">
+                <h1>{% block pagetitle %}{% endblock pagetitle %} <small>{% block pagesubtitle %}{% endblock pagesubtitle %}</small></h1>
+            </div>
 
-    {% block preload_js %}
-    {% endblock %}
+            <!-- MESSAGE BAR -->
+            {% if messages %}
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {{ messages }}
+                </div>
+            {% endif %}
+            {% if errors %}
+                <div class="alert alert-error">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {{ errors }}
+                </div>
+            {% endif %}
 
-    {% block extra-head %}{% endblock %}
-  </head>
+            <!-- CONTENT -->    
+            {% block content %}
+            {% endblock content %}
+                    
+            <!-- SIDEBAR -->
+            {% block sidebar %}
+            {% endblock sidebar %}
+        </div>    
+    </div><!-- /container-fluid -->
 
-  <body>
-    <div id="header">
-      <a id="logo" href="/">Nonrel-testapp</a>
-    </div>
+    <!-- FOOTER-->
+    {% block footer %}
+        <footer>        
+            <div class="container">
+                {% comment %}
+                <div id="etc">
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contacts</a></li>
+                    </ul>
+                </div>
+                {% endcomment %}
+                <div id="legal">
+                    <p>&copy; 2012 <a href="http://www.marcolancini.it" target="blank">Marco Lancini</a>. All Rights Reserved.</p>
+                </div>    
+            </div>
+        </footer>
+    {% endblock footer %}
+    
 
-    <div class="columns">
-      <div id="content" class="column">
-        {% block content-header %}
-          {% if error %}<div class="error">{{ error }}</div>{% endif %}
-          {% if info %}<div class="info">{{ info }}</div>{% endif %}
-          {% if messages %}
-            {% for message in messages %}
-              <div class="info">{{ message }}</div>
-            {% endfor %}
-          {% endif %}
-        {% endblock %}
 
-        {% block content %}{% endblock %}
-      </div>
-
-      <div id="sidebar" class="column">
-        {% block sidebar %}
-        {% endblock %}
-      </div>
-    </div>
-
-    <div id="footer">
-      <p>Powered by <a href="https://github.com/django-nonrel">Django-nonrel</a></p>
-    </div>
-
+    <!-- Javascript -->
     {% block js %}
-    {% endblock %}
-  </body>
+        <script src="{{ STATIC_PREFIX }}js/bootstrap.js"></script>
+        <script>
+            !function ($) {
+                $(function(){
+                    // carousel demo
+                    $('#myCarousel').carousel()
+                })
+            }(window.jQuery)
+        </script>
+    {% endblock js %}
+</body>
 </html>

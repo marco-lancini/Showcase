@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Project{% endblock %}
+
+{% block pagetitle %}{{ type }} Project{% endblock %}
+{% block pagesubtitle %}{% endblock %}
+
+{% block content %}
+
+{% if type == "Create" %}
+    {% url app_projects.create as url_create %}
+{% else %}
+    {% url app_projects.edit as url_create %}
+{% endif %}
+
+
+<div class="well span9 offset1">
+    <form class="form-horizontal" method="post" action="{{ url_create }}">
+        {% csrf_token %}
+        {% include "form_template.html" %}
+
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-success">Create <i class="icon-circle-arrow-right"></i></button>
+                <a class="btn btn-danger" href="javascript:history.go(-1);"><i class="icon-remove"></i> Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

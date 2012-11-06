@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ p.title }}{% endblock %}
+
+{% block pagetitle %}{{ p.title }}{% endblock %}
+{% block pagesubtitle %}Find Collaborators{% endblock %}
+
+
+{% block content %}
+{% url app_projects.project_view p.id as url_project %}
+
+<div class="well span9">
+    <span class="text-info">These are the users suggested for each creative field needed</span>
+    {% for group, users in groups %}
+        <div>
+            <h3>{{ group }}</h3>
+            <ul>
+                {% for user in users %}
+                    <li>
+                        <a href="{% url app_users.user_view user.u.user.username %}">
+                            {% firstof user.u.full_name user.u.user.username %}: 
+                        </a>
+                            {{ user.num_projects }} project{{ user.num_projects|pluralize }},
+                            {{ user.num_votes }} total vote{{ user.num_votes|pluralize }}
+                    </li>
+                {% empty %}
+                    <span class="text-error">Sorry, no suggestion for this creative field</span>
+                {% endfor %}
+            </ul>
+        </div>
+        <hr>
+    {% empty %}
+        <span class="text-error">Sorry, no suggestions available</span>
+    {% endfor %}
+
+    <p><a href="{{ url_project }}" class="btn btn-small"><i class="icon-circle-arrow-left"></i> Back to {{ p.title }} Page</a></p>
+</div>
+
+{% endblock %}

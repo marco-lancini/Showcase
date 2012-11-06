@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Complete Your Informations{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="well span5 offset3">
+            <form class="form-horizontal" method="post" action="">
+                <legend>Complete Your Informations</legend>
+                {% csrf_token %}
+
+                {% if social_errors %}
+                    <div class="alert alert-block alert-error fade in">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <h4 class="alert-heading">Login Error</h4>
+                        <p>{{ social_errors }}</p>
+                    </div>
+                {% endif %}
+
+                <div class="control-group">
+                    <label for="id_email" class="control-label">Email</label>
+                    <div class="controls"><input type="text" name="email" id="id_email" value="" /></div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-success">Continue <i class="icon-circle-arrow-right"></i></button>
+                    </div>
+                </div>            
+            </form>
+        </div>
+    </div>
+{% endblock %}

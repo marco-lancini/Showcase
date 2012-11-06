@@ -1,41 +1,100 @@
 {% extends 'base.html' %}
-{% block title %}It works!{% endblock %}
+
+{% block fullwidth %}
+    <!-- Carousel -->
+    <div id="myCarousel" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="item active">
+                <img src="{{ STATIC_PREFIX }}img/slide_01.jpg" alt="">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Showcase</h1>
+                        <p class="lead">Create, collaborate, share.</p>
+                        <a class="btn btn-large btn-primary" href="/accounts/register/" {% if user.is_authenticated %}disabled{% endif %}>Sign up today</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="{{ STATIC_PREFIX }}img/slide_02.jpg" alt="">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Show your projects.</h1>
+                        <p class="lead">No matter the field, in Showcase you can expose all your projects, share them to the world and find people for collaborate with you.</p>
+                        <a class="btn btn-large btn-primary" href="#featurettes">Learn more</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="{{ STATIC_PREFIX }}img/slide_03.jpg" alt="">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1>Revamp your imagination.</h1>
+                        <p class="lead">Watch the projects already on <i>Showcase</i> and get inspired for your next creations.</p>
+                        <a class="btn btn-large btn-primary" href="{{ url_discover }}">Browse gallery</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div><!-- /.carousel -->
+{% endblock %}
+
+
 
 {% block content %}
-<h1>It works!</h1>
-<p>
-Your Django-nonrel installation is working fine. Now go and build something useful with it. :)
-</p>
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+    <div class="container marketing">
 
-<p>
-If you'd like to learn more about using Django-nonrel take a look at the <a href="http://readthedocs.org/docs/django-nonrel">documentation</a>.
-You may also want to follow the <a href="https://github.com/django-nonrel">project on GitHub</a> or subscribe to its <a href="https://groups.google.com/group/django-non-relational">google group</a> so you don't miss any new features and improvements.
-</p>
+        <!-- Marketing messaging and featurettes -->
+        {% comment %}
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            <div class="span4">
+                <img class="img-circle" src="http://placehold.it/140x140">
+                <h2>Heading</h2>
+                <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+            </div>
+            <div class="span4">
+                <img class="img-circle" src="http://placehold.it/140x140">
+                <h2>Heading</h2>
+                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+            </div>
+            <div class="span4">
+                <img class="img-circle" src="http://placehold.it/140x140">
+                <h2>Heading</h2>
+                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                <p><a class="btn" href="#">View details &raquo;</a></p>
+            </div>
+        </div>
+        {% endcomment %}
 
-<p>
-If you're new to Django you should take a look at the <a href="http://docs.djangoproject.com/">Django documentation</a> and the <a href="http://www.djangobook.com/">Django book</a>.
-You'll also find <a href="http://djangosnippets.org/">djangosnippets</a> very useful.
-</p>
+        <!-- START THE FEATURETTES -->
+        <a id="featurettes"></a>
+        <hr class="featurette-divider">
+        <div class="featurette">
+            <img class="featurette-image pull-right" src="{{ STATIC_PREFIX }}img/create.png">
+            <h2 class="featurette-heading">Create. <span class="muted">Beautiful projects.</span></h2>
+            <p class="lead"><i>Showcase</i> allows you to expose all your creations in a single place. Create your personal professional portfolio.</p>
+        </div>
 
-<p>
-If you have an existing Django project that you'd like to use with a non-relational back-end or would simply like to learn what are the differences between the normal Django and its non-relational version take a look at: <a href="http://readthedocs.org/docs/django-nonrel/en/latest/content/porting.html">porting</a>.
-</p>
+        <hr class="featurette-divider">
+        <div class="featurette">
+            <img class="featurette-image pull-left" src="{{ STATIC_PREFIX }}img/share.png">
+            <h2 class="featurette-heading">Share them. <span class="muted">To the world.</span></h2>
+            <p class="lead">Thanks to the strong interconnection between <i>Showcase</i> and the social networks, you can increase the visibility of your projects and get in touch with other professionals just like you.</p>
+        </div>
 
-<p>
-If you search for reusable apps that work with Django-nonrel here's a list to get you started:
-</p>
-
-<ul>
-  <li><a href="https://github.com/django-nonrel/django-dbindexer">django-dbindexer</a>: Emulates extra database features beyond its native API (filters like __iexact, __endswith and simple JOINs); those features are used by some Django modules (admin, auth)</li>
-  <li><a href="https://github.com/django-nonrel/django-permission-backend-nonrel">django-permission-backend-nonrel</a>: Authentication backend that works with non-relation databases</li>
-  <li><a href="https://github.com/django-nonrel/nonrel-search">nonrel-search</a>: A simple full-text search engine for App Engine and other non-relational DBs</li>
-  <li><a href="http://readthedocs.org/docs/django-nonrel/en/latest/content/django-mediagenerator%20asset%20manager.html">django-mediagenerator</a>: Combines and compresses your JS and CSS files</li>
-  <li><a href="http://readthedocs.org/docs/django-nonrel/en/latest/content/django-filetransfers%20-%20File%20upload-download%20abstraction.html">django-filetransfers</a>: Generic API for file uploads/downloads (e.g. via App Engine Blobstore)</li>
-  <li><a href="http://readthedocs.org/docs/django-nonrel/en/latest/content/All%20Buttons%20Pressed%20-%20CMS%20&amp;%20blog%20for%20Django-nonrel.html">allbuttonspressed</a>: The simple CMS/blog that powers the original <a href="http://www.allbuttonspressed.com">Django-nonrel website</a></li>
-  <li><a href="https://github.com/django-nonrel">...and other nonrel projects...</a></li>
-</ul>
-
-<p>
-Finally, take a look at the apps listed on <a href="http://djangopackages.com/">Django Packages</a>. Many simple Django apps (e.g., <a href="https://bitbucket.org/ubernostrum/django-registration">django-registration</a>) should work unmodified. If you want to use <a href="http://robhudson.github.com/django-debug-toolbar/">django-debug-toolbar</a> you need to disable the SQLDebugPanel in your settings.
-</p>
+        <hr class="featurette-divider">
+        <div class="featurette">
+            <img class="featurette-image pull-right" src="{{ STATIC_PREFIX }}img/collaborate.png">
+            <h2 class="featurette-heading">Collaborate. <span class="muted">With other Experts.</span></h2>
+            <p class="lead">As special feature, <i>Showcase</i> offers a service that automatically finds the best professionals around you that can help you carrying on your projects.</p>
+        </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,31 @@
+{% extends "app_projects/layout_list.html" %}
+{% block title %}Categories{% endblock %}
+
+{% block pagetitle %}Categories{% endblock %}
+{% block pagesubtitle %}{% endblock %}
+
+{% block content %}
+{% url app_projects.project_browse_by_category as url_category %}
+{% url app_projects.project_browse_by_votes as url_votes %}
+
+<div class="well span9">
+    <div>
+        <ul>
+            {% ifequal request.path url_category %}
+                {% for c in categories %}
+                    <li style="list-style-type:none;"><a href="{% url app_projects.project_list_by_category c.id %}"><i class="icon-tag"></i> {{ c.name }}</a></li>
+                {% empty %}
+                    <span class="text-error">No Categories!</span>
+                {% endfor %}
+            {% endifequal %}
+            {% ifequal request.path url_votes %}
+                {% for c in categories %}
+                    <li style="list-style-type:none;"><a href="{% url app_projects.project_list_by_votes c.min c.max %}"><i class="icon-star"></i> {{ c.min }} - {{ c.max }}</a></li>
+                {% empty %}
+                    <span class="text-error">No Categories!</span>
+                {% endfor %}
+            {% endifequal %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
