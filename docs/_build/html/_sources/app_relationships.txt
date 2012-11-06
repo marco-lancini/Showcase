@@ -1,0 +1,26 @@
+Relationships Module
+*************************************
+
+
+.. automodule:: app_relationships
+
+
+Forms
+=====
+
+.. automodule:: app_relationships.forms
+   :members:
+
+
+Models
+======
+
+.. automodule:: app_relationships.models
+   :members:
+
+
+Views
+=====
+
+.. automodule:: app_relationships.views
+   :members:

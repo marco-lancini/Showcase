@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Projects Management Module &mdash; Showcase 0.1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Showcase 0.1.1 documentation" href="index.html" />
+    <link rel="next" title="Projects Management Module" href="app_socialnetworks.html" />
+    <link rel="prev" title="Hints Management Module" href="app_hints.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="app_socialnetworks.html" title="Projects Management Module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="app_hints.html" title="Hints Management Module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Showcase 0.1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-app_projects">
+<span id="projects-management-module"></span><h1>Projects Management Module<a class="headerlink" href="#module-app_projects" title="Permalink to this headline">¶</a></h1>
+<p>Module that manage the interaction with a <tt class="xref py py-class docutils literal"><span class="pre">models.UserProfile</span></tt> resource</p>
+<div class="section" id="module-app_projects.forms">
+<span id="forms"></span><h2>Forms<a class="headerlink" href="#module-app_projects.forms" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-app_projects.models">
+<span id="models"></span><h2>Models<a class="headerlink" href="#module-app_projects.models" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app_projects.models.Material">
+<em class="property">class </em><tt class="descclassname">app_projects.models.</tt><tt class="descname">Material</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.models.Material" title="Permalink to this definition">¶</a></dt>
+<dd><p>Material(id, description, tumblr, flickr, youtube1, youtube2)</p>
+<dl class="method">
+<dt id="app_projects.models.Material.flickr_get_photos">
+<tt class="descname">flickr_get_photos</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Material.flickr_get_photos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of 6 photos</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.wrapper">
+<tt class="descname">wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Material.wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a dict with elem=true if the project has that piece of material</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="app_projects.models.Project">
+<em class="property">class </em><tt class="descclassname">app_projects.models.</tt><tt class="descname">Project</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.models.Project" title="Permalink to this definition">¶</a></dt>
+<dd><p>PROJECT class</p>
+<dl class="method">
+<dt id="app_projects.models.Project.get_category_verbose">
+<tt class="descname">get_category_verbose</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.get_category_verbose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the string associated to a category</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.get_material">
+<tt class="descname">get_material</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.get_material" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the object Material to instantiate forms in the view</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-app_projects.views">
+<span id="views"></span><h2>Views<a class="headerlink" href="#module-app_projects.views" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app_projects.views.ProjectViews">
+<em class="property">class </em><tt class="descclassname">app_projects.views.</tt><tt class="descname">ProjectViews</tt><a class="headerlink" href="#app_projects.views.ProjectViews" title="Permalink to this definition">¶</a></dt>
+<dd><p>Project View</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Supported_formats :</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">blablbabla</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Template_path :</th><td class="field-body">bbbba</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Projects Management Module</a><ul>
+<li><a class="reference internal" href="#module-app_projects.forms">Forms</a></li>
+<li><a class="reference internal" href="#module-app_projects.models">Models</a></li>
+<li><a class="reference internal" href="#module-app_projects.views">Views</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="app_hints.html"
+                        title="previous chapter">Hints Management Module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="app_socialnetworks.html"
+                        title="next chapter">Projects Management Module</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/app_projects.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="app_socialnetworks.html" title="Projects Management Module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="app_hints.html" title="Hints Management Module"
+             >previous</a> |</li>
+        <li><a href="index.html">Showcase 0.1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Marco Lancini.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
