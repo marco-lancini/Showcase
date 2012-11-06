@@ -96,7 +96,7 @@ def ask_username(request,params=None):
     if request.method == 'POST' and request.POST.get('username'):
         # Check that the username is not already taken
         username = request.POST.get('username')
-        cont = UserProfile.objects.filter(user__username__iexact=username).count()
+        cont = UserProfile.objects.filter(user__username=username).count()
         if cont > 0:
             return render_to_response('app_auth/ask_username.html', {'social_errors': 'Username already taken'}, RequestContext(request))
         

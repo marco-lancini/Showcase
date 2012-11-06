@@ -83,7 +83,7 @@ def update_name(*args, **kwargs):
     if kwargs.get('user'):
         temp = kwargs['user']
         
-        u = UserProfile.objects.get(user__username__iexact=temp.username)
+        u = UserProfile.objects.get(user__username=temp.username)
 
         u.first_name = temp.first_name
         u.last_name = temp.last_name
