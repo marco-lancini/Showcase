@@ -1,3 +1,4 @@
 *~
 *.pyc
 .gaedata/
+settings_private_fake.py

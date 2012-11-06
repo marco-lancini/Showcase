@@ -9,47 +9,71 @@ import os
 #=========================================================================
 # SETTINGS
 #=========================================================================
-#TODO - deploy
-DEBUG          = False      # true = show errors, false = 404
-DEVELOPMENT    = False       # true = localhost, false = gae
-TEMPLATE_DEBUG = DEBUG
-
 PROJECT_NAME = 'Showcase'
 ADMINS       = ( ('Marco Lancini', 'marco@marcolancini.it'), )
 MANAGERS     = ADMINS
-ROOT_PATH    = os.path.abspath( os.path.dirname(__file__) )
+
+DEBUG          = False
+TEMPLATE_DEBUG = DEBUG
+
+ROOT_PATH = os.path.abspath( os.path.dirname(__file__) )
+BASE_URL  = 'http://showcase-st1.appspot.com/'
 
 
 #=========================================================================
-# ACTIVATION EMAILS
+# DB AND CACHE
 #=========================================================================
-ACCOUNT_ACTIVATION_DAYS = 7
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST    = 'smtp.gmail.com'
-EMAIL_PORT    = 587
-EMAIL_USE_TLS = True
-
-
-
-# Activate django-dbindexer for the default database
-DATABASES['native'] = DATABASES['default']
+DATABASES['native']  = DATABASES['default']
 DATABASES['default'] = {'ENGINE': 'dbindexer', 'TARGET': 'native'}
-AUTOLOAD_SITECONF = 'indexes'
+AUTOLOAD_SITECONF    = 'indexes'
 
-#SECRET_KEY = '^n(j932h$czj=cav9j#s^)7z@z73&amp;yc$w=puu!9lthcccc!2%7'
 
+#=========================================================================
+# INSTALLED APPS
+#=========================================================================
 INSTALLED_APPS = (
-#    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.auth',
     'django.contrib.sessions',
     'djangotoolbox',
     'autoload',
     'dbindexer',
-
-    # djangoappengine should come last, so it can override a few manage.py commands
+    'django.contrib.humanize',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # # SUPPORT APPS
+    # 'respite',
+    # 'registration',
+    # 'social_auth',
+    # # CUSTOM APPS
+    # 'app_auth',
+    # 'app_collaborations',
+    # 'app_hints',
+    # 'app_projects',
+    # 'app_socialnetworks',
+    # 'app_users',
+    #
     'djangoappengine',
 )
+
+
+
+
+
+
+# INSTALLED_APPS = (
+# #    'django.contrib.admin',
+#     'django.contrib.contenttypes',
+#     'django.contrib.auth',
+#     'django.contrib.sessions',
+#     'djangotoolbox',
+#     'autoload',
+#     'dbindexer',
+
+#     # djangoappengine should come last, so it can override a few manage.py commands
+#     'djangoappengine',
+# )
 
 MIDDLEWARE_CLASSES = (
     # This loads the index definitions, so it has to come first
@@ -74,3 +98,16 @@ ADMIN_MEDIA_PREFIX = '/media/admin/'
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
 
 ROOT_URLCONF = 'urls'
+
+
+
+
+
+#=========================================================================
+# ACTIVATION EMAILS
+#=========================================================================
+ACCOUNT_ACTIVATION_DAYS = 7
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST    = 'smtp.gmail.com'
+EMAIL_PORT    = 587
+EMAIL_USE_TLS = True
