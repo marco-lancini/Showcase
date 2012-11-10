@@ -1,3 +1,4 @@
+from functools import wraps
 from django.shortcuts import get_object_or_404
 from app_projects.models import Project
 
@@ -11,6 +12,7 @@ def must_be_owner(method_name):
         Avoid that a user can edit the project that he doesn't own
     """
     def decorator(function):
+        @wraps(function)
         def _view(self, request, id, *args, **kwargs):
             p = get_object_or_404(Project, pk=id)
             if str(p.owner.user.username) == str(request.user):
@@ -28,6 +30,7 @@ def no_conflict_of_interests(method_name):
         Avoid that a user vote a project he own or in which he collaborate
     """
     def decorator(function):
+        @wraps(function)
         def _view(self, request, id, *args, **kwargs):
             p = get_object_or_404(Project, pk=id)
 

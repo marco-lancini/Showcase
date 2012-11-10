@@ -56,15 +56,68 @@
             
   <div class="section" id="module-app_collaborations">
 <span id="collaborations-module"></span><h1>Collaborations Module<a class="headerlink" href="#module-app_collaborations" title="Permalink to this headline">¶</a></h1>
-<p>Module that manage the interaction with a <tt class="xref py py-class docutils literal"><span class="pre">models.UserProfile</span></tt> resource</p>
+<p>Module that provide automatic suggestions on possible collaborators for a project</p>
 <div class="section" id="module-app_collaborations.forms">
 <span id="forms"></span><h2>Forms<a class="headerlink" href="#module-app_collaborations.forms" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-app_collaborations.models">
-<span id="models"></span><h2>Models<a class="headerlink" href="#module-app_collaborations.models" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app_collaborations.forms.CollaborationsForm">
+<em class="property">class </em><tt class="descclassname">app_collaborations.forms.</tt><tt class="descname">CollaborationsForm</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_collaborations.forms.CollaborationsForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ask user for preferences about collaborators</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Pay :</th><td class="field-body">boolean that indicate the will to pay for collaborators</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Location :</th><td class="field-body">location of collaborators to search</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Availability :</th><td class="field-body">Full-Time, Part-Time, Consulting, Freelance, Internship</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Creative_fields :</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">list of creative fields to search (prefiltered using only those belonging to the category of the project)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="module-app_collaborations.views">
 <span id="views"></span><h2>Views<a class="headerlink" href="#module-app_collaborations.views" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app_collaborations.views.CollaborationViews">
+<em class="property">class </em><tt class="descclassname">app_collaborations.views.</tt><tt class="descname">CollaborationViews</tt><a class="headerlink" href="#app_collaborations.views.CollaborationViews" title="Permalink to this definition">¶</a></dt>
+<dd><p>Views that manage access to the Collaboration service</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Supported_formats :</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">html, json</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Template_path :</th><td class="field-body">path to html files</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="app_collaborations.views.CollaborationViews.choose_project">
+<tt class="descname">choose_project</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_collaborations.views.CollaborationViews.choose_project" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all the projects owned by the user and let him choose for which one he wants suggestions</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^collaborations/(?:$|index.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -78,7 +131,6 @@
   <ul>
 <li><a class="reference internal" href="#">Collaborations Module</a><ul>
 <li><a class="reference internal" href="#module-app_collaborations.forms">Forms</a></li>
-<li><a class="reference internal" href="#module-app_collaborations.models">Models</a></li>
 <li><a class="reference internal" href="#module-app_collaborations.views">Views</a></li>
 </ul>
 </li>

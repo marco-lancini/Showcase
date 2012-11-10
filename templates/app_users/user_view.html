@@ -8,13 +8,14 @@
 
 {% block content %}
 
-{% if not u.creative_fields or not u.availability %}
-    <div class="alert alert-error">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        Remember to choose your <i>Creative Fields</i> and to define your <i>Availability</i> preferences if you want to be contacted to collaborate in new projects!
-    </div>
+{% if itself %}
+    {% if not u.creative_fields or not u.availability %}
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            Remember to choose your <i>Creative Fields</i> and to define your <i>Availability</i> preferences if you want to be contacted to collaborate in new projects!
+        </div>
+    {% endif %}
 {% endif %}
-
 
 <div class="well span9">
     <div class="profile-pic">

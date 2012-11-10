@@ -1,5 +1,5 @@
 """
 
-Module that manage the interaction with a :class:`models.UserProfile` resource
+Module that provide automatic suggestions on possible collaborators for a project
 
 """

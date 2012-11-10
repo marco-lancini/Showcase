@@ -10,6 +10,7 @@ from respite import Views
 from respite.decorators import rest_login_required
 from respite.utils import generate_form
 
+from app_collaborations.options import CATEGORIES, get_category_verbose
 from app_users.models import UserProfile
 from app_projects.decorators import must_be_owner, no_conflict_of_interests
 from app_projects.forms import *
@@ -39,7 +40,8 @@ class ProjectViews(Views):
             new_project = form.save(commit=False)
 
             # Bind it to the user
-            u = UserProfile.objects.get(user__username__exact=request.user)
+            username = str(request.user)
+            u = UserProfile.objects.get(user__username__iexact=username)
             new_project.owner = u
 
             # Save the new instance
@@ -47,11 +49,6 @@ class ProjectViews(Views):
 
             # Redirect to the new project
             return self.show(request, new_project.id, messages)
-            # else:
-            #     print 'edit'
-            #     form.save()
-            #     #return self.show(request, form.cleaned_data['id'], messages)
-            #     return self.index(request, messages)
         else:
             return self._render(
                 request = request,
@@ -68,10 +65,13 @@ class ProjectViews(Views):
         if projects_set == None:
             projects_set = Project.objects.all()
 
+        if projects_set == False:
+            projects = None
+        else:
+            projects = [x.wrapper() for x in projects_set]
+
         if title == None:
             title = "All Projects"
-
-        projects = [x.wrapper() for x in projects_set]
 
         return self._render(
             request = request,
@@ -132,7 +132,8 @@ class ProjectViews(Views):
 
         # Check if can vote/unvote
         try:
-            u = UserProfile.objects.get(user__username__exact=request.user)
+            username = str(request.user)
+            u = UserProfile.objects.get(user__username__iexact=username)
             if p.can_vote(u):
                 can_vote   = True
                 can_unvote = False
@@ -235,7 +236,8 @@ class ProjectViews(Views):
     @no_conflict_of_interests
     def vote(self, request, id, p):
         # Retrieve user
-        u = UserProfile.objects.get(user__username__exact=request.user)
+        username = str(request.user)
+        u = UserProfile.objects.get(user__username__iexact=username)
 
         # Check that can vote (must not have voted before)
         if not p.can_vote(u):
@@ -251,7 +253,8 @@ class ProjectViews(Views):
     @no_conflict_of_interests
     def unvote(self, request, id, p):
         # Retrieve user
-        u = UserProfile.objects.get(user__username__exact=request.user)
+        username = str(request.user)
+        u = UserProfile.objects.get(user__username__iexact=username)
 
         # Check that can unvote (must have voted before)
         if not p.can_unvote(u):
@@ -269,21 +272,22 @@ class ProjectViews(Views):
     def list_by_category(self, request, category):
         
         # Retrieve all the projects belonging to the category specified
-        projects_set = get_list_or_404(Project, category=category)
+        projects_set = Project.objects.filter(category=category)
 
-        # Retrieve the title from the first project
-        title = projects_set[0].get_category_verbose()
+        # Check if the category has at least one project
+        if projects_set.count() > 0:
+            # Retrieve the title from the first project
+            title = projects_set[0].get_category_verbose()
+        else:
+            title = get_category_verbose(category)
+            projects_set = False
 
         return self.index(request, projects_set=projects_set, title=title, messages=None)
 
 
     def browse_by_category(self, request):
-
         # Retrieve Categories
-        pj = Project.objects.order_by('category').distinct('category').only('category')
-        temp = list(set([(x.category, x.get_category_verbose()) for x in pj]))
-
-        categories = [{'id': x[0], 'name': x[1]} for x in temp]
+        categories = [{'id': x[0], 'name': x[1]} for x in CATEGORIES]
 
         # Render the page
         return self._render(
@@ -301,14 +305,19 @@ class ProjectViews(Views):
         # Create the title
         title = "Votes %s - %s" % (min_votes, max_votes)
 
-        # Filter projects belonging to the range of votes
+        # Calculate boundary
         min_votes = int(min_votes) - 1 
         max_votes = int(max_votes) + 1
-        vs = Votes.objects.values('project').order_by().annotate(num_votes=Count('project')).filter(num_votes__gt=min_votes).filter(num_votes__lt=max_votes)
 
+        # Get all projects
+        all_projects = Project.objects.all()
 
-        # Retrieve those projects
-        projects_set = [ Project.objects.get(pk=elem['project']) for elem in vs]
+        # Filter projects belonging to the range of votes
+        projects_set = []
+        for pj in all_projects:
+            v = Votes.objects.filter(project=pj).count()
+            if v > min_votes and v < max_votes:
+                projects_set.append(pj)       
 
         return self.index(request, projects_set=projects_set, title=title, messages=None)
 
@@ -383,6 +392,7 @@ class ProjectViews(Views):
     @must_be_owner
     def collaborators_delete(self, request, id, p, username):
         # Check that username is a collaborator
+        username = str(username)
         collaborators = p.get_collaborators_wrapper()
         if username in [x['username'] for x in collaborators]:
             return self.collaborators_manage(request, id, coll=username)

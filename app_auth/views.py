@@ -23,7 +23,7 @@ def home(request):
     Render the homepage
 
     :Rest Types: ``GET``
-    :URL: ``/``
+    :URL: ``^$``
     """
     ctx = {}
     return render_to_response('home.html', ctx, RequestContext(request))
@@ -37,7 +37,7 @@ def login(request):
     Login the user and redirect him to the homepage
 
     :Rest Types: ``GET``
-    :URL: ``login/``
+    :URL: ``^login/$``
     """
     if request.user.is_active:
         return HttpResponseRedirect('/')
@@ -49,7 +49,7 @@ def logout(request):
     Logout the user and redirect him to the homepage
 
     :Rest Types: ``GET``
-    :URL: ``logout/``    
+    :URL: ``^logout/$``    
     """
     base_logout(request)
     return HttpResponseRedirect('/')
@@ -64,7 +64,7 @@ def login_error(request):
     Return an error page for errors during login
     
     :Rest Types: ``GET``
-    :URL: ``login/error/``
+    :URL: ``^login/error/$``
     """
     messages = get_messages(request)
     return render_to_response('app_auth/error.html', {'messages': messages}, RequestContext(request))
@@ -77,7 +77,7 @@ def associate(request, backend):
     :param backend: the name of social network to connect
     
     :Rest Types: ``GET``
-    :URL: ``associate/(?P<backend>[^/]+)/``
+    :URL: ``^associate/(?P<backend>[^/]+)/$``
     """
     try:        
         return HttpResponseRedirect('/login/' + str(backend) + '/')
@@ -91,12 +91,12 @@ def ask_username(request,params=None):
     When creating a new user through a social login, ask the username to user
     
     :Rest Types: ``GET``
-    :URL: ``ask_username/``
+    :URL: ``^ask_username/$``
     """
     if request.method == 'POST' and request.POST.get('username'):
         # Check that the username is not already taken
         username = request.POST.get('username')
-        cont = UserProfile.objects.filter(user__username=username).count()
+        cont = UserProfile.objects.filter(user__username__iexact=username).count()
         if cont > 0:
             return render_to_response('app_auth/ask_username.html', {'social_errors': 'Username already taken'}, RequestContext(request))
         
@@ -113,7 +113,7 @@ def ask_email(request,params=None):
     When creating a new user through a social login, ask the email to user
     
     :Rest Types: ``GET``
-    :URL: ``ask_email/``
+    :URL: ``^ask_email/$``
     """
     if request.method == 'POST' and request.POST.get('email'):
         name = setting('SOCIAL_AUTH_PARTIAL_PIPELINE_KEY', 'partial_pipeline')
@@ -131,6 +131,6 @@ def password_change_done(request):
     Confirm a change of password
 
     :Rest Types: ``GET``
-    :URL: ``password/change/done/``
+    :URL: ``^password/change/done/$``
     """
     return HttpResponseRedirect('/users/' + str(request.user) + '/settings/')

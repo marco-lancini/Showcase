@@ -98,19 +98,16 @@ def before(method_name):
     return decorator
 
 
-
-
 def rest_login_required(method_name):
     """
         Implements a decorator similar to the default @login_required
     """
     def decorator(function):
+        @wraps(function)
         def _view(self, request, *args, **kwargs):            
             if request.user.is_authenticated():
                 return function(self, request, *args, **kwargs)
             else:
                 return HttpResponseRedirect('/login/?next=%s' % request.path)
-
         return _view
-
     return decorator(method_name)

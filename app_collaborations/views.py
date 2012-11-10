@@ -6,28 +6,38 @@ from respite import Views
 from respite.decorators import rest_login_required
 
 from app_collaborations.forms import CollaborationsForm
-from app_collaborations.options import get_creative_fields
+from app_collaborations.options import get_creative_fields, get_creative_field_verbose
 from app_users.models import UserProfile
 from app_users.models_nn import CreativeFields
-from app_projects.decorators import must_be_owner
-# from app_projects.models import Project
-# from app_projects.models_nn import Votes, Collaborations
-
-# import collections
-# from operator import itemgetter
-
-        
+from app_projects.decorators import must_be_owner      
 
 
 #=========================================================================
-# HintViews
+# CollaborationViews
 #=========================================================================
 class CollaborationViews(Views):
+    """
+    Views that manage access to the Collaboration service
+
+    :supported_formats: html, json
+    :template_path: path to html files
+    """
     supported_formats = ['html', 'json']
     template_path     = 'app_collaborations/'
 
+
+    #=========================================================================
+    # CHOOSE PROJECT
+    #=========================================================================
     @rest_login_required
     def choose_project(self, request):
+        """
+        List all the projects owned by the user and let him choose for which one he wants suggestions
+        
+        :Decorators: ``rest_login_required``
+        :Rest Types: ``GET``
+        :URL: ``^collaborations/(?:$|index.(html|json)$)``
+        """
         # Retrieve current user
         username = str(request.user)
         u = get_object_or_404(UserProfile, user__username__iexact=username)
@@ -48,7 +58,9 @@ class CollaborationViews(Views):
             status = 200
         )
 
-
+    #=========================================================================
+    # DEFINE PARAMETERS
+    #=========================================================================
     @rest_login_required
     @must_be_owner
     def find_collaborators(self, request, id, p):
@@ -170,7 +182,11 @@ class CollaborationViews(Views):
                 if x.userprofile not in users and x.userprofile.user.username != str(username):
                     users.append(x.userprofile)
 
-            groups[x.creative_field] = users
+            # Get verbose name of creative field
+            verbose_name = get_creative_field_verbose(x.creative_field)
+
+            # Add users to the group of current creative field
+            groups[verbose_name] = users
 
 
         return groups

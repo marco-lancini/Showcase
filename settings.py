@@ -10,7 +10,9 @@ import os
 # SETTINGS
 #=========================================================================
 PROJECT_NAME = 'Showcase'
-ADMINS       = ( ('Marco Lancini', 'marco@marcolancini.it'), )
+ADMINS       = ( ('Marco Lancini', 'marco@marcolancini.it'), 
+                 ('Showcase', 'showcase.st1@gmail.com'),
+                )
 MANAGERS     = ADMINS
 
 DEBUG          = False
@@ -63,21 +65,20 @@ INSTALLED_APPS = (
     'autoload',
     'dbindexer',
     'django.contrib.humanize',
-    #'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # SUPPORT APPS
     'respite',
     'registration',
     'social_auth',
-    # # CUSTOM APPS
+    # CUSTOM APPS
     'app_auth',
     'app_collaborations',
     'app_hints',
     'app_projects',
     'app_socialnetworks',
     'app_users',
-    #
+    # APP ENGINE
     'djangoappengine',
 )
 
@@ -99,11 +100,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     #'social_auth.context_processors.social_auth_by_type_backends',
 )
 
-# List of finder classes that know how to find static files in various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -127,7 +127,7 @@ MIDDLEWARE_CLASSES = (
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #'django.template.loaders.eggs.Loader',
 )
 
 
@@ -194,23 +194,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-
-
-
-
-
-
-# This test runner captures stdout and associates tracebacks with their
-# corresponding output. Helps a lot with print-debugging.
-TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
-
-#ADMIN_MEDIA_PREFIX = '/media/admin/'
-#TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), 'templates'),)
-
-
-
-
-
 #=========================================================================
 # LOCATIONS
 #=========================================================================
@@ -237,6 +220,9 @@ STATIC_URL = os.path.join(ROOT_PATH, '/static/')
 # Additional locations of static files
 STATICFILES_DIRS = ( 'static/', )
 
+# This test runner captures stdout and associates tracebacks with their
+# corresponding output. Helps a lot with print-debugging.
+TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
 
 
 #=========================================================================

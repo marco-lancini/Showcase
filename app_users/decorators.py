@@ -1,3 +1,5 @@
+from functools import wraps
+
 OPERATION_NOT_PERMITTED = "You don't have the permission to take this action"
 
 def must_be_itself(method_name):
@@ -5,9 +7,7 @@ def must_be_itself(method_name):
         Avoid that a user can edit the profile of another one
     """
     def decorator(function):
-        """
-        Decorator
-        """
+        @wraps(function)
         def _view(self, request, username, *args, **kwargs):
             """
             If the username of the request is the same as the one of the 

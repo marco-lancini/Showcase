@@ -45,7 +45,7 @@ class Material(models.Model):
 
     def get_client(self, username):
         # Retrieve user from username
-        user = UserProfile.objects.get(user__username__exact=username)
+        user = UserProfile.objects.get(user__username__iexact=username)
         
         # Instantiate wrapper with authentication permission
         f = TumblrClient(self.tumblr, user_auth=user.user, auth=True)
@@ -122,7 +122,7 @@ class Material(models.Model):
 
     def flickr_add_photo(self, username, title, description, photo):
         # Retrieve user from username
-        user = UserProfile.objects.get(user__username__exact=username)
+        user = UserProfile.objects.get(user__username__iexact=username)
         
         # Instantiate wrapper with authentication permission
         f = FlickrClient(self.flickr, user_auth=user.user, auth=True)
@@ -281,9 +281,10 @@ class Project(models.Model):
 
 
     def delete_collaborator(self, username):
-        collaborators_set = Collaborations.objects.filter(project=self).filter(userprofile__user__username=username)
+        collaborators_set = Collaborations.objects.filter(project=self)
         for coll in collaborators_set:
-            coll.delete()
+            if coll.userprofile.user.username == str(username):
+                coll.delete()
 
 
     def delete_material(self):

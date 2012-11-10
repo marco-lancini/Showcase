@@ -11,13 +11,6 @@ Forms
    :members:
 
 
-Models
-======
-
-.. automodule:: app_collaborations.models
-   :members:
-
-
 Views
 =====
 

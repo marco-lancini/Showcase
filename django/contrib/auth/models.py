@@ -354,8 +354,11 @@ class User(models.Model):
 
     def email_user(self, subject, message, from_email=None):
         "Sends an e-mail to this User."
-        from django.core.mail import send_mail
-        send_mail(subject, message, from_email, [self.email])
+        #from django.core.mail import send_mail
+        #send_mail(subject, message, from_email, [self.email])
+        from django.conf import settings
+        from google.appengine.api import mail
+        mail.send_mail(sender=settings.DEFAULT_FROM_EMAIL, to=self.email, subject=subject, body=message)
 
     def get_profile(self):
         """

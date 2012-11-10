@@ -58,9 +58,9 @@ class FlickrClient(OauthClient):
         query     = 'photoset_id=%s' % self.photoset
 
         photolist = self._query_read(method, query, limit)
-        if photolist:
+        try:
             return photolist['photoset']['photo']
-        else:
+        except:
             return None
 
 

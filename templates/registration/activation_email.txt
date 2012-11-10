@@ -2,6 +2,6 @@
 Thank you for registering an account on Showcase!
 To activate your registration, please visit the following page:
 
-http://127.0.0.1:8000/accounts/activate/{{ activation_key }}/
+http://showcase-st1.appspot.com/accounts/activate/{{ activation_key }}/
 
 If you didn't request this, you don't need to do anything; you won't receive any more email from us, and the account will expire automatically in {{ expiration_days|apnumber }} days.

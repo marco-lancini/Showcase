@@ -28,7 +28,7 @@ class UserProfileViews(Views):
     
 
     :supported_formats: blablbabla
-    :template: bbbba
+    :template_path: bbbba
     """
     supported_formats = ['html', 'json']
     template_path = 'app_users/'
@@ -36,7 +36,7 @@ class UserProfileViews(Views):
     def _form_validation(self, request, form, status, messages=None):
         if form.is_valid():
             form.save()
-            return self.show(request, request.user, messages)
+            return self.show(request, username=request.user, messages=messages)
         else:
             # Render the page
             return self._render(
@@ -74,6 +74,7 @@ class UserProfileViews(Views):
         """
         Render the user with the specified username
         """
+        username = str(username)
         u = get_object_or_404(UserProfile, user__username__iexact=username)
 
         # Filter users
@@ -111,11 +112,8 @@ class UserProfileViews(Views):
     @must_be_itself
     def edit(self, request, username):
         ''' Render a form to edit a user '''
-
-        # if str(username) != str(request.user):
-        #     return self.show(request, request.user, errors=OPERATION_NOT_PERMITTED)
-
-        u = UserProfile.objects.get(user__username__exact=username)
+        username = str(username)
+        u = UserProfile.objects.get(user__username__iexact=username)
 
         if request.method == 'POST':
             form = UserProfileForm(request.POST, request.FILES, instance=u)
@@ -129,9 +127,7 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def replace(self, request, username):
-        # if str(username) != str(request.user):
-        #     return self.show(request, request.user, errors=OPERATION_NOT_PERMITTED)
-
+        username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
         form = UserProfileForm(request.PUT, instance=u)
 
@@ -141,9 +137,7 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def update(self, request, username):
-        # if str(username) != str(request.user):
-        #     return self.show(request, request.user, errors=OPERATION_NOT_PERMITTED)
-
+        username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
         fields = []
         for field in request.PATCH:
@@ -164,8 +158,8 @@ class UserProfileViews(Views):
     @must_be_itself
     def destroy(self, request, username):
         ''' Delete an user '''
-
-        u = UserProfile.objects.get(user__username__exact=username)
+        username = str(username)
+        u = UserProfile.objects.get(user__username__iexact=username)
 
         # Delete connected data
         u.delete_connected_data()
@@ -183,9 +177,7 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def settings(self, request, username, messages=None):
-        # if str(username) != str(request.user):
-        #     return self.show(request, request.user, errors=OPERATION_NOT_PERMITTED)
-
+        username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
         u_dict = u.wrapper()
 
@@ -211,10 +203,8 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def settings_edit(self, request, username):
-        # if str(username) != str(request.user):
-        #     return self.show(request, request.user, errors=OPERATION_NOT_PERMITTED)
-
-        u = UserProfile.objects.get(user__username__exact=username)
+        username = str(username)
+        u = UserProfile.objects.get(user__username__iexact=username)
 
         if request.method == 'POST':
             # Form populated request's data
@@ -245,6 +235,7 @@ class UserProfileViews(Views):
     @rest_login_required
     def voted(self, request, username):
         # Retrieve users
+        username = str(username)
         u = get_object_or_404(UserProfile, user__username__iexact=username)
         u_dict = u.wrapper()
 
@@ -278,7 +269,8 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def creative_fields_manage(self, request, username, field_id=None, errors=None):
-        u = UserProfile.objects.get(user__username__exact=username)
+        username = str(username)
+        u = UserProfile.objects.get(user__username__iexact=username)
 
         # Add Creative Field
         if 'creative-add' in request.POST:
@@ -317,7 +309,8 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def creative_fields_delete(self, request, username, field_id):
-        u = UserProfile.objects.get(user__username__exact=username)
+        username = str(username)
+        u = UserProfile.objects.get(user__username__iexact=username)
 
         # Check that the field is selected
         creative_fields = u.get_creative_fields()
@@ -334,7 +327,8 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def employment_manage(self, request, username):
-        u = UserProfile.objects.get(user__username__exact=username)
+        username = str(username)
+        u = UserProfile.objects.get(user__username__iexact=username)
 
         # Try to fetch the related material
         try:
@@ -386,7 +380,8 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def employment_linkedin(self, request, username):
-        u = UserProfile.objects.get(user__username__exact=username)
+        username = str(username)
+        u = UserProfile.objects.get(user__username__iexact=username)
 
         # Query linkedin to update data
         try:

@@ -3,7 +3,20 @@ from django.utils.translation import ugettext as _
 #=========================================================================
 # HELPERS
 #=========================================================================
+def get_display(key, list):
+    d = dict(list)
+    if key in d:
+        return d[key]
+    return None
+
+
 def get_creative_fields(category=None):
+    """
+    Access MAP_CATEGORY_FIELDS and extract creative fields
+
+    :param category: filter
+    :returns: all the creative fields belonging to the specified category. If no category is specified, returns all the creative fields
+    """
     def __get_values(res, v):
         val = list(v)
         if isinstance(v[0], tuple):
@@ -14,7 +27,7 @@ def get_creative_fields(category=None):
 
         return res
 
-
+    # Extract fields
     res = ()
     for k,v in MAP_CATEGORY_FIELDS.items():
         if category != None and category != k:
@@ -22,12 +35,25 @@ def get_creative_fields(category=None):
         else:
             res = __get_values(res, v)
 
+    # Sort alphabetically
     return sorted(res)
+
+
+def get_creative_field_verbose(id):
+    return get_display(id, CREATIVE_FIELDS)
+
+def get_category_verbose(id):
+    return get_display(id, CATEGORIES)
 
 
 #=========================================================================
 # OPTIONS
 #=========================================================================
+"""
+Dictionary of tuples:
+    - each key is a tuple representing a category
+    - each item is a tuple of tuples, each one representing a creative field
+"""
 MAP_CATEGORY_FIELDS = {
     ('AR', 'Architecture'): (
                         ('A1', _('Architecture')), 
@@ -143,6 +169,8 @@ MAP_CATEGORY_FIELDS = {
     ),
 }
 
-
+# List of categories
 CATEGORIES      = MAP_CATEGORY_FIELDS.keys()
+
+# List of creative fields
 CREATIVE_FIELDS = get_creative_fields()

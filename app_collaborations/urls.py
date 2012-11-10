@@ -6,6 +6,7 @@ urlpatterns = resource(
     prefix = 'collaborations/',
     views = CollaborationViews,
     routes = [
+        #=========================================================================
         # CHOOSE PROJECT
         routes.route(
             regex = r'^(?:$|index%s$)' % (templates.format),
@@ -36,6 +37,5 @@ urlpatterns = resource(
             method = 'GET',
             name = 'app_collaborations.calculate_results'
         ),
-
     ]
 )
