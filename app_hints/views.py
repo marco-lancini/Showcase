@@ -123,14 +123,29 @@ class HintViews(Views):
         # Gather all projects belonging to the category
         projects_set = Project.objects.filter(category=category_id)
 
-        # Exclude the ones owned by the user
-        no_owner = projects_set.exclude(owner=u)
+        #=========================================================================
+        # # Exclude the ones owned by the user
+        # no_owner = projects_set.exclude(owner=u)
 
-        # Exclude the ones in which the user collaborate
-        no_collaborate = no_owner.exclude( id__in=[o.project.id for o in Collaborations.objects.filter(userprofile=u)] )
+        # # Exclude the ones in which the user collaborate
+        # no_collaborate = no_owner.exclude( id__in=[o.project.id for o in Collaborations.objects.filter(userprofile=u)] )
 
-        # Exclude the ones voted by the user
-        no_vote = no_collaborate.exclude( id__in=[o.project.id for o in Votes.objects.filter(user=u)] )
+        # # Exclude the ones voted by the user
+        # no_vote = no_collaborate.exclude( id__in=[o.project.id for o in Votes.objects.filter(user=u)] )
+        #=========================================================================
+        no_vote = []
+
+        collaborations = Collaborations.objects.filter(userprofile=u)
+        votes = Votes.objects.filter(user=u)
+
+        for pj in projects_set:
+            # Exclude the ones owned by the user
+            if pj.owner != u:
+                # Exclude the ones in which the user collaborate and the ones voted by the user
+                if collaborations.filter(project=pj).count() == 0 and votes.filter(project=pj).count() == 0:
+                    no_vote.append(pj)
+
+        #=========================================================================
         
         return no_vote
 

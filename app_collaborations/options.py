@@ -36,7 +36,7 @@ def get_creative_fields(category=None):
             res = __get_values(res, v)
 
     # Sort alphabetically
-    return sorted(res)
+    return sorted(res, key=lambda x: x[1])
 
 
 def get_creative_field_verbose(id):
