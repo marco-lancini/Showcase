@@ -32,11 +32,6 @@ urlpatterns = patterns('',
 
     # Serve static content
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': 'static'}),
-
-
-
-    # Docs
-    (r'^docs/', 'django.views.generic.simple.direct_to_template', {'template': 'docs/_build/html/index.html'}),
 )
 
 
