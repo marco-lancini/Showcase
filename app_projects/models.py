@@ -109,13 +109,13 @@ class Material(models.Model):
 
 
     def flickr_get_url(self, owner):
-        try:
-            user = owner.user.social_auth.filter(user=owner.user.id).filter(provider="flickr")[0]
-            uid  = user.uid
-            url = 'http://www.flickr.com/photos/%s/sets/%s/' % (uid, self.flickr)
-            return url
-        except:
-            return "http://www.flickr.com/"
+        # try:
+        user = owner.user.social_auth.filter(user=owner.user.id).filter(provider="flickr")[0]
+        uid  = user.uid
+        url = 'http://www.flickr.com/photos/%s/sets/%s/' % (uid, self.flickr)
+        return url
+        # except:
+        #     return "http://www.flickr.com/"
 
 
 

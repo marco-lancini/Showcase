@@ -1,7 +1,15 @@
 from django.conf.urls.defaults import *
 
-from django.contrib import admin
-admin.autodiscover()
+
+# Search for "dbindexes.py" in all installed apps
+import dbindexer
+dbindexer.autodiscover()
+
+
+
+
+    
+
 
 
 urlpatterns = patterns('',
@@ -25,8 +33,10 @@ urlpatterns = patterns('',
     # Serve static content
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': 'static'}),
 
-    # Admin Site
-    url(r'^admin/', include(admin.site.urls)),
+
+
+    # Docs
+    (r'^docs/', 'django.views.generic.simple.direct_to_template', {'template': 'docs/_build/html/index.html'}),
 )
 
 
