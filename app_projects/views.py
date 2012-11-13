@@ -477,11 +477,13 @@ class ProjectViews(Views):
                 # Upload photo to flickr
                 try:
                     p.material.flickr_add_photo(request.user, new_title, new_description, new_photo)
-                except UploadException:
+                except UploadException, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
                 except ClearanceException:
                     return self.show(request, id, errors="Photoset not found. Are you sure you are the owner of the linked photoset?")
-                except Exception:
+                except Exception, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
 
 
@@ -593,11 +595,13 @@ class ProjectViews(Views):
                 
                 try:
                     p.material.tumblr_add_link(request.user, new_title, new_url)
-                except UploadException:
+                except UploadException, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
                 except ClearanceException:
                     return self.show(request, id, errors="You can't modify a blog you don't own.")
-                except Exception:
+                except Exception, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
 
                 # Redirect to the project
@@ -647,11 +651,13 @@ class ProjectViews(Views):
                 
                 try:
                     p.material.tumblr_add_quote(request.user, new_quote)
-                except UploadException:
+                except UploadException, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
                 except ClearanceException:
                     return self.show(request, id, errors="You can't modify a blog you don't own.")
-                except Exception:
+                except Exception, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
 
                 # Redirect to the project
@@ -701,11 +707,13 @@ class ProjectViews(Views):
                 
                 try:
                     p.material.tumblr_add_chat(request.user, new_title, new_conversation)
-                except UploadException:
+                except UploadException, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
                 except ClearanceException:
                     return self.show(request, id, errors="You can't modify a blog you don't own.")
-                except Exception:
+                except Exception, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
 
                 # Redirect to the project
@@ -756,11 +764,13 @@ class ProjectViews(Views):
                 
                 try:
                     p.material.tumblr_add_photo(request.user, new_source, new_data)
-                except UploadException:
+                except UploadException, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
                 except ClearanceException:
                     return self.show(request, id, errors="You can't modify a blog you don't own.")
-                except Exception:
+                except Exception, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
 
                 # Redirect to the project
@@ -809,11 +819,13 @@ class ProjectViews(Views):
                 
                 try:
                     p.material.tumblr_add_audio(request.user, new_source)
-                except UploadException:
+                except UploadException, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
                 except ClearanceException:
                     return self.show(request, id, errors="You can't modify a blog you don't own.")
-                except Exception:
+                except Exception, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
 
                 # Redirect to the project

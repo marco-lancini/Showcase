@@ -56,6 +56,7 @@ class Material(models.Model):
 
     def tumblr_add_text(self, username, title, body):
         # Get client
+        username = str(username)
         f = self.get_client(username)
 
         # Upload Text Post
@@ -63,24 +64,29 @@ class Material(models.Model):
 
 
     def tumblr_add_link(self, username, title, url):
+        username = str(username)
         f = self.get_client(username)
         f.add_link(title, url)
 
 
     def tumblr_add_quote(self, username, quote):
+        username = str(username)
         f = self.get_client(username)
         f.add_quote(quote)
 
     def tumblr_add_chat(self, username, title, conversation):
+        username = str(username)
         f = self.get_client(username)
         f.add_chat(title, conversation)
 
 
     def tumblr_add_photo(self, username, source, data):
+        username = str(username)
         f = self.get_client(username)
         f.add_photo(source, data)
 
     def tumblr_add_audio(self, username, source):
+        username = str(username)
         f = self.get_client(username)
         f.add_audio(source)
 
@@ -124,6 +130,7 @@ class Material(models.Model):
 
     def flickr_add_photo(self, username, title, description, photo):
         # Retrieve user from username
+        username = str(username)
         user = UserProfile.objects.get(user__username__iexact=username)
         
         # Instantiate wrapper with authentication permission
