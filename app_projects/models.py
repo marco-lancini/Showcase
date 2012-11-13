@@ -45,6 +45,7 @@ class Material(models.Model):
 
     def get_client(self, username):
         # Retrieve user from username
+        username = str(username)
         user = UserProfile.objects.get(user__username__iexact=username)
         
         # Instantiate wrapper with authentication permission
