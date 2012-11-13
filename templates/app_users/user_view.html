@@ -20,7 +20,7 @@
 <div class="well span9">
     <div class="profile-pic">
         <!-- GRAVATAR -->
-        <img src="{{ u.profile_pic }}" class="img-polaroid profile">
+        <a href="#" rel="tooltip" title="Gravatar Profile Picture"><img src="{{ u.profile_pic }}" class="img-polaroid profile"></a>
             {% comment %}
                 {% if u.profile_pic %}
                     <img src="{{ MEDIA_URL}}{{ u.profile_pic }}" class="img-polaroid profile">
