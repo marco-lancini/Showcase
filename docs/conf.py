@@ -27,7 +27,7 @@ import sys, os
 
 
 sys.path.append(os.path.dirname(__file__))
-import django 
+#import django 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 if django.VERSION < (1, 4):
     from django.core.management import setup_environ
