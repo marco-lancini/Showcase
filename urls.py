@@ -1,5 +1,9 @@
 from django.conf.urls.defaults import *
 
+from django.contrib import admin
+admin.autodiscover()
+
+
 urlpatterns = patterns('',
     ('^_ah/warmup$', 'djangoappengine.views.warmup'),
 
@@ -20,6 +24,9 @@ urlpatterns = patterns('',
 
     # Serve static content
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': 'static'}),
+
+    # Admin Site
+    url(r'^admin/', include(admin.site.urls)),
 )
 
 
