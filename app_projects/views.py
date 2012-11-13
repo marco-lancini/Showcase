@@ -19,7 +19,7 @@ from app_projects.models_nn import Votes, Collaborations
 
 from app_socialnetworks.oauthclient import NotConnectedException, UploadException, ClearanceException
         
-
+from social_auth.utils import log
 
 #=========================================================================
 # ProjectViews
@@ -536,11 +536,13 @@ class ProjectViews(Views):
                 
                 try:
                     p.material.tumblr_add_text(request.user, new_title, new_body)
-                except UploadException:
+                except UploadException, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
                 except ClearanceException:
                     return self.show(request, id, errors="You can't modify a blog you don't own.")
-                except Exception:
+                except Exception, e:
+                    log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
 
                 # Redirect to the project

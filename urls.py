@@ -1,15 +1,8 @@
 from django.conf.urls.defaults import *
 
-
 # Search for "dbindexes.py" in all installed apps
 import dbindexer
 dbindexer.autodiscover()
-
-
-
-
-    
-
 
 
 urlpatterns = patterns('',
