@@ -1,2 +1,3 @@
-google-appengine
 django
+ez_setup
+google-appengine
