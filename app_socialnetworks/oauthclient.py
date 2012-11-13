@@ -9,6 +9,8 @@ class UploadException(Exception):
 class ClearanceException(Exception):
     pass
 
+from uuid import uuid4
+
 
 
 class OauthClient(object):
@@ -45,7 +47,8 @@ class OauthClient(object):
 
             Used by Flickr
         """        
-        BOUNDARY = mimetools.choose_boundary()
+        #BOUNDARY = mimetools.choose_boundary()
+        BOUNDARY = uuid4().hex
         CRLF = '\r\n'
         L = []
         for (key, value) in fields.items():
