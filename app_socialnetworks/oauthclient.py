@@ -9,9 +9,6 @@ class UploadException(Exception):
 class ClearanceException(Exception):
     pass
 
-from uuid import uuid4
-
-
 
 class OauthClient(object):
     

@@ -10,6 +10,7 @@ from datetime import datetime
 import hmac, hashlib
 import signal
 import base64
+from uuid import uuid4
 import mimetools, mimetypes
 import xml.etree.ElementTree as ET
 from django.conf import settings

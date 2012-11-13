@@ -183,7 +183,7 @@ class CollaborationViews(Views):
                     users.append(x.userprofile)
 
             # Get verbose name of creative field
-            verbose_name = get_creative_field_verbose(x.creative_field)
+            verbose_name = get_creative_field_verbose(cf)
 
             # Add users to the group of current creative field
             groups[verbose_name] = users

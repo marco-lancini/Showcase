@@ -70,8 +70,12 @@ class ProjectViews(Views):
         else:
             projects = [x.wrapper() for x in projects_set]
 
+            # Sort alphabetically
+            projects = sorted(projects, key=lambda x: x['title'])
+
         if title == None:
             title = "All Projects"
+
 
         return self._render(
             request = request,
@@ -288,6 +292,10 @@ class ProjectViews(Views):
     def browse_by_category(self, request):
         # Retrieve Categories
         categories = [{'id': x[0], 'name': x[1]} for x in CATEGORIES]
+
+        # Sort alphabetically
+        categories = sorted(categories, key=lambda x: x['name'])
+
 
         # Render the page
         return self._render(
