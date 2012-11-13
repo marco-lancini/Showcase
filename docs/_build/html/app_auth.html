@@ -54,235 +54,16 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-app_auth">
-<span id="authentication-module"></span><h1>Authentication Module<a class="headerlink" href="#module-app_auth" title="Permalink to this headline">¶</a></h1>
-<p>Module that manage the authentication service, both custom and social-based</p>
-<div class="section" id="module-app_auth.models">
-<span id="models"></span><h2>Models<a class="headerlink" href="#module-app_auth.models" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="app_auth.models.CustomUser">
-<em class="property">class </em><tt class="descclassname">app_auth.models.</tt><tt class="descname">CustomUser</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_auth.models.CustomUser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Temporary resource used only during the process of social authentication</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Username :</th><td class="field-body">username chosen by the user</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Email :</th><td class="field-body">email chosen by the user</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Last_login :</th><td class="field-body">last time the user was logged</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="app_auth.models.CustomUser.is_authenticated">
-<tt class="descname">is_authenticated</tt><big>(</big><big>)</big><a class="headerlink" href="#app_auth.models.CustomUser.is_authenticated" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if the user is authenticated</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the user is authenticated</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="app_auth.models.CustomUserManager">
-<em class="property">class </em><tt class="descclassname">app_auth.models.</tt><tt class="descname">CustomUserManager</tt><a class="headerlink" href="#app_auth.models.CustomUserManager" title="Permalink to this definition">¶</a></dt>
-<dd><p>Manager for the <a class="reference internal" href="#app_auth.models.CustomUser" title="app_auth.models.CustomUser"><tt class="xref py py-class docutils literal"><span class="pre">CustomUser</span></tt></a></p>
-<dl class="method">
-<dt id="app_auth.models.CustomUserManager.create_user">
-<tt class="descname">create_user</tt><big>(</big><em>username</em>, <em>email</em><big>)</big><a class="headerlink" href="#app_auth.models.CustomUserManager.create_user" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the username and create the user</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>username</strong> (<em>str</em>) &#8211; the username chosen by the user</li>
-<li><strong>email</strong> (<em>str</em>) &#8211; email of the user (unused)</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
+  <div class="section" id="authentication-module">
+<h1>Authentication Module<a class="headerlink" href="#authentication-module" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="models">
+<h2>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-app_auth.pipeline">
-<span id="pipeline"></span><h2>Pipeline<a class="headerlink" href="#module-app_auth.pipeline" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="app_auth.pipeline.email">
-<tt class="descclassname">app_auth.pipeline.</tt><tt class="descname">email</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_auth.pipeline.email" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the email chosen by the user and update the corresponding <tt class="xref py py-func docutils literal"><span class="pre">auth.User()</span></tt></p>
-</dd></dl>
-
-<dl class="function">
-<dt id="app_auth.pipeline.redirect_to_ask_email">
-<tt class="descclassname">app_auth.pipeline.</tt><tt class="descname">redirect_to_ask_email</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_auth.pipeline.redirect_to_ask_email" title="Permalink to this definition">¶</a></dt>
-<dd><p>If there isn&#8217;t a saved email in session, check if the active user has an email.
-If not, then redirect him to <tt class="xref py py-func docutils literal"><span class="pre">views.ask_email()</span></tt></p>
-</dd></dl>
-
-<dl class="function">
-<dt id="app_auth.pipeline.redirect_to_ask_username">
-<tt class="descclassname">app_auth.pipeline.</tt><tt class="descname">redirect_to_ask_username</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_auth.pipeline.redirect_to_ask_username" title="Permalink to this definition">¶</a></dt>
-<dd><p>If there isn&#8217;t a user in session, then redirect to <tt class="xref py py-func docutils literal"><span class="pre">views.ask_username()</span></tt></p>
-</dd></dl>
-
-<dl class="function">
-<dt id="app_auth.pipeline.update_name">
-<tt class="descclassname">app_auth.pipeline.</tt><tt class="descname">update_name</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_auth.pipeline.update_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>At the end of the pipeline, check if the connected account has defined a name.
-If yes, copy it into the corresponding <a class="reference internal" href="app_users.html#app_users.models.UserProfile" title="app_users.models.UserProfile"><tt class="xref py py-class docutils literal"><span class="pre">app_users.models.UserProfile</span></tt></a></p>
-</dd></dl>
-
-<dl class="function">
-<dt id="app_auth.pipeline.username">
-<tt class="descclassname">app_auth.pipeline.</tt><tt class="descname">username</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_auth.pipeline.username" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the username chosen by the user</p>
-</dd></dl>
-
+<div class="section" id="pipeline">
+<h2>Pipeline<a class="headerlink" href="#pipeline" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-app_auth.views">
-<span id="views"></span><h2>Views<a class="headerlink" href="#module-app_auth.views" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="app_auth.views.ask_email">
-<tt class="descclassname">app_auth.views.</tt><tt class="descname">ask_email</tt><big>(</big><em>request</em>, <em>params=None</em><big>)</big><a class="headerlink" href="#app_auth.views.ask_email" title="Permalink to this definition">¶</a></dt>
-<dd><p>When creating a new user through a social login, ask the email to user</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^ask_email/$</span></tt></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="app_auth.views.ask_username">
-<tt class="descclassname">app_auth.views.</tt><tt class="descname">ask_username</tt><big>(</big><em>request</em>, <em>params=None</em><big>)</big><a class="headerlink" href="#app_auth.views.ask_username" title="Permalink to this definition">¶</a></dt>
-<dd><p>When creating a new user through a social login, ask the username to user</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^ask_username/$</span></tt></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="app_auth.views.associate">
-<tt class="descclassname">app_auth.views.</tt><tt class="descname">associate</tt><big>(</big><em>request</em>, <em>backend</em><big>)</big><a class="headerlink" href="#app_auth.views.associate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Associate an account to a Social Network account</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>backend</strong> &#8211; the name of social network to connect</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^associate/(?P&lt;backend&gt;[^/]+)/$</span></tt></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="app_auth.views.home">
-<tt class="descclassname">app_auth.views.</tt><tt class="descname">home</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#app_auth.views.home" title="Permalink to this definition">¶</a></dt>
-<dd><p>Render the homepage</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^$</span></tt></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="app_auth.views.login">
-<tt class="descclassname">app_auth.views.</tt><tt class="descname">login</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#app_auth.views.login" title="Permalink to this definition">¶</a></dt>
-<dd><p>Login the user and redirect him to the homepage</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^login/$</span></tt></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="app_auth.views.login_error">
-<tt class="descclassname">app_auth.views.</tt><tt class="descname">login_error</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#app_auth.views.login_error" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return an error page for errors during login</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^login/error/$</span></tt></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="app_auth.views.logout">
-<tt class="descclassname">app_auth.views.</tt><tt class="descname">logout</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#app_auth.views.logout" title="Permalink to this definition">¶</a></dt>
-<dd><p>Logout the user and redirect him to the homepage</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^logout/$</span></tt></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="app_auth.views.password_change_done">
-<tt class="descclassname">app_auth.views.</tt><tt class="descname">password_change_done</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#app_auth.views.password_change_done" title="Permalink to this definition">¶</a></dt>
-<dd><p>Confirm a change of password</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^password/change/done/$</span></tt></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<div class="section" id="views">
+<h2>Views<a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -295,9 +76,9 @@ If yes, copy it into the corresponding <a class="reference internal" href="app_u
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Authentication Module</a><ul>
-<li><a class="reference internal" href="#module-app_auth.models">Models</a></li>
-<li><a class="reference internal" href="#module-app_auth.pipeline">Pipeline</a></li>
-<li><a class="reference internal" href="#module-app_auth.views">Views</a></li>
+<li><a class="reference internal" href="#models">Models</a></li>
+<li><a class="reference internal" href="#pipeline">Pipeline</a></li>
+<li><a class="reference internal" href="#views">Views</a></li>
 </ul>
 </li>
 </ul>
