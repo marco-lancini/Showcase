@@ -24,7 +24,9 @@ sys.path.append(BASE_PATH)
 #setup_environ(settings)
 
 
-# sys.path.append(os.path.dirname(__file__))
+
+
+#sys.path.append(os.path.dirname(__file__))
 import django 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 if django.VERSION < (1, 4):
