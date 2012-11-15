@@ -4,13 +4,25 @@ from settings import BASE_URL
 
 from app_users.models import UserProfile
 from app_projects.models_nn import Votes, Collaborations
-from app_collaborations.options import CATEGORIES
+from app_collaborations.options import CATEGORIES, get_category_verbose
 
 from app_socialnetworks.tumblr import TumblrClient
 from app_socialnetworks.flickr import FlickrClient
 
 
+#=========================================================================
+# MATERIAL
+#=========================================================================
 class Material(models.Model):
+    """
+    Model for `Material` objects, that contains reference to external resources related to a :class:`app_projects.models.Project`
+
+    :description: detailed description of the project
+    :tumblr: name of the connected Tumblr blog, if any 
+    :flickr: id of the connected Flickr photoset, if any 
+    :youtube1: id of a youtube video, if any
+    :youtube2: id of a youtube video, if any
+    """
     description = models.TextField("Detailed Description", max_length=1000, blank=True, help_text='Max. 1000 characters')
 
     tumblr      = models.CharField("Tumblr Blog", max_length=50, blank=True, null=True, 
@@ -25,11 +37,15 @@ class Material(models.Model):
                             help_text='Embed a Youtube Video. Enter only the id of the video: xxx from www.youtube.com/watch?v=xxx')
 
 
-
     #=========================================================================
     # DESCRIPTION
     #=========================================================================
     def get_description(self):
+        """
+        Getter for the description of the project
+        
+        :returns:  a string containing the detailed description of the project
+        """
         return self.description
 
 
@@ -37,6 +53,11 @@ class Material(models.Model):
     # TUMBLR
     #=========================================================================
     def tumblr_get_posts(self):
+        """
+        Fetch most recent posts from the connected blog
+
+        :returns: a list of blog posts
+        """
         # Tumblr
         t = TumblrClient(self.tumblr)
         posts = t.get_blog_posts()
@@ -44,6 +65,11 @@ class Material(models.Model):
 
 
     def get_client(self, username):
+        """
+        Getter for the `TumblrClient`
+
+        :returns: a `TumblrClient` with authentication permission
+        """
         # Retrieve user from username
         username = str(username)
         user = UserProfile.objects.get(user__username__iexact=username)
@@ -55,6 +81,9 @@ class Material(models.Model):
 
 
     def tumblr_add_text(self, username, title, body):
+        """
+        Post text to Tumblr
+        """
         # Get client
         username = str(username)
         f = self.get_client(username)
@@ -64,48 +93,64 @@ class Material(models.Model):
 
 
     def tumblr_add_link(self, username, title, url):
+        """
+        Post link to Tumblr
+        """
         username = str(username)
         f = self.get_client(username)
         f.add_link(title, url)
 
 
     def tumblr_add_quote(self, username, quote):
+        """
+        Post quote to Tumblr
+        """
         username = str(username)
         f = self.get_client(username)
         f.add_quote(quote)
 
     def tumblr_add_chat(self, username, title, conversation):
+        """
+        Post chat to Tumblr
+        """
         username = str(username)
         f = self.get_client(username)
         f.add_chat(title, conversation)
 
 
     def tumblr_add_photo(self, username, source, data):
+        """
+        Post photo to Tumblr
+        """
         username = str(username)
         f = self.get_client(username)
         f.add_photo(source, data)
 
     def tumblr_add_audio(self, username, source):
+        """
+        Post audio to Tumblr
+        """
         username = str(username)
         f = self.get_client(username)
         f.add_audio(source)
 
     # def tumblr_add_video(self, username, data):
     #     f = self.get_client(username)
-    #     f.add_video(data)    
-
-
-        
+    #     f.add_video(data)
 
 
     #=========================================================================
     # FLICKR
     #=========================================================================
     def flickr_get_photos(self):
-        ''' Return a list of 6 photos '''
-        f = FlickrClient(self.flickr)
+        """
+        Fetch most recent photos from the connected photoset
 
+        :returns: a list of photos
+        """
+        f = FlickrClient(self.flickr)
         n = 6
+
         photolist = f.get_photolist(6)
         if photolist:
             photos = [f.get_photo(x) for x in photolist]
@@ -116,6 +161,11 @@ class Material(models.Model):
 
 
     def flickr_get_url(self, owner):
+        """
+        Getter for the public url of the connected photoset
+
+        :returns: the public accessible url of the connected photoset
+        """
         try:
             user = owner.user.social_auth.get(user=owner.user.id).filter(provider="flickr")
             user = user[0]
@@ -126,9 +176,10 @@ class Material(models.Model):
             return "http://www.flickr.com/"
 
 
-
-
     def flickr_add_photo(self, username, title, description, photo):
+        """
+        Upload a photo to Flickr and add it to the connected photoset
+        """
         # Retrieve user from username
         username = str(username)
         user = UserProfile.objects.get(user__username__iexact=username)
@@ -148,16 +199,19 @@ class Material(models.Model):
     # YOUTUBE
     #=========================================================================
     def youtube_get_videos(self):
+        """
+        Getter for the ids of the Youtube videos
+        """
         return [self.youtube1, self.youtube2]
 
-        
-
     
-
-
+    #=========================================================================
+    # OTHER
     #=========================================================================
     def wrapper(self):
-        ''' Return a dict with elem=true if the project has that piece of material '''
+        """
+        Return a wrapper for a `Material` object, ie a dictionary with elem=true if the project has that piece of material
+        """
         temp = model_to_dict(self)
         del temp['id']
 
@@ -170,69 +224,93 @@ class Material(models.Model):
 
 
 
-
-
-
-
-
+#=========================================================================
+# PROJECT
+#=========================================================================
 class Project(models.Model):
-    ''' PROJECT class '''
-	# Relationships
-    # TODO: CASCADE?
+    """
+    Model for a `Project`, one of the main resources
+
+    :owner: :class:`app_users.models.UserProfile` that own the project
+    :category: the `Category` which the project belongs
+    :title: title of the project
+    :summary: short summary of the project
+    :start_date: date in which the project was started
+    :end_date: date in which the project ended, if empty still ongoing
+    :website: external website of the project
+    :material: :class:`app_projects.models.Material` connected to the project
+    """
     owner    = models.ForeignKey(UserProfile, related_name='projects_own', on_delete=models.CASCADE)
 
-    # Others
-    category    = models.CharField(max_length=3, choices=CATEGORIES, blank=False)
-    title       = models.CharField(max_length=100, blank=False)
-    summary     = models.TextField(max_length=500, blank=False, help_text='Max. 500 characters')
-    start_date  = models.DateField(auto_now=False, auto_now_add=False, blank=False, null=False, help_text='Please use the following format: YYYY-MM-DD')
-    end_date    = models.DateField(auto_now=False, auto_now_add=False, blank=True, null=True, help_text='Please use the following format: YYYY-MM-DD.\nLeave empty if still in progress')
-    website     = models.URLField("Website", blank=True)
+    category   = models.CharField(max_length=3, choices=CATEGORIES, blank=False)
+    title      = models.CharField(max_length=100, blank=False)
+    summary    = models.TextField(max_length=500, blank=False, help_text='Max. 500 characters')
+    start_date = models.DateField(auto_now=False, auto_now_add=False, blank=False, null=False, help_text='Please use the following format: YYYY-MM-DD')
+    end_date   = models.DateField(auto_now=False, auto_now_add=False, blank=True, null=True, help_text='Please use the following format: YYYY-MM-DD.\nLeave empty if still in progress')
+    website    = models.URLField("Website", blank=True)
 
-    # Material
     material = models.ForeignKey(Material, null=True)
 
-    
-    #TODO
-    #tags
 
     #=========================================================================
     # METHODS
     #=========================================================================
     def __unicode__(self):
+        """
+        Unicode representation of the project, as its title
+        """
         return 'Project: ' + self.title
 
 
+    #=========================================================================
+    # OWNER
+    #=========================================================================
     def get_owner(self):
+        """
+        Getter for the owner
+        """
         return self.owner
 
     def get_owner_wrapper(self):
+        """
+        Getter for the wrapper of the owner
+        """
         owner = self.get_owner()
         return owner.wrapper()
 
 
-
-
+    #=========================================================================
+    # MATERIAL
     #=========================================================================
     def get_material(self):
-        ''' Return the object Material to instantiate forms in the view '''
+        """
+        Return the `Material` object connected to the project
+        """
         return self.material
 
 
     def get_material_wrapper(self):        
+        """
+        Return the wrapper of the `Material` object connected to the project
+        """
         if self.material:
             return self.material.wrapper()
         else:
             return None
 
 
-
-
     def get_material_extended(self):
+        """
+        Return a wrapper around all the extra-informations stored in the connected `Material`
+
+            - description
+            - flickr photos (via API call)
+            - tumblr posts (via API call)
+            - youtube videos
+        """
         material_dict = self.get_material_wrapper()
         if not material_dict:
             return None
-
 
         # Access extra info
         if material_dict['description']:
@@ -254,7 +332,103 @@ class Project(models.Model):
 
 
         return material_dict
+
+
+    def delete_material(self):
+        """
+        Delete all the connected material
+        """
+        if self.material:
+            self.material.delete()
+
+    
+
     #=========================================================================
+    # COLLABORATORS
+    #=========================================================================
+    def get_collaborators(self):
+        """
+        Fetch all the collaborators of the project
+        """
+        collaborators_set = Collaborations.objects.filter(project=self)
+        collaborators     = [x.userprofile for x in collaborators_set]
+        return collaborators
+
+    def get_collaborators_wrapper(self):
+        """
+        Fetch all the collaborators of the project, and return their wrappers
+        """
+        collaborators = self.get_collaborators()
+        return [x.wrapper() for x in collaborators]
+
+
+    def delete_collaborators(self):
+        """
+        Delete all the collaborations relationships
+        """
+        collaborators_set = Collaborations.objects.filter(project=self)
+        for coll in collaborators_set:
+            coll.delete()
+
+
+    def delete_collaborator(self, username):
+        """
+        Delete the collaborators with the specified username
+        """
+        collaborators_set = Collaborations.objects.filter(project=self)
+        for coll in collaborators_set:
+            if coll.userprofile.user.username == str(username):
+                coll.delete()
+
+
+    #=========================================================================
+    # VOTES
+    #=========================================================================
+    def get_votes(self):
+        """
+        Return the number of votes obtained from the project
+        """
+        return Votes.objects.filter(project=self).count()
+
+    @property 
+    def votes(self):
+        return self.get_votes()
+
+    def can_vote(self, user):
+        """
+        Check if the current user can vote (must not have voted before)
+        """
+        # Check that can vote (must not have voted before)
+        v = Votes.objects.filter(project=self).filter(user=user)
+        if v.count() == 1:
+            return False
+        else:
+            return True
+
+    def can_unvote(self, user):
+        """
+        Check if the current user can unvote (must have voted before)
+        """
+        # Check that can unvote (must have voted before)
+        v = Votes.objects.filter(project=self).filter(user=user)
+        if v.count() == 0:
+            return False
+        else:
+            return True
+
+    def vote(self, user):
+        """
+        Add a vote to the project
+        """
+        v = Votes(project=self, user=user)
+        v.save()
+
+    def unvote(self, user):
+        """
+        Remove a vote from the project
+        """
+        v = Votes.objects.filter(project=self).filter(user=user)
+        v.delete()
 
 
 
@@ -270,94 +444,15 @@ class Project(models.Model):
         map(lambda x: x.delete(), votes)
     
 
-
-
-    
-    def get_collaborators(self):
-        collaborators_set = Collaborations.objects.filter(project=self)
-        collaborators     = [x.userprofile for x in collaborators_set]
-        return collaborators
-
-    def get_collaborators_wrapper(self):
-        collaborators = self.get_collaborators()
-        return [x.wrapper() for x in collaborators]
-
-
-    def delete_collaborators(self):
-        collaborators_set = Collaborations.objects.filter(project=self)
-        for coll in collaborators_set:
-            coll.delete()
-
-
-    def delete_collaborator(self, username):
-        collaborators_set = Collaborations.objects.filter(project=self)
-        for coll in collaborators_set:
-            if coll.userprofile.user.username == str(username):
-                coll.delete()
-
-
-    def delete_material(self):
-        if self.material:
-            self.material.delete()
-
-
-
-
-    def get_votes(self):
-        return Votes.objects.filter(project=self).count()
-
-    @property 
-    def votes(self):
-        return self.get_votes()
-
-
-    def can_vote(self, user):
-        # Check that can vote (must not have voted before)
-        v = Votes.objects.filter(project=self).filter(user=user)
-        if v.count() == 1:
-            return False
-        else:
-            return True
-
-    def can_unvote(self, user):
-        # Check that can unvote (must have voted before)
-        v = Votes.objects.filter(project=self).filter(user=user)
-        if v.count() == 0:
-            return False
-        else:
-            return True
-
-
-    def vote(self, user):
-        v = Votes(project=self, user=user)
-        v.save()
-
-    def unvote(self, user):
-        v = Votes.objects.filter(project=self).filter(user=user)
-        v.delete()
-
-
     #=========================================================================
     # WRAPPER
     #=========================================================================
-    def _get_display(self, key, list):
-        d = dict(list)
-        if key in d:
-            return d[key]
-        return None
-
-    def get_category_verbose(self):
-        ''' Return the string associated to a category '''
-        return self._get_display(self.category, CATEGORIES)    
-
-
-    def get_category_complete(self):
-        return (self.category, self.get_category_verbose())
-
-
     def wrapper(self):
+        """
+        Return a wrapper for a `Project` object, ie a dictionary containing all the data
+        """
         wrapper = model_to_dict(self)
-        wrapper['category'] = {'id': self.category, 'name': self.get_category_verbose()}
+        wrapper['category'] = {'id': self.category, 'name': get_category_verbose(self.category)}
 
         if wrapper['end_date'] == None:
             wrapper['end_date'] = 'Ongoing'
@@ -375,4 +470,3 @@ class Project(models.Model):
         wrapper['material'] = self.get_material_wrapper()
 
         return wrapper
-

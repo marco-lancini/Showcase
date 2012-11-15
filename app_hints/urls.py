@@ -6,7 +6,7 @@ urlpatterns = resource(
     prefix = 'hints/',
     views = HintViews,
     routes = [
-        # MOST FREQUENT
+        # HINTS
         routes.route(
             regex = r'^(?:$|index%s$)' % (templates.format),
             view = 'hints_projects',

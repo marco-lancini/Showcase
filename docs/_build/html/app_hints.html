@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,7 +9,7 @@
     
     <title>Hints Management Module &mdash; Showcase 0.1.1 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -56,15 +55,64 @@
             
   <div class="section" id="module-app_hints">
 <span id="hints-management-module"></span><h1>Hints Management Module<a class="headerlink" href="#module-app_hints" title="Permalink to this headline">¶</a></h1>
-<p>Module that manage the interaction with a <tt class="xref py py-class docutils literal"><span class="pre">models.UserProfile</span></tt> resource</p>
-<div class="section" id="forms">
-<h2>Forms<a class="headerlink" href="#forms" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-app_hints.models">
-<span id="models"></span><h2>Models<a class="headerlink" href="#module-app_hints.models" title="Permalink to this headline">¶</a></h2>
-</div>
+<p>Module that provide automatic suggestions about possible interesting projects</p>
 <div class="section" id="module-app_hints.views">
 <span id="views"></span><h2>Views<a class="headerlink" href="#module-app_hints.views" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app_hints.views.HintViews">
+<em class="property">class </em><tt class="descclassname">app_hints.views.</tt><tt class="descname">HintViews</tt><a class="headerlink" href="#app_hints.views.HintViews" title="Permalink to this definition">¶</a></dt>
+<dd><p>View that manage access to the Hints service</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Supported_formats :</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">html, json</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Template_path :</th><td class="field-body">path to html files</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="app_hints.views.HintViews.hints_projects">
+<tt class="descname">hints_projects</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_hints.views.HintViews.hints_projects" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Find interesting projects:</dt>
+<dd><ol class="first last arabic">
+<li><dl class="first docutils">
+<dt>create an ordered list of most frequent categories - both from his projects (owned/collaborated) and from his votes - for the user</dt>
+<dd><ul class="first last simple">
+<li>extract the categories among the projects (both owned or in which he collaborate)</li>
+<li>extract the categories among his votes (those he voted)</li>
+<li>count the frequencies of each category (duplicates will increase the counter)</li>
+<li>create an ordered list</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">for each category keep only those projects not connected with the user (not owned, not collaborated, not already voted)</p>
+</li>
+<li><p class="first">select most voted projects of each category</p>
+</li>
+</ol>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?:$|index.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -77,8 +125,6 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Hints Management Module</a><ul>
-<li><a class="reference internal" href="#forms">Forms</a></li>
-<li><a class="reference internal" href="#module-app_hints.models">Models</a></li>
 <li><a class="reference internal" href="#module-app_hints.views">Views</a></li>
 </ul>
 </li>

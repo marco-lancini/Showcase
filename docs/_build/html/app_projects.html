@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,7 +9,7 @@
     
     <title>Projects Management Module &mdash; Showcase 0.1.1 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -26,7 +25,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Showcase 0.1.1 documentation" href="index.html" />
-    <link rel="next" title="Projects Management Module" href="app_socialnetworks.html" />
+    <link rel="next" title="Social Networks Management Module" href="app_socialnetworks.html" />
     <link rel="prev" title="Hints Management Module" href="app_hints.html" /> 
   </head>
   <body>
@@ -40,7 +39,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="app_socialnetworks.html" title="Projects Management Module"
+          <a href="app_socialnetworks.html" title="Social Networks Management Module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="app_hints.html" title="Hints Management Module"
@@ -56,26 +55,269 @@
             
   <div class="section" id="module-app_projects">
 <span id="projects-management-module"></span><h1>Projects Management Module<a class="headerlink" href="#module-app_projects" title="Permalink to this headline">¶</a></h1>
-<p>Module that manage the interaction with a <tt class="xref py py-class docutils literal"><span class="pre">models.UserProfile</span></tt> resource</p>
+<p>Module that manage the interaction with a <a class="reference internal" href="#app_projects.models.Project" title="app_projects.models.Project"><tt class="xref py py-class docutils literal"><span class="pre">models.Project</span></tt></a> resource</p>
+<div class="section" id="module-app_projects.decorators">
+<span id="decorators"></span><h2>Decorators<a class="headerlink" href="#module-app_projects.decorators" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="app_projects.decorators.must_be_owner">
+<tt class="descclassname">app_projects.decorators.</tt><tt class="descname">must_be_owner</tt><big>(</big><em>method_name</em><big>)</big><a class="headerlink" href="#app_projects.decorators.must_be_owner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Avoid that a user can edit a project he doesn&#8217;t own</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="app_projects.decorators.no_conflict_of_interests">
+<tt class="descclassname">app_projects.decorators.</tt><tt class="descname">no_conflict_of_interests</tt><big>(</big><em>method_name</em><big>)</big><a class="headerlink" href="#app_projects.decorators.no_conflict_of_interests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Avoid that a user vote a project he own or in which he collaborate</p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-app_projects.forms">
 <span id="forms"></span><h2>Forms<a class="headerlink" href="#module-app_projects.forms" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app_projects.forms.CollaboratorsAddForm">
+<em class="property">class </em><tt class="descclassname">app_projects.forms.</tt><tt class="descname">CollaboratorsAddForm</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.forms.CollaboratorsAddForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage the <cite>Collaborators</cite> associated to the project</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#app_projects.models_nn.Collaborations" title="app_projects.models_nn.Collaborations"><tt class="xref py py-class docutils literal"><span class="pre">app_projects.models_nn.Collaborations</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="app_projects.forms.FlickrForm">
+<em class="property">class </em><tt class="descclassname">app_projects.forms.</tt><tt class="descname">FlickrForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="headerlink" href="#app_projects.forms.FlickrForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload a photo to Flickr</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="app_socialnetworks.html#app_socialnetworks.flickr.FlickrClient" title="app_socialnetworks.flickr.FlickrClient"><tt class="xref py py-class docutils literal"><span class="pre">app_socialnetworks.flickr.FlickrClient</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="app_projects.forms.MaterialForm">
+<em class="property">class </em><tt class="descclassname">app_projects.forms.</tt><tt class="descname">MaterialForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="headerlink" href="#app_projects.forms.MaterialForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage the <cite>Material</cite> associated to the project</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#app_projects.models.Material" title="app_projects.models.Material"><tt class="xref py py-class docutils literal"><span class="pre">app_projects.models.Material</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="app_projects.forms.ProjectForm">
+<em class="property">class </em><tt class="descclassname">app_projects.forms.</tt><tt class="descname">ProjectForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="headerlink" href="#app_projects.forms.ProjectForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage a <cite>Project</cite> (both for creation and editing)</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#app_projects.models.Project" title="app_projects.models.Project"><tt class="xref py py-class docutils literal"><span class="pre">app_projects.models.Project</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="app_projects.forms.Tumblr_AudioForm">
+<em class="property">class </em><tt class="descclassname">app_projects.forms.</tt><tt class="descname">Tumblr_AudioForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="headerlink" href="#app_projects.forms.Tumblr_AudioForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post audio to Tumblr</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="app_socialnetworks.html#app_socialnetworks.tumblr.TumblrClient.add_audio" title="app_socialnetworks.tumblr.TumblrClient.add_audio"><tt class="xref py py-func docutils literal"><span class="pre">app_socialnetworks.tumblr.TumblrClient.add_audio()</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="app_projects.forms.Tumblr_ChatForm">
+<em class="property">class </em><tt class="descclassname">app_projects.forms.</tt><tt class="descname">Tumblr_ChatForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="headerlink" href="#app_projects.forms.Tumblr_ChatForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post chat to Tumblr</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="app_socialnetworks.html#app_socialnetworks.tumblr.TumblrClient.add_chat" title="app_socialnetworks.tumblr.TumblrClient.add_chat"><tt class="xref py py-func docutils literal"><span class="pre">app_socialnetworks.tumblr.TumblrClient.add_chat()</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="app_projects.forms.Tumblr_LinkForm">
+<em class="property">class </em><tt class="descclassname">app_projects.forms.</tt><tt class="descname">Tumblr_LinkForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="headerlink" href="#app_projects.forms.Tumblr_LinkForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post link to Tumblr</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="app_socialnetworks.html#app_socialnetworks.tumblr.TumblrClient.add_link" title="app_socialnetworks.tumblr.TumblrClient.add_link"><tt class="xref py py-func docutils literal"><span class="pre">app_socialnetworks.tumblr.TumblrClient.add_link()</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="app_projects.forms.Tumblr_PhotoForm">
+<em class="property">class </em><tt class="descclassname">app_projects.forms.</tt><tt class="descname">Tumblr_PhotoForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="headerlink" href="#app_projects.forms.Tumblr_PhotoForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post photo to Tumblr</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="app_socialnetworks.html#app_socialnetworks.tumblr.TumblrClient.add_photo" title="app_socialnetworks.tumblr.TumblrClient.add_photo"><tt class="xref py py-func docutils literal"><span class="pre">app_socialnetworks.tumblr.TumblrClient.add_photo()</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="app_projects.forms.Tumblr_QuoteForm">
+<em class="property">class </em><tt class="descclassname">app_projects.forms.</tt><tt class="descname">Tumblr_QuoteForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="headerlink" href="#app_projects.forms.Tumblr_QuoteForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post quote to Tumblr</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="app_socialnetworks.html#app_socialnetworks.tumblr.TumblrClient.add_quote" title="app_socialnetworks.tumblr.TumblrClient.add_quote"><tt class="xref py py-func docutils literal"><span class="pre">app_socialnetworks.tumblr.TumblrClient.add_quote()</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="app_projects.forms.Tumblr_TextForm">
+<em class="property">class </em><tt class="descclassname">app_projects.forms.</tt><tt class="descname">Tumblr_TextForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="headerlink" href="#app_projects.forms.Tumblr_TextForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post text to Tumblr</p>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="app_socialnetworks.html#app_socialnetworks.tumblr.TumblrClient.add_text" title="app_socialnetworks.tumblr.TumblrClient.add_text"><tt class="xref py py-func docutils literal"><span class="pre">app_socialnetworks.tumblr.TumblrClient.add_text()</span></tt></a></p>
+</div>
+</dd></dl>
+
 </div>
 <div class="section" id="module-app_projects.models">
 <span id="models"></span><h2>Models<a class="headerlink" href="#module-app_projects.models" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="app_projects.models.Material">
 <em class="property">class </em><tt class="descclassname">app_projects.models.</tt><tt class="descname">Material</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.models.Material" title="Permalink to this definition">¶</a></dt>
-<dd><p>Material(id, description, tumblr, flickr, youtube1, youtube2)</p>
+<dd><p>Model for <cite>Material</cite> objects, that contains reference to external resources related to a <a class="reference internal" href="#app_projects.models.Project" title="app_projects.models.Project"><tt class="xref py py-class docutils literal"><span class="pre">app_projects.models.Project</span></tt></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Description :</th><td class="field-body">detailed description of the project</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Tumblr :</th><td class="field-body">name of the connected Tumblr blog, if any</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Flickr :</th><td class="field-body">id of the connected Flickr photoset, if any</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Youtube1 :</th><td class="field-body">id of a youtube video, if any</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Youtube2 :</th><td class="field-body">id of a youtube video, if any</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="app_projects.models.Material.flickr_add_photo">
+<tt class="descname">flickr_add_photo</tt><big>(</big><em>username</em>, <em>title</em>, <em>description</em>, <em>photo</em><big>)</big><a class="headerlink" href="#app_projects.models.Material.flickr_add_photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload a photo to Flickr and add it to the connected photoset</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="app_projects.models.Material.flickr_get_photos">
 <tt class="descname">flickr_get_photos</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Material.flickr_get_photos" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a list of 6 photos</p>
+<dd><p>Fetch most recent photos from the connected photoset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of photos</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.flickr_get_url">
+<tt class="descname">flickr_get_url</tt><big>(</big><em>owner</em><big>)</big><a class="headerlink" href="#app_projects.models.Material.flickr_get_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for the public url of the connected photoset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the public accessible url of the connected photoset</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.get_client">
+<tt class="descname">get_client</tt><big>(</big><em>username</em><big>)</big><a class="headerlink" href="#app_projects.models.Material.get_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for the <cite>TumblrClient</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a <cite>TumblrClient</cite> with authentication permission</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.get_description">
+<tt class="descname">get_description</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Material.get_description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for the description of the project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string containing the detailed description of the project</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.tumblr_add_audio">
+<tt class="descname">tumblr_add_audio</tt><big>(</big><em>username</em>, <em>source</em><big>)</big><a class="headerlink" href="#app_projects.models.Material.tumblr_add_audio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post audio to Tumblr</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.tumblr_add_chat">
+<tt class="descname">tumblr_add_chat</tt><big>(</big><em>username</em>, <em>title</em>, <em>conversation</em><big>)</big><a class="headerlink" href="#app_projects.models.Material.tumblr_add_chat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post chat to Tumblr</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.tumblr_add_link">
+<tt class="descname">tumblr_add_link</tt><big>(</big><em>username</em>, <em>title</em>, <em>url</em><big>)</big><a class="headerlink" href="#app_projects.models.Material.tumblr_add_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post link to Tumblr</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.tumblr_add_photo">
+<tt class="descname">tumblr_add_photo</tt><big>(</big><em>username</em>, <em>source</em>, <em>data</em><big>)</big><a class="headerlink" href="#app_projects.models.Material.tumblr_add_photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post photo to Tumblr</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.tumblr_add_quote">
+<tt class="descname">tumblr_add_quote</tt><big>(</big><em>username</em>, <em>quote</em><big>)</big><a class="headerlink" href="#app_projects.models.Material.tumblr_add_quote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post quote to Tumblr</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.tumblr_add_text">
+<tt class="descname">tumblr_add_text</tt><big>(</big><em>username</em>, <em>title</em>, <em>body</em><big>)</big><a class="headerlink" href="#app_projects.models.Material.tumblr_add_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post text to Tumblr</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.tumblr_get_posts">
+<tt class="descname">tumblr_get_posts</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Material.tumblr_get_posts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch most recent posts from the connected blog</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a list of blog posts</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="app_projects.models.Material.wrapper">
 <tt class="descname">wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Material.wrapper" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a dict with elem=true if the project has that piece of material</p>
+<dd><p>Return a wrapper for a <cite>Material</cite> object, ie a dictionary with elem=true if the project has that piece of material</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Material.youtube_get_videos">
+<tt class="descname">youtube_get_videos</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Material.youtube_get_videos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for the ids of the Youtube videos</p>
 </dd></dl>
 
 </dd></dl>
@@ -83,19 +325,173 @@
 <dl class="class">
 <dt id="app_projects.models.Project">
 <em class="property">class </em><tt class="descclassname">app_projects.models.</tt><tt class="descname">Project</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.models.Project" title="Permalink to this definition">¶</a></dt>
-<dd><p>PROJECT class</p>
+<dd><p>Model for a <cite>Project</cite>, one of the main resources</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Owner :</th><td class="field-body"><a class="reference internal" href="app_users.html#app_users.models.UserProfile" title="app_users.models.UserProfile"><tt class="xref py py-class docutils literal"><span class="pre">app_users.models.UserProfile</span></tt></a> that own the project</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Category :</th><td class="field-body">the <cite>Category</cite> which the project belongs</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Title :</th><td class="field-body">title of the project</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Summary :</th><td class="field-body">short summary of the project</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Start_date :</th><td class="field-body">date in which the project was started</td>
+</tr>
+<tr class="field-even field"><th class="field-name">End_date :</th><td class="field-body">date in which the project ended, if empty still ongoing</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Website :</th><td class="field-body">external website of the project</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Material :</th><td class="field-body"><a class="reference internal" href="#app_projects.models.Material" title="app_projects.models.Material"><tt class="xref py py-class docutils literal"><span class="pre">app_projects.models.Material</span></tt></a> connected to the project</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
-<dt id="app_projects.models.Project.get_category_verbose">
-<tt class="descname">get_category_verbose</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.get_category_verbose" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the string associated to a category</p>
+<dt id="app_projects.models.Project.can_unvote">
+<tt class="descname">can_unvote</tt><big>(</big><em>user</em><big>)</big><a class="headerlink" href="#app_projects.models.Project.can_unvote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the current user can unvote (must have voted before)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.can_vote">
+<tt class="descname">can_vote</tt><big>(</big><em>user</em><big>)</big><a class="headerlink" href="#app_projects.models.Project.can_vote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the current user can vote (must not have voted before)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.delete_collaborator">
+<tt class="descname">delete_collaborator</tt><big>(</big><em>username</em><big>)</big><a class="headerlink" href="#app_projects.models.Project.delete_collaborator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the collaborators with the specified username</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.delete_collaborators">
+<tt class="descname">delete_collaborators</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.delete_collaborators" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all the collaborations relationships</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.delete_material">
+<tt class="descname">delete_material</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.delete_material" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all the connected material</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.get_collaborators">
+<tt class="descname">get_collaborators</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.get_collaborators" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch all the collaborators of the project</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.get_collaborators_wrapper">
+<tt class="descname">get_collaborators_wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.get_collaborators_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch all the collaborators of the project, and return their wrappers</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="app_projects.models.Project.get_material">
 <tt class="descname">get_material</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.get_material" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the object Material to instantiate forms in the view</p>
+<dd><p>Return the <cite>Material</cite> object connected to the project</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="app_projects.models.Project.get_material_extended">
+<tt class="descname">get_material_extended</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.get_material_extended" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a wrapper around all the extra-informations stored in the connected <cite>Material</cite></p>
+<ul class="simple">
+<li>description</li>
+<li>flickr photos (via API call)</li>
+<li>tumblr posts (via API call)</li>
+<li>youtube videos</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.get_material_wrapper">
+<tt class="descname">get_material_wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.get_material_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the wrapper of the <cite>Material</cite> object connected to the project</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.get_owner">
+<tt class="descname">get_owner</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.get_owner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for the owner</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.get_owner_wrapper">
+<tt class="descname">get_owner_wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.get_owner_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for the wrapper of the owner</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.get_votes">
+<tt class="descname">get_votes</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.get_votes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of votes obtained from the project</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.unvote">
+<tt class="descname">unvote</tt><big>(</big><em>user</em><big>)</big><a class="headerlink" href="#app_projects.models.Project.unvote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a vote from the project</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.vote">
+<tt class="descname">vote</tt><big>(</big><em>user</em><big>)</big><a class="headerlink" href="#app_projects.models.Project.vote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a vote to the project</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.models.Project.wrapper">
+<tt class="descname">wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models.Project.wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a wrapper for a <cite>Project</cite> object, ie a dictionary containing all the data</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-app_projects.models_nn"></span><dl class="class">
+<dt id="app_projects.models_nn.Collaborations">
+<em class="property">class </em><tt class="descclassname">app_projects.models_nn.</tt><tt class="descname">Collaborations</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.models_nn.Collaborations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model for a <cite>Collaboration</cite>, a many-to-many relationship between 
+projects (<a class="reference internal" href="#app_projects.models.Project" title="app_projects.models.Project"><tt class="xref py py-class docutils literal"><span class="pre">app_projects.models.Project</span></tt></a>) and users (<a class="reference internal" href="app_users.html#app_users.models.UserProfile" title="app_users.models.UserProfile"><tt class="xref py py-class docutils literal"><span class="pre">app_users.models.UserProfile</span></tt></a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Project :</th><td class="field-body">the project of interests</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Userprofile :</th><td class="field-body">the users that collaborates to the project</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Date_joined :</th><td class="field-body">date in which the collaborator joined the project</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="app_projects.models_nn.Collaborations.wrapper">
+<tt class="descname">wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_projects.models_nn.Collaborations.wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a wrapper for a <cite>Collaborations</cite> object, ie a dictionary containing the wrappers of the involved objects</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="app_projects.models_nn.Votes">
+<em class="property">class </em><tt class="descclassname">app_projects.models_nn.</tt><tt class="descname">Votes</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.models_nn.Votes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model for a <cite>Vote</cite>, a many-to-many relationship between 
+projects (<a class="reference internal" href="#app_projects.models.Project" title="app_projects.models.Project"><tt class="xref py py-class docutils literal"><span class="pre">app_projects.models.Project</span></tt></a>) and users (<a class="reference internal" href="app_users.html#app_users.models.UserProfile" title="app_users.models.UserProfile"><tt class="xref py py-class docutils literal"><span class="pre">app_users.models.UserProfile</span></tt></a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Project :</th><td class="field-body">the project of interests</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Users :</th><td class="field-body">the users that have voted the project</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -104,30 +500,245 @@
 <dl class="class">
 <dt id="app_projects.views.ProjectViews">
 <em class="property">class </em><tt class="descclassname">app_projects.views.</tt><tt class="descname">ProjectViews</tt><a class="headerlink" href="#app_projects.views.ProjectViews" title="Permalink to this definition">¶</a></dt>
-<dd><p>Project View</p>
+<dd><p>View that manage access to the service that handles projects</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Supported_formats :</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">blablbabla</td>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">html, json</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Template_path :</th><td class="field-body">bbbba</td>
+<tr class="field-even field"><th class="field-name">Template_path :</th><td class="field-body">path to html files</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="app_projects.views.ProjectViews.create">
 <tt class="descname">create</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.views.ProjectViews.create" title="Permalink to this definition">¶</a></dt>
-<dd><p>Receive data from the form of <a href="#id1"><span class="problematic" id="id2">:view:`new`</span></a> (or via API call) and create the new project
-POST</p>
+<dd><p>Receive data from the form of <a class="reference internal" href="#app_projects.views.ProjectViews.new" title="app_projects.views.ProjectViews.new"><tt class="xref py py-func docutils literal"><span class="pre">new()</span></tt></a> and create the new project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">POST</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?:$|index.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.views.ProjectViews.destroy">
+<tt class="descname">destroy</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.views.ProjectViews.destroy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Destroy a project and all the connected data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_owner</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET,</span> <span class="pre">DELETE</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;id&gt;[0-9]+)/destroy(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.views.ProjectViews.edit">
+<tt class="descname">edit</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.views.ProjectViews.edit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Edit the basic informations of a project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_owner</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET,</span> <span class="pre">POST</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">'^(?P&lt;id&gt;[0-9]+)/edit(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.views.ProjectViews.index">
+<tt class="descname">index</tt><big>(</big><em>request</em>, <em>projects_set=None</em>, <em>title=None</em>, <em>messages=None</em><big>)</big><a class="headerlink" href="#app_projects.views.ProjectViews.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all projects in alphabetical order</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?:$|index.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">accessible also to non-registered users</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.views.ProjectViews.list_by_category">
+<tt class="descname">list_by_category</tt><big>(</big><em>request</em>, <em>category</em><big>)</big><a class="headerlink" href="#app_projects.views.ProjectViews.list_by_category" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all users - FORBIDDEN</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^category/(?P&lt;category&gt;\w+)(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">accessible also to non-registered users</p>
+</div>
 </dd></dl>
 
 <dl class="method">
 <dt id="app_projects.views.ProjectViews.new">
 <tt class="descname">new</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.views.ProjectViews.new" title="Permalink to this definition">¶</a></dt>
-<dd><p>Render the form for create a new project
-GET</p>
+<dd><p>Render the form for create a new project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^new(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.views.ProjectViews.replace">
+<tt class="descname">replace</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.views.ProjectViews.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace the basic informations of a project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_owner</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">PUT</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;id&gt;[0-9]+)(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.views.ProjectViews.show">
+<tt class="descname">show</tt><big>(</big><em>request</em>, <em>id</em>, <em>messages=None</em>, <em>errors=None</em><big>)</big><a class="headerlink" href="#app_projects.views.ProjectViews.show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show a <a class="reference internal" href="#app_projects.models.Project" title="app_projects.models.Project"><tt class="xref py py-class docutils literal"><span class="pre">app_projects.models.Project</span></tt></a> with all its informations</p>
+<blockquote>
+<div><ul>
+<li><p class="first">standard informations</p>
+</li>
+<li><p class="first">material: connected <a class="reference internal" href="#app_projects.models.Material" title="app_projects.models.Material"><tt class="xref py py-class docutils literal"><span class="pre">app_projects.models.Material</span></tt></a> object</p>
+</li>
+<li><p class="first">owner</p>
+</li>
+<li><p class="first">collaborators</p>
+</li>
+<li><dl class="first docutils">
+<dt>privileges of the current users</dt>
+<dd><ul class="first last simple">
+<li>is_owner: <cite>True</cite> if the user is the owner</li>
+<li>is_collaborator: <cite>True</cite> if the user is a collaborator</li>
+<li>can_vote: <cite>True</cite> if the user can vote the project</li>
+<li>can_unvote: <cite>True</cite> if the user can un-vote the project</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;id&gt;[0-9]+)(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">accessible also to non-registered users</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.views.ProjectViews.unvote">
+<tt class="descname">unvote</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.views.ProjectViews.unvote" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the user can un-vote (he is not connected to the project, and he has already voted for it),
+then delete the <cite>Vote</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">no_conflict_of_interests</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">POST</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;id&gt;[0-9]+)/unvote(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.views.ProjectViews.update">
+<tt class="descname">update</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.views.ProjectViews.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the basic informations of a project</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_owner</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">PATCH</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;id&gt;[0-9]+)(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_projects.views.ProjectViews.vote">
+<tt class="descname">vote</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_projects.views.ProjectViews.vote" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the user can vote (he is not connected to the project, and he has not already voted for it),
+then create a new <cite>Vote</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">no_conflict_of_interests</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">POST</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;id&gt;[0-9]+)/vote(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -144,6 +755,7 @@ GET</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Projects Management Module</a><ul>
+<li><a class="reference internal" href="#module-app_projects.decorators">Decorators</a></li>
 <li><a class="reference internal" href="#module-app_projects.forms">Forms</a></li>
 <li><a class="reference internal" href="#module-app_projects.models">Models</a></li>
 <li><a class="reference internal" href="#module-app_projects.views">Views</a></li>
@@ -156,7 +768,7 @@ GET</p>
                         title="previous chapter">Hints Management Module</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="app_socialnetworks.html"
-                        title="next chapter">Projects Management Module</a></p>
+                        title="next chapter">Social Networks Management Module</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/app_projects.txt"
@@ -189,7 +801,7 @@ GET</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="app_socialnetworks.html" title="Projects Management Module"
+          <a href="app_socialnetworks.html" title="Social Networks Management Module"
              >next</a> |</li>
         <li class="right" >
           <a href="app_hints.html" title="Hints Management Module"

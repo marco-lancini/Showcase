@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,9 +7,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Projects Management Module &mdash; Showcase 0.1.1 documentation</title>
+    <title>Social Networks Management Module &mdash; Showcase 0.1.1 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -55,16 +54,502 @@
           <div class="body">
             
   <div class="section" id="module-app_socialnetworks">
-<span id="projects-management-module"></span><h1>Projects Management Module<a class="headerlink" href="#module-app_socialnetworks" title="Permalink to this headline">¶</a></h1>
-<p>Module that manage the interaction with a <tt class="xref py py-class docutils literal"><span class="pre">models.UserProfile</span></tt> resource</p>
-<div class="section" id="forms">
-<h2>Forms<a class="headerlink" href="#forms" title="Permalink to this headline">¶</a></h2>
+<span id="social-networks-management-module"></span><h1>Social Networks Management Module<a class="headerlink" href="#module-app_socialnetworks" title="Permalink to this headline">¶</a></h1>
+<p>Module that manage the interaction (other than authentication) with other social networks, via some custom wrappers that uses REST API calls to interact with the corresponding social networks</p>
+<div class="section" id="module-app_socialnetworks.oauthclient">
+<span id="oauthclient"></span><h2>OAuthClient<a class="headerlink" href="#module-app_socialnetworks.oauthclient" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="app_socialnetworks.oauthclient.ClearanceException">
+<em class="property">exception </em><tt class="descclassname">app_socialnetworks.oauthclient.</tt><tt class="descname">ClearanceException</tt><a class="headerlink" href="#app_socialnetworks.oauthclient.ClearanceException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception thrown if the user try to modify resources he doesn&#8217;t own</p>
+<dl class="attribute">
+<dt id="app_socialnetworks.oauthclient.ClearanceException.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#app_socialnetworks.oauthclient.ClearanceException.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="app_socialnetworks.oauthclient.NotConnectedException">
+<em class="property">exception </em><tt class="descclassname">app_socialnetworks.oauthclient.</tt><tt class="descname">NotConnectedException</tt><a class="headerlink" href="#app_socialnetworks.oauthclient.NotConnectedException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception thrown if the user try to access a social network not connected to his profile</p>
+<dl class="attribute">
+<dt id="app_socialnetworks.oauthclient.NotConnectedException.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#app_socialnetworks.oauthclient.NotConnectedException.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="app_socialnetworks.oauthclient.OauthClient">
+<em class="property">class </em><tt class="descclassname">app_socialnetworks.oauthclient.</tt><tt class="descname">OauthClient</tt><big>(</big><em>CONSUMER_KEY</em>, <em>CONSUMER_SECRET</em><big>)</big><a class="headerlink" href="#app_socialnetworks.oauthclient.OauthClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract wrapper to be specialized for each social network</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Consumer :</th><td class="field-body">oauth2 consumer object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Oauth_token :</th><td class="field-body">public part of the oauth token</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Oauth_token_secret :</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">secret part of the oauth token</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Token :</th><td class="field-body">oauth2 token object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Client :</th><td class="field-body">oauth2 authenticated client</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="app_socialnetworks.oauthclient.OauthClient.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>CONSUMER_KEY</em>, <em>CONSUMER_SECRET</em><big>)</big><a class="headerlink" href="#app_socialnetworks.oauthclient.OauthClient.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Instantiate the client by</dt>
+<dd><ol class="first last arabic simple">
+<li>obtain an access token using the <cite>CONSUMER_KEY</cite> and <cite>CONSUMER_SECRET</cite> provided</li>
+<li>instantiate a client authenticated with the token previously generated</li>
+</ol>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>CONSUMER_KEY</strong> &#8211; consumer key of the social network&#8217;s app</li>
+<li><strong>CONSUMER_SECRET</strong> &#8211; consumer secret of the social network&#8217;s app</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app_socialnetworks.oauthclient.OauthClient.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#app_socialnetworks.oauthclient.OauthClient.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.oauthclient.OauthClient.encode_multipart_formdata">
+<tt class="descname">encode_multipart_formdata</tt><big>(</big><em>fields</em>, <em>files</em><big>)</big><a class="headerlink" href="#app_socialnetworks.oauthclient.OauthClient.encode_multipart_formdata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare a POST message with a body containing a media content</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Needed by Flickr API</p>
 </div>
-<div class="section" id="models">
-<h2>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.oauthclient.OauthClient.oauth_gen">
+<tt class="descname">oauth_gen</tt><big>(</big><em>method</em>, <em>url</em>, <em>iparams</em>, <em>headers</em><big>)</big><a class="headerlink" href="#app_socialnetworks.oauthclient.OauthClient.oauth_gen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the oauth parameters needed to sign the body</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.oauthclient.OauthClient.oauth_sig">
+<tt class="descname">oauth_sig</tt><big>(</big><em>method</em>, <em>uri</em>, <em>params</em><big>)</big><a class="headerlink" href="#app_socialnetworks.oauthclient.OauthClient.oauth_sig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a valid OAuth signature</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="app_socialnetworks.oauthclient.UploadException">
+<em class="property">exception </em><tt class="descclassname">app_socialnetworks.oauthclient.</tt><tt class="descname">UploadException</tt><a class="headerlink" href="#app_socialnetworks.oauthclient.UploadException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception thrown if some error occur during the upload of media content to a social network</p>
+<dl class="attribute">
+<dt id="app_socialnetworks.oauthclient.UploadException.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#app_socialnetworks.oauthclient.UploadException.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="views">
-<h2>Views<a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-app_socialnetworks.flickr">
+<span id="flickr"></span><h2>Flickr<a class="headerlink" href="#module-app_socialnetworks.flickr" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app_socialnetworks.flickr.FlickrClient">
+<em class="property">class </em><tt class="descclassname">app_socialnetworks.flickr.</tt><tt class="descname">FlickrClient</tt><big>(</big><em>photoset</em>, <em>user_auth=False</em>, <em>auth=False</em><big>)</big><a class="headerlink" href="#app_socialnetworks.flickr.FlickrClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for Flickr APIs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Consumer_key :</th><td class="field-body">Flickr App ID</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Consumer_secret :</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">Flickr API Secret</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Photoset :</th><td class="field-body">the connected Flickr photoset, if any</td>
+</tr>
+<tr class="field-even field"><th class="field-name">User_auth :</th><td class="field-body">account of the user on Showcase</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Auth :</th><td class="field-body">boolean flag (if True, the operation needs to be authenticated)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#app_socialnetworks.oauthclient.OauthClient" title="app_socialnetworks.oauthclient.OauthClient"><tt class="xref py py-class docutils literal"><span class="pre">app_socialnetworks.oauthclient.OauthClient</span></tt></a></p>
+</div>
+<dl class="method">
+<dt id="app_socialnetworks.flickr.FlickrClient.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>photoset</em>, <em>user_auth=False</em>, <em>auth=False</em><big>)</big><a class="headerlink" href="#app_socialnetworks.flickr.FlickrClient.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insantiate the client: if authentication is needed, proceed with Oauth; otherwise, use a simple HTTP client</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>photoset</strong> (<em>string</em>) &#8211; the connected Flickr photoset, if any</li>
+<li><strong>user_auth</strong> (<cite>User</cite>) &#8211; account of the user on Showcase</li>
+<li><strong>auth</strong> (<em>boolean</em>) &#8211; flag (if True, the operation needs to be authenticated)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.flickr.FlickrClient.add_photo_to_photoset">
+<tt class="descname">add_photo_to_photoset</tt><big>(</big><em>pid</em><big>)</big><a class="headerlink" href="#app_socialnetworks.flickr.FlickrClient.add_photo_to_photoset" title="Permalink to this definition">¶</a></dt>
+<dd><p>After uploading a photo to Flickr, add it to the photoset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pid</strong> (<em>string</em>) &#8211; pid of the newly uploaded photo</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.flickr.FlickrClient.get_photo">
+<tt class="descname">get_photo</tt><big>(</big><em>photo</em><big>)</big><a class="headerlink" href="#app_socialnetworks.flickr.FlickrClient.get_photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get url of a specific photo</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>photo</strong> &#8211; Flickr photo</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type :</th><td class="field-body">object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.flickr.FlickrClient.get_photolist">
+<tt class="descname">get_photolist</tt><big>(</big><em>limit</em><big>)</big><a class="headerlink" href="#app_socialnetworks.flickr.FlickrClient.get_photolist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of photos contained in the photoset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>limit</strong> (<em>int</em>) &#8211; max number of photos to retrieve</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.flickr.FlickrClient.request_token">
+<tt class="descname">request_token</tt><big>(</big><em>consumer</em><big>)</big><a class="headerlink" href="#app_socialnetworks.flickr.FlickrClient.request_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the access token of the user from his connected accounts data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.flickr.FlickrClient.upload_photo">
+<tt class="descname">upload_photo</tt><big>(</big><em>title</em>, <em>description</em>, <em>photo</em><big>)</big><a class="headerlink" href="#app_socialnetworks.flickr.FlickrClient.upload_photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload a photo to Flickr</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>title</strong> (<em>string</em>) &#8211; title of the photo</li>
+<li><strong>description</strong> (<em>string</em>) &#8211; description of the photo</li>
+<li><strong>photo</strong> (<em>image file</em>) &#8211; photo to upload</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-app_socialnetworks.gravatar">
+<span id="gravatar"></span><h2>Gravatar<a class="headerlink" href="#module-app_socialnetworks.gravatar" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app_socialnetworks.gravatar.GravatarClient">
+<em class="property">class </em><tt class="descclassname">app_socialnetworks.gravatar.</tt><tt class="descname">GravatarClient</tt><big>(</big><em>email</em><big>)</big><a class="headerlink" href="#app_socialnetworks.gravatar.GravatarClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for Gravatar APIs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Email :</th><td class="field-body">email of the user</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#app_socialnetworks.oauthclient.OauthClient" title="app_socialnetworks.oauthclient.OauthClient"><tt class="xref py py-class docutils literal"><span class="pre">app_socialnetworks.oauthclient.OauthClient</span></tt></a></p>
+</div>
+<dl class="method">
+<dt id="app_socialnetworks.gravatar.GravatarClient.get_gravatar_url">
+<tt class="descname">get_gravatar_url</tt><big>(</big><big>)</big><a class="headerlink" href="#app_socialnetworks.gravatar.GravatarClient.get_gravatar_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the gravatar associated to the user email</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-app_socialnetworks.linkedin">
+<span id="linkedin"></span><h2>LinkedIn<a class="headerlink" href="#module-app_socialnetworks.linkedin" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app_socialnetworks.linkedin.LinkedInClient">
+<em class="property">class </em><tt class="descclassname">app_socialnetworks.linkedin.</tt><tt class="descname">LinkedInClient</tt><big>(</big><em>user_auth</em><big>)</big><a class="headerlink" href="#app_socialnetworks.linkedin.LinkedInClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for LinkedIn APIs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Consumer_key :</th><td class="field-body">LinkedIn App ID</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Consumer_secret :</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">LinkedIn API Secret</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">User_auth :</th><td class="field-body">account of the user on Showcase</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#app_socialnetworks.oauthclient.OauthClient" title="app_socialnetworks.oauthclient.OauthClient"><tt class="xref py py-class docutils literal"><span class="pre">app_socialnetworks.oauthclient.OauthClient</span></tt></a></p>
+</div>
+<dl class="method">
+<dt id="app_socialnetworks.linkedin.LinkedInClient.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>user_auth</em><big>)</big><a class="headerlink" href="#app_socialnetworks.linkedin.LinkedInClient.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insantiate the oauth client</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_auth</strong> (<cite>User</cite>) &#8211; account of the user on Showcase</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.linkedin.LinkedInClient.get_consumer_key">
+<tt class="descname">get_consumer_key</tt><big>(</big><big>)</big><a class="headerlink" href="#app_socialnetworks.linkedin.LinkedInClient.get_consumer_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for the <cite>CONSUMER_KEY</cite></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.linkedin.LinkedInClient.get_employment_data">
+<tt class="descname">get_employment_data</tt><big>(</big><big>)</big><a class="headerlink" href="#app_socialnetworks.linkedin.LinkedInClient.get_employment_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get employment data from LinkedIn:
+- headline
+- industry
+- company
+- title</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.linkedin.LinkedInClient.request_token">
+<tt class="descname">request_token</tt><big>(</big><em>consumer</em><big>)</big><a class="headerlink" href="#app_socialnetworks.linkedin.LinkedInClient.request_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the access token of the user from his connected accounts data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.linkedin.LinkedInClient.skills">
+<tt class="descname">skills</tt><big>(</big><big>)</big><a class="headerlink" href="#app_socialnetworks.linkedin.LinkedInClient.skills" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get skills from LinkedIn</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-app_socialnetworks.tumblr">
+<span id="tumblr"></span><h2>Tumblr<a class="headerlink" href="#module-app_socialnetworks.tumblr" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="app_socialnetworks.tumblr.TumblrClient">
+<em class="property">class </em><tt class="descclassname">app_socialnetworks.tumblr.</tt><tt class="descname">TumblrClient</tt><big>(</big><em>blog</em>, <em>user_auth=False</em>, <em>auth=False</em><big>)</big><a class="headerlink" href="#app_socialnetworks.tumblr.TumblrClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for Tumblr APIs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Consumer_key :</th><td class="field-body">Tumblr App ID</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Consumer_secret :</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">Tumblr API Secret</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Blog :</th><td class="field-body">the connected Tumblr blog, if any</td>
+</tr>
+<tr class="field-even field"><th class="field-name">User_auth :</th><td class="field-body">account of the user on Showcase</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Auth :</th><td class="field-body">boolean flag (if True, the operation needs to be authenticated)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#app_socialnetworks.oauthclient.OauthClient" title="app_socialnetworks.oauthclient.OauthClient"><tt class="xref py py-class docutils literal"><span class="pre">app_socialnetworks.oauthclient.OauthClient</span></tt></a></p>
+</div>
+<dl class="method">
+<dt id="app_socialnetworks.tumblr.TumblrClient.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>blog</em>, <em>user_auth=False</em>, <em>auth=False</em><big>)</big><a class="headerlink" href="#app_socialnetworks.tumblr.TumblrClient.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insantiate the client: if authentication is needed, proceed with Oauth; otherwise, use a simple HTTP client</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>blog</strong> (<em>string</em>) &#8211; the connected Tumblr blog, if any</li>
+<li><strong>user_auth</strong> (<cite>User</cite>) &#8211; account of the user on Showcase</li>
+<li><strong>auth</strong> (<em>boolean</em>) &#8211; flag (if True, the operation needs to be authenticated)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.tumblr.TumblrClient.add_audio">
+<tt class="descname">add_audio</tt><big>(</big><em>source</em><big>)</big><a class="headerlink" href="#app_socialnetworks.tumblr.TumblrClient.add_audio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a blog of type: <em>audio</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>source</strong> (<em>string</em>) &#8211; url of the audio file to publish</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.tumblr.TumblrClient.add_chat">
+<tt class="descname">add_chat</tt><big>(</big><em>title</em>, <em>conversation</em><big>)</big><a class="headerlink" href="#app_socialnetworks.tumblr.TumblrClient.add_chat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a blog of type: <em>chat</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>title</strong> (<em>string</em>) &#8211; title of the blog post</li>
+<li><strong>conversation</strong> (<em>string</em>) &#8211; conversation to publish</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.tumblr.TumblrClient.add_link">
+<tt class="descname">add_link</tt><big>(</big><em>title</em>, <em>url</em><big>)</big><a class="headerlink" href="#app_socialnetworks.tumblr.TumblrClient.add_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a blog of type: <em>link</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>title</strong> (<em>string</em>) &#8211; title of the blog post</li>
+<li><strong>url</strong> (<em>string</em>) &#8211; url of the link to publish</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.tumblr.TumblrClient.add_photo">
+<tt class="descname">add_photo</tt><big>(</big><em>source</em>, <em>photo</em><big>)</big><a class="headerlink" href="#app_socialnetworks.tumblr.TumblrClient.add_photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a blog of type: <em>photo</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>source</strong> (<em>string</em>) &#8211; url of the photo to publish, if any</li>
+<li><strong>photo</strong> (<em>image file</em>) &#8211; photo to upload, if any</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.tumblr.TumblrClient.add_quote">
+<tt class="descname">add_quote</tt><big>(</big><em>quote</em><big>)</big><a class="headerlink" href="#app_socialnetworks.tumblr.TumblrClient.add_quote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a blog of type: <em>quote</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>quote</strong> (<em>string</em>) &#8211; quote to publish</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.tumblr.TumblrClient.add_text">
+<tt class="descname">add_text</tt><big>(</big><em>title</em>, <em>body</em><big>)</big><a class="headerlink" href="#app_socialnetworks.tumblr.TumblrClient.add_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a blog of type: <em>text</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>title</strong> (<em>string</em>) &#8211; title of the blog post</li>
+<li><strong>body</strong> (<em>string</em>) &#8211; content of the blog post</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.tumblr.TumblrClient.get_blog_info">
+<tt class="descname">get_blog_info</tt><big>(</big><big>)</big><a class="headerlink" href="#app_socialnetworks.tumblr.TumblrClient.get_blog_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get general infos about the connected blog</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.tumblr.TumblrClient.get_blog_posts">
+<tt class="descname">get_blog_posts</tt><big>(</big><big>)</big><a class="headerlink" href="#app_socialnetworks.tumblr.TumblrClient.get_blog_posts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch last 5 blog posts</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_socialnetworks.tumblr.TumblrClient.request_token">
+<tt class="descname">request_token</tt><big>(</big><em>consumer</em><big>)</big><a class="headerlink" href="#app_socialnetworks.tumblr.TumblrClient.request_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the access token of the user from his connected accounts data</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -76,10 +561,12 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Projects Management Module</a><ul>
-<li><a class="reference internal" href="#forms">Forms</a></li>
-<li><a class="reference internal" href="#models">Models</a></li>
-<li><a class="reference internal" href="#views">Views</a></li>
+<li><a class="reference internal" href="#">Social Networks Management Module</a><ul>
+<li><a class="reference internal" href="#module-app_socialnetworks.oauthclient">OAuthClient</a></li>
+<li><a class="reference internal" href="#module-app_socialnetworks.flickr">Flickr</a></li>
+<li><a class="reference internal" href="#module-app_socialnetworks.gravatar">Gravatar</a></li>
+<li><a class="reference internal" href="#module-app_socialnetworks.linkedin">LinkedIn</a></li>
+<li><a class="reference internal" href="#module-app_socialnetworks.tumblr">Tumblr</a></li>
 </ul>
 </li>
 </ul>

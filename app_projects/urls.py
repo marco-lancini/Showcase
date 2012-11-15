@@ -6,6 +6,7 @@ urlpatterns = resource(
     prefix = 'projects/',
     views = ProjectViews,
     routes = [
+        #=========================================================================
         # INDEX
         routes.route(
             regex = r'^(?:$|index%s$)' % (templates.format),
@@ -13,6 +14,7 @@ urlpatterns = resource(
             method = 'GET',
             name = 'app_projects.index'
         ),
+        #=========================================================================
         # NEW
         routes.route(
             regex = r'^new(?:/$|%s$)' % (templates.format),
@@ -20,6 +22,7 @@ urlpatterns = resource(
             method = 'GET',
             name = 'app_projects.new'
         ),
+        #=========================================================================
         # CREATE
         routes.route(
             regex = r'^(?:$|index%s$)' % (templates.format),
@@ -27,6 +30,7 @@ urlpatterns = resource(
             method = 'POST',
             name = 'app_projects.create'
         ),
+        #=========================================================================
         # SHOW
         routes.route(
             regex = r'^(?P<id>[0-9]+)(?:/$|%s$)' % (templates.format),
@@ -34,6 +38,7 @@ urlpatterns = resource(
             method = 'GET',
             name = 'app_projects.project_view'
         ),
+        #=========================================================================
         # EDIT
         routes.route(            
             regex = r'^(?P<id>[0-9]+)/edit(?:/$|%s$)' % (templates.format),
@@ -47,6 +52,7 @@ urlpatterns = resource(
             method = 'POST',
             name = 'app_projects.project_edit'
         ),
+        #=========================================================================
         # REPLACE
         routes.route(            
             regex = r'^(?P<id>[0-9]+)(?:/$|%s$)' % (templates.format),
@@ -54,6 +60,7 @@ urlpatterns = resource(
             method = 'PUT',
             name = 'app_projects.project_replace'
         ),
+        #=========================================================================
         # UPDATE
         routes.route(            
             regex = r'^(?P<id>[0-9]+)(?:/$|%s$)' % (templates.format),
@@ -61,6 +68,7 @@ urlpatterns = resource(
             method = 'PATCH',
             name = 'app_projects.project_update'
         ),
+        #=========================================================================
         # DESTROY
         routes.route(            
             regex = r'^(?P<id>[0-9]+)/destroy(?:/$|%s$)' % (templates.format),

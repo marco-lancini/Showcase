@@ -18,19 +18,9 @@ import sys, os
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 BASE_PATH = os.path.abspath(os.path.dirname(__file__) + '/../')
 sys.path.append(BASE_PATH)
-
-
-
-
-
 sys.path.append(os.path.dirname(__file__))
-#import django 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
-# if django.VERSION < (1, 4):
-#     from django.core.management import setup_environ
-#     settings = __import__(os.environ["DJANGO_SETTINGS_MODULE"])
-#     setup_environ(settings)
 
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
 import settings
 from django.core.management import setup_environ
@@ -111,7 +101,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+html_theme = 'nature'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the

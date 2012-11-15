@@ -1,6 +1,6 @@
 """
 
-Module that manage the interaction with a :class:`models.UserProfile` resource
+Module that manage the interaction (other than authentication) with other social networks, via some custom wrappers that uses REST API calls to interact with the corresponding social networks
 
 """
 
@@ -17,6 +17,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 def setting(name, default=None):
-    """Return setting value for given name or default value."""
+    """ Return setting value for given name or default value """
     return getattr(settings, name, default)
 

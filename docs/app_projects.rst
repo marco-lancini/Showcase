@@ -4,6 +4,13 @@ Projects Management Module
 .. automodule:: app_projects
 
 
+Decorators
+==========
+
+.. automodule:: app_projects.decorators
+   :members:
+
+
 Forms
 =====
 
@@ -16,6 +23,10 @@ Models
 
 .. automodule:: app_projects.models
    :members:
+
+.. automodule:: app_projects.models_nn
+   :members:
+
 
 
 Views

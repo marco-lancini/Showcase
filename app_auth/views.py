@@ -75,6 +75,7 @@ def associate(request, backend):
     Associate an account to a Social Network account
     
     :param backend: the name of social network to connect
+    :type backend: string
     
     :Rest Types: ``GET``
     :URL: ``^associate/(?P<backend>[^/]+)/$``

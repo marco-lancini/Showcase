@@ -1,19 +1,23 @@
 from __init__ import *
 from oauthclient import *
 
-from django.conf import settings
-
 class GravatarClient(OauthClient):
+    """
+    Wrapper for Gravatar APIs
 
-    CONSUMER_KEY      = setting('FLICKR_APP_ID')
-    CONSUMER_SECRET   = setting('FLICKR_API_SECRET')
+    :email: email of the user
+
+    .. seealso:: :class:`app_socialnetworks.oauthclient.OauthClient`
+    """
     
     def __init__(self, email):
         self.email = email
 
 
     def get_gravatar_url(self):
-        # Set your variables
+        """
+        Retrieve the gravatar associated to the user email
+        """
         email   = self.email
         size    = 200
         default = "mm"  # mistery man

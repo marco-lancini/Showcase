@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,7 +9,7 @@
     
     <title>Collaborations Module &mdash; Showcase 0.1.1 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -56,7 +55,7 @@
             
   <div class="section" id="module-app_collaborations">
 <span id="collaborations-module"></span><h1>Collaborations Module<a class="headerlink" href="#module-app_collaborations" title="Permalink to this headline">¶</a></h1>
-<p>Module that provide automatic suggestions on possible collaborators for a project</p>
+<p>Module that provide automatic suggestions about possible collaborators for a project</p>
 <div class="section" id="module-app_collaborations.forms">
 <span id="forms"></span><h2>Forms<a class="headerlink" href="#module-app_collaborations.forms" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -86,7 +85,7 @@
 <dl class="class">
 <dt id="app_collaborations.views.CollaborationViews">
 <em class="property">class </em><tt class="descclassname">app_collaborations.views.</tt><tt class="descname">CollaborationViews</tt><a class="headerlink" href="#app_collaborations.views.CollaborationViews" title="Permalink to this definition">¶</a></dt>
-<dd><p>Views that manage access to the Collaboration service</p>
+<dd><p>View that manage access to the Collaboration service</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -98,6 +97,35 @@
 </tr>
 </tbody>
 </table>
+<dl class="method">
+<dt id="app_collaborations.views.CollaborationViews.calculate_results">
+<tt class="descname">calculate_results</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_collaborations.views.CollaborationViews.calculate_results" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Find collaborators:</dt>
+<dd><ol class="first last arabic simple">
+<li>groups users based on creative fields (excluding the user himself)</li>
+<li>keep only those users with a matching availability</li>
+<li>filter based on location</li>
+<li>filter based on willingness to pay (if yes use all the users, otherwise use all the users with fee equal to true or null)</li>
+<li>for each category, order users by number of projects and votes</li>
+<li>for each category, select only the first ones</li>
+</ol>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_owner</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^collaborations/(?P&lt;id&gt;[0-9]+)/results(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="app_collaborations.views.CollaborationViews.choose_project">
 <tt class="descname">choose_project</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_collaborations.views.CollaborationViews.choose_project" title="Permalink to this definition">¶</a></dt>
@@ -111,6 +139,33 @@
 <tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^collaborations/(?:$|index.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_collaborations.views.CollaborationViews.find_collaborators">
+<tt class="descname">find_collaborators</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_collaborations.views.CollaborationViews.find_collaborators" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Render the form in order to ask user his preferences:</dt>
+<dd><ul class="first last simple">
+<li>willingness to pay</li>
+<li>location of collaborators</li>
+<li>availability of collaborators</li>
+<li>creative fields to search for</li>
+</ul>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_owner</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET,</span> <span class="pre">POST</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^collaborations/(?P&lt;id&gt;[0-9]+)(?:/$|.(html|json)$)</span></tt></td>
 </tr>
 </tbody>
 </table>

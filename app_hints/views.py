@@ -1,4 +1,3 @@
-# from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response, get_object_or_404, get_list_or_404
 from django.http import HttpResponseRedirect
 
@@ -19,12 +18,33 @@ from operator import itemgetter
 # HintViews
 #=========================================================================
 class HintViews(Views):
+    """
+    View that manage access to the Hints service
+
+    :supported_formats: html, json
+    :template_path: path to html files
+    """
     supported_formats = ['html', 'json']
     template_path     = 'app_hints/'
 
 
     @rest_login_required
     def hints_projects(self, request):
+        """
+        Find interesting projects:
+            1. create an ordered list of most frequent categories - both from his projects (owned/collaborated) and from his votes - for the user
+                - extract the categories among the projects (both owned or in which he collaborate)
+                - extract the categories among his votes (those he voted)
+                - count the frequencies of each category (duplicates will increase the counter)
+                - create an ordered list
+            2. for each category keep only those projects not connected with the user (not owned, not collaborated, not already voted)
+            3. select most voted projects of each category
+
+        
+        :Decorators: ``rest_login_required``
+        :Rest Types: ``GET``
+        :URL: ``^(?:$|index.(html|json)$)``
+        """
         # Retrieve current user
         username = str(request.user)
         u = get_object_or_404(UserProfile, user__username__iexact=username)
@@ -55,7 +75,6 @@ class HintViews(Views):
         #   [<Project>, <Project>, <Project>]
         selected_projects = [item['p'] for sublist in most_voted for item in sublist] 
 
-
         # Render the page
         return self._render(
             request = request,
@@ -67,8 +86,6 @@ class HintViews(Views):
             },
             status = 200
         )
-
-
 
 
 
@@ -123,29 +140,17 @@ class HintViews(Views):
         # Gather all projects belonging to the category
         projects_set = Project.objects.filter(category=category_id)
 
-        #=========================================================================
-        # # Exclude the ones owned by the user
-        # no_owner = projects_set.exclude(owner=u)
-
-        # # Exclude the ones in which the user collaborate
-        # no_collaborate = no_owner.exclude( id__in=[o.project.id for o in Collaborations.objects.filter(userprofile=u)] )
-
-        # # Exclude the ones voted by the user
-        # no_vote = no_collaborate.exclude( id__in=[o.project.id for o in Votes.objects.filter(user=u)] )
-        #=========================================================================
+        # Filter
         no_vote = []
-
         collaborations = Collaborations.objects.filter(userprofile=u)
         votes = Votes.objects.filter(user=u)
 
         for pj in projects_set:
             # Exclude the ones owned by the user
             if pj.owner != u:
-                # Exclude the ones in which the user collaborate and the ones voted by the user
+                # Exclude the ones in which the user collaborate and the ones already voted by the user
                 if collaborations.filter(project=pj).count() == 0 and votes.filter(project=pj).count() == 0:
                     no_vote.append(pj)
-
-        #=========================================================================
         
         return no_vote
 

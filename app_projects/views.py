@@ -26,15 +26,18 @@ from social_auth.utils import log
 #=========================================================================
 class ProjectViews(Views):
     """
-    Project View
+    View that manage access to the service that handles projects
 
-    :supported_formats: blablbabla
-    :template_path: bbbba
+    :supported_formats: html, json
+    :template_path: path to html files
     """
     supported_formats = ['html', 'json']
     template_path     = 'app_projects/'
 
     def _form_validation(self, request, form, status, type_op, messages=None):
+        """
+        Validate the form for creation and editing of a project
+        """
         if form.is_valid():
             # Create, but don't save the new instance
             new_project = form.save(commit=False)
@@ -61,7 +64,18 @@ class ProjectViews(Views):
             )
 
 
+    #=========================================================================
+    # INDEX
+    #=========================================================================
     def index(self, request, projects_set=None, title=None, messages=None):
+        """
+        List all projects in alphabetical order
+        
+        :Rest Types: ``GET``
+        :URL: ``^(?:$|index.(html|json)$)``
+
+        .. note:: accessible also to non-registered users
+        """
         if projects_set == None:
             projects_set = Project.objects.all()
 
@@ -88,33 +102,61 @@ class ProjectViews(Views):
             status = 200
         )
 
+
+    #=========================================================================
+    # NEW
+    #=========================================================================
     @rest_login_required
     def new(self, request):
         """
         Render the form for create a new project
-        GET
+        
+        :Decorators: ``rest_login_required``
+        :Rest Types: ``GET``
+        :URL: ``^new(?:/$|.(html|json)$)``
         """
         form = ProjectForm()
-        
         return self._form_validation(request, form, 200, "Create")
 
 
+    #=========================================================================
+    # CREATE
+    #=========================================================================
     @rest_login_required
     def create(self, request):
         """
-        Receive data from the form of :view:`new` (or via API call) and create the new project
-        POST
+        Receive data from the form of :func:`new` and create the new project
+        
+        :Decorators: ``rest_login_required``
+        :Rest Types: ``POST``
+        :URL: ``^(?:$|index.(html|json)$)``
         """
         form = ProjectForm(request.POST)
         return self._form_validation(request, form, 400, "Create", messages="Project Created!")
-
-
 
 
     #=========================================================================
     # SHOW
     #=========================================================================
     def show(self, request, id, messages=None, errors=None):
+        """
+        Show a :class:`app_projects.models.Project` with all its informations
+
+            - standard informations
+            - material: connected :class:`app_projects.models.Material` object
+            - owner
+            - collaborators
+            - privileges of the current users
+                - is_owner: `True` if the user is the owner
+                - is_collaborator: `True` if the user is a collaborator
+                - can_vote: `True` if the user can vote the project
+                - can_unvote: `True` if the user can un-vote the project
+        
+        :Rest Types: ``GET``
+        :URL: ``^(?P<id>[0-9]+)(?:/$|.(html|json)$)``
+
+        .. note:: accessible also to non-registered users
+        """
         # Retrieve project
         p = get_object_or_404(Project, pk=id)
         p_dict = p.wrapper()
@@ -125,14 +167,12 @@ class ProjectViews(Views):
         else:
             is_owner = False
 
-
         # Check Collaborators
         collaborators = p.get_collaborators_wrapper()
         if str(request.user) in [x['username'] for x in collaborators]:
             is_collaborator = True
         else:
             is_collaborator = False
-
 
         # Check if can vote/unvote
         try:
@@ -159,7 +199,6 @@ class ProjectViews(Views):
         # Material
         material_extended = p.get_material_extended()
 
-
         # Render the page
         return self._render(
             request = request,
@@ -173,14 +212,21 @@ class ProjectViews(Views):
             },
             status = 200
         )
+
+
     #=========================================================================
-
-
-
-    
+    # EDIT
+    #=========================================================================    
     @rest_login_required
     @must_be_owner
     def edit(self, request, id, p):
+        """
+        Edit the basic informations of a project
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, POST``
+        :URL: ``'^(?P<id>[0-9]+)/edit(?:/$|.(html|json)$)``
+        """
         # Create form
         if request.method == 'POST':
             form   = ProjectForm(request.POST, instance=p)
@@ -190,21 +236,39 @@ class ProjectViews(Views):
             status = 200
 
         return self._form_validation(request, form, status, "Edit", messages="Project successfully edited!")
-            
 
 
+    #=========================================================================
+    # REPLACE
+    #=========================================================================
     @rest_login_required
     @must_be_owner
     def replace(self, request, id, p):
+        """
+        Replace the basic informations of a project
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``PUT``
+        :URL: ``^(?P<id>[0-9]+)(?:/$|.(html|json)$)``
+        """
         # Create form
         form = ProjectForm(request.PUT, instance=p)
-
         return self._form_validation(request, form, 400, "Replace", messages="Project replaced")
 
     
+    #=========================================================================
+    # UPDATE
+    #=========================================================================
     @rest_login_required
     @must_be_owner
     def update(self, request, id, p):
+        """
+        Update the basic informations of a project
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``PATCH``
+        :URL: ``^(?P<id>[0-9]+)(?:/$|.(html|json)$)``
+        """
         # Create form
         fields = []
         for field in request.PATCH:
@@ -220,9 +284,19 @@ class ProjectViews(Views):
         return self._form_validation(request, form, 400, "Update", messages="Project updated")
 
 
+    #=========================================================================
+    # DESTROY
+    #=========================================================================
     @rest_login_required
     @must_be_owner
     def destroy(self, request, id, p):
+        """
+        Destroy a project and all the connected data
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, DELETE``
+        :URL: ``^(?P<id>[0-9]+)/destroy(?:/$|.(html|json)$)``
+        """
         # Delete connected data
         p.delete_connected_data()
 
@@ -239,6 +313,14 @@ class ProjectViews(Views):
     @rest_login_required
     @no_conflict_of_interests
     def vote(self, request, id, p):
+        """
+        If the user can vote (he is not connected to the project, and he has not already voted for it),
+        then create a new `Vote`
+        
+        :Decorators: ``rest_login_required, no_conflict_of_interests``
+        :Rest Types: ``POST``
+        :URL: ``^(?P<id>[0-9]+)/vote(?:/$|.(html|json)$)``
+        """
         # Retrieve user
         username = str(request.user)
         u = UserProfile.objects.get(user__username__iexact=username)
@@ -256,6 +338,14 @@ class ProjectViews(Views):
     @rest_login_required
     @no_conflict_of_interests
     def unvote(self, request, id, p):
+        """
+        If the user can un-vote (he is not connected to the project, and he has already voted for it),
+        then delete the `Vote`
+        
+        :Decorators: ``rest_login_required, no_conflict_of_interests``
+        :Rest Types: ``POST``
+        :URL: ``^(?P<id>[0-9]+)/unvote(?:/$|.(html|json)$)``
+        """
         # Retrieve user
         username = str(request.user)
         u = UserProfile.objects.get(user__username__iexact=username)
@@ -274,7 +364,14 @@ class ProjectViews(Views):
     # LIST BY
     #=========================================================================
     def list_by_category(self, request, category):
+        """
+        List all projects belonging to the category specified
         
+        :Rest Types: ``GET``
+        :URL: ``^category/(?P<category>\w+)(?:/$|.(html|json)$)``
+
+        .. note:: accessible also to non-registered users
+        """
         # Retrieve all the projects belonging to the category specified
         projects_set = Project.objects.filter(category=category)
 
@@ -290,12 +387,19 @@ class ProjectViews(Views):
 
 
     def browse_by_category(self, request):
+        """
+        List all projects grouped by `Category`
+        
+        :Rest Types: ``GET``
+        :URL: ``^category(?:/$|.(html|json)$)``
+
+        .. note:: accessible also to non-registered users
+        """
         # Retrieve Categories
         categories = [{'id': x[0], 'name': x[1]} for x in CATEGORIES]
 
         # Sort alphabetically
         categories = sorted(categories, key=lambda x: x['name'])
-
 
         # Render the page
         return self._render(
@@ -309,7 +413,14 @@ class ProjectViews(Views):
 
 
     def list_by_votes(self, request, min_votes, max_votes):
+        """
+        List all projects with a number of votes belonging to the range specified
+        
+        :Rest Types: ``GET``
+        :URL: ``^votes/(?P<min_votes>[0-9]+)/(?P<max_votes>[0-9]+)(?:/$|.(html|json)$)``
 
+        .. note:: accessible also to non-registered users
+        """
         # Create the title
         title = "Votes %s - %s" % (min_votes, max_votes)
 
@@ -331,7 +442,14 @@ class ProjectViews(Views):
 
 
     def browse_by_votes(self, request):
+        """
+        List all projects grouped by the range of `Votes`
+        
+        :Rest Types: ``GET``
+        :URL: ``^votes(?:/$|.(html|json)$)``
 
+        .. note:: accessible also to non-registered users
+        """
         # Retrieve Categories
         categories = [
             {'min': 1, 'max': 10},

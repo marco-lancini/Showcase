@@ -1,25 +1,44 @@
-Projects Management Module
+Social Networks Management Module
 *************************************
 
 .. automodule:: app_socialnetworks
 
 
-Forms
-=====
+OAuthClient
+============
 
-.. automodule:: app_socialnetworks.forms
+.. automodule:: app_socialnetworks.oauthclient
    :members:
+   :special-members:
 
 
-Models
+Flickr
 ======
 
-.. automodule:: app_socialnetworks.models
+.. automodule:: app_socialnetworks.flickr
    :members:
+   :special-members:
 
 
-Views
-=====
+Gravatar
+========
 
-.. automodule:: app_socialnetworks.views
+.. automodule:: app_socialnetworks.gravatar
    :members:
+   :special-members:
+
+
+LinkedIn
+========
+
+.. automodule:: app_socialnetworks.linkedin
+   :members:
+   :special-members:
+
+
+Tumblr
+======
+
+.. automodule:: app_socialnetworks.tumblr
+   :members:
+   :special-members:

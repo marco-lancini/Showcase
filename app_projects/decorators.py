@@ -9,7 +9,7 @@ NO_VOTE_COLLABORATOR    = "You can't vote a project in which you collaborate"
 
 def must_be_owner(method_name):
     """
-        Avoid that a user can edit the project that he doesn't own
+        Avoid that a user can edit a project he doesn't own
     """
     def decorator(function):
         @wraps(function)

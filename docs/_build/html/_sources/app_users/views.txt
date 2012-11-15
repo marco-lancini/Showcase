@@ -1,5 +1,0 @@
-View
-======================
-
-.. autoclass:: app_users.views
-   :members: UserProfileViews

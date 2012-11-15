@@ -27,7 +27,6 @@ class CollaborationsForm(forms.Form):
     :availability: Full-Time, Part-Time, Consulting, Freelance, Internship
     :creative_fields: list of creative fields to search (prefiltered using only those belonging to the category of the project)
     """
-
     def __init__(self, *args, **kwargs):
         """
         Filter creative fields based on the category of the project

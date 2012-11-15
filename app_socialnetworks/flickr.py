@@ -3,11 +3,31 @@ from oauthclient import *
 
 
 class FlickrClient(OauthClient):
+    """
+    Wrapper for Flickr APIs
 
+    :CONSUMER_KEY: Flickr App ID
+    :CONSUMER_SECRET: Flickr API Secret
+    :photoset: the connected Flickr photoset, if any
+    :user_auth: account of the user on Showcase
+    :auth: boolean flag (if True, the operation needs to be authenticated)
+
+    .. seealso:: :class:`app_socialnetworks.oauthclient.OauthClient`
+    """
     CONSUMER_KEY      = setting('FLICKR_APP_ID')
     CONSUMER_SECRET   = setting('FLICKR_API_SECRET')
     
     def __init__(self, photoset, user_auth=False, auth=False):
+        """
+        Insantiate the client: if authentication is needed, proceed with Oauth; otherwise, use a simple HTTP client
+
+        :param photoset: the connected Flickr photoset, if any
+        :type photoset: string
+        :param user_auth: account of the user on Showcase
+        :type user_auth: `User`
+        :param auth: flag (if True, the operation needs to be authenticated)
+        :type auth: boolean
+        """
         self.photoset  = photoset
         self.user_auth = user_auth
         self.auth      = auth
@@ -20,8 +40,10 @@ class FlickrClient(OauthClient):
             self.client = httplib2.Http()
 
 
-
     def request_token(self, consumer):
+        """
+        Retrieve the access token of the user from his connected accounts data
+        """
         # Retrieve connected accounts
         connected_accounts = self.user_auth.social_auth.filter(user=self.user_auth.id).filter(provider="flickr")
         if len(connected_accounts) == 0:
@@ -41,6 +63,9 @@ class FlickrClient(OauthClient):
     # READ
     #=========================================================================
     def _query_read(self, method, query, limit=5, optionals=None):
+        """
+        Execute a read-only query
+        """
         url = "http://api.flickr.com/services/rest/?method=%s&api_key=%s&%s&per_page=%s&format=json&nojsoncallback=1" % (method, self.CONSUMER_KEY, query, limit)
         if optionals:
             url += optionals
@@ -54,6 +79,12 @@ class FlickrClient(OauthClient):
 
 
     def get_photolist(self, limit):
+        """
+        Get a list of photos contained in the photoset
+
+        :param limit: max number of photos to retrieve
+        :type limit: int
+        """
         method    = 'flickr.photosets.getPhotos'
         query     = 'photoset_id=%s' % self.photoset
 
@@ -65,6 +96,12 @@ class FlickrClient(OauthClient):
 
 
     def get_photo(self, photo):
+        """
+        Get url of a specific photo
+
+        :param photo: Flickr photo
+        :type: object
+        """
         pid    = photo['id']
         method = 'flickr.photos.getSizes'
         query  = 'photo_id=%s' % pid
@@ -72,7 +109,7 @@ class FlickrClient(OauthClient):
         photo_data  = self._query_read(method, query)
         if photo_data:
             photo_sizes = photo_data['sizes']['size']
-            medium = filter(lambda x: x['label'] == 'Medium', photo_sizes)
+            medium      = filter(lambda x: x['label'] == 'Medium', photo_sizes)
 
             if len(medium) == 0:
                 medium = photo_sizes
@@ -82,12 +119,13 @@ class FlickrClient(OauthClient):
             return None
 
 
-
-
     #=========================================================================
     # WRITE
     #=========================================================================
-    def post_photo(self, upload_api_url, title, description, photo):
+    def _post_photo(self, upload_api_url, title, description, photo):
+        """
+        Post a photo to Flickr via API
+        """
         photo_name = str(photo)
         photo_file = photo.read()
         files = [("photo", photo_name, photo_file)]
@@ -121,8 +159,18 @@ class FlickrClient(OauthClient):
 
 
     def upload_photo(self, title, description, photo):
+        """
+        Upload a photo to Flickr
+
+        :param title: title of the photo
+        :type title: string
+        :param description: description of the photo
+        :type description: string
+        :param photo: photo to upload
+        :type photo: image file
+        """
         upload_api_url = 'http://api.flickr.com/services/upload/'
-        response       = self.post_photo(upload_api_url, title, description, photo)
+        response       = self._post_photo(upload_api_url, title, description, photo)
         
         # Parse Flick Response
         tree = ET.fromstring(response)
@@ -142,11 +190,16 @@ class FlickrClient(OauthClient):
 
 
     def add_photo_to_photoset(self, pid):
+        """
+        After uploading a photo to Flickr, add it to the photoset
+
+        :param pid: pid of the newly uploaded photo
+        :type pid: string
+        """
         method = 'flickr.photosets.addPhoto'
         query  = 'photoset_id=%s&photo_id=%s' % (self.photoset, pid)
         url    = "http://api.flickr.com/services/rest/?method=%s&api_key=%s&%s&format=json&nojsoncallback=1" % (method, self.CONSUMER_KEY, query)
 
-        #try:
         resp, content = self.client.request(url, "POST")
         content = json.loads(content)
 

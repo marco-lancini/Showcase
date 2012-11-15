@@ -17,7 +17,7 @@ from app_projects.decorators import must_be_owner
 #=========================================================================
 class CollaborationViews(Views):
     """
-    Views that manage access to the Collaboration service
+    View that manage access to the Collaboration service
 
     :supported_formats: html, json
     :template_path: path to html files
@@ -64,10 +64,20 @@ class CollaborationViews(Views):
     @rest_login_required
     @must_be_owner
     def find_collaborators(self, request, id, p):
+        """
+        Render the form in order to ask user his preferences:
+            - willingness to pay
+            - location of collaborators
+            - availability of collaborators
+            - creative fields to search for
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, POST``
+        :URL: ``^collaborations/(?P<id>[0-9]+)(?:/$|.(html|json)$)``
+        """
 
         if request.method == 'POST':
             form = CollaborationsForm(request.POST, pj_filter=p)
-
             if form.is_valid():
                 pay             = form.cleaned_data['pay']
                 location        = form.cleaned_data['location']
@@ -76,10 +86,8 @@ class CollaborationViews(Views):
 
                 # Calculate result
                 return self.calculate_results(request, id, pay, location, creative_fields, availability)
-
             else:
                 status = 400
-
         else:
             form   = CollaborationsForm(pj_filter=p)
             status = 200
@@ -109,6 +117,19 @@ class CollaborationViews(Views):
     @rest_login_required
     @must_be_owner
     def calculate_results(self, request, id, p, pay, location, creative_fields, availabilities):
+        """
+        Find collaborators:
+            1. groups users based on creative fields (excluding the user himself)
+            2. keep only those users with a matching availability
+            3. filter based on location
+            4. filter based on willingness to pay (if yes use all the users, otherwise use all the users with fee equal to true or null)
+            5. for each category, order users by number of projects and votes
+            6. for each category, select only the first ones
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET``
+        :URL: ``^collaborations/(?P<id>[0-9]+)/results(?:/$|.(html|json)$)``
+        """
         # Retrieve username of current user
         username = str(request.user)
 
@@ -129,7 +150,7 @@ class CollaborationViews(Views):
         #   pay = no  --> use all the users with fee=true or null
         groups = self.__filter_pay(groups, pay)
 
-        # For each category, order users by number of projects
+        # For each category, order users by number of projects and votes
         # users_ordered:
         #   {'WD': [{'num_projects': 4, 'num_votes': 2, 'u': <UserProfile: altro>},
         #           {'num_projects': 1, 'num_votes': 0, 'u': <UserProfile: aa>}],
@@ -142,7 +163,6 @@ class CollaborationViews(Views):
 
         # Return iterator to template
         groups = groups.iteritems()
-
 
         # Render page
         return self._render(
@@ -157,7 +177,6 @@ class CollaborationViews(Views):
 
 
 
-
     def __filter_creative_fields(self, p, creative_fields, username):
         ''' Returns all the users with those creative fields '''
         if creative_fields == []:
@@ -169,8 +188,7 @@ class CollaborationViews(Views):
             # Use the creative fields selected by the user
             creative_fields = creative_fields
 
-
-        # For each field select user with it
+        # For each field select users having it
         groups = {}
         for cf in creative_fields:
             # Select users with at least one of these fields
@@ -188,7 +206,6 @@ class CollaborationViews(Views):
             # Add users to the group of current creative field
             groups[verbose_name] = users
 
-
         return groups
 
 
@@ -202,6 +219,7 @@ class CollaborationViews(Views):
 
 
     def __filter_location(self, groups, location):
+        ''' Keep only those users with a matching Location '''
         any_location = '--'
         if location == any_location:
             return groups
@@ -214,6 +232,11 @@ class CollaborationViews(Views):
 
 
     def __filter_pay(self, groups, pay):
+        '''
+        Keep only those users with a matching Fee 
+            pay = yes --> use all the users
+            pay = no  --> use all the users with fee=true or null
+        '''
         pay_no, pay_yes = 0, 1
 
         if pay == pay_yes:

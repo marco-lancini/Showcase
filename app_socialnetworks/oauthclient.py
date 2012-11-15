@@ -1,18 +1,43 @@
 from __init__ import *
 
 class NotConnectedException(Exception):
+    """
+    Exception thrown if the user try to access a social network not connected to his profile
+    """
     pass
     
-class UploadException(Exception):    
+class UploadException(Exception):
+    """
+    Exception thrown if some error occur during the upload of media content to a social network
+    """
     pass
 
 class ClearanceException(Exception):
+    """
+    Exception thrown if the user try to modify resources he doesn't own
+    """
     pass
 
 
 class OauthClient(object):
-    
+    """
+    Abstract wrapper to be specialized for each social network
+
+    :consumer: oauth2 consumer object
+    :oauth_token: public part of the oauth token
+    :oauth_token_secret: secret part of the oauth token
+    :token: oauth2 token object
+    :client: oauth2 authenticated client
+    """
     def __init__(self, CONSUMER_KEY, CONSUMER_SECRET):
+        """
+        Instantiate the client by
+            1. obtain an access token using the `CONSUMER_KEY` and `CONSUMER_SECRET` provided
+            2. instantiate a client authenticated with the token previously generated
+        
+        :param CONSUMER_KEY: consumer key of the social network's app
+        :param CONSUMER_SECRET: consumer secret of the social network's app
+        """
         # Use your API key and secret to instantiate consumer object
         consumer = oauth2.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
 
@@ -40,9 +65,9 @@ class OauthClient(object):
     #=========================================================================
     def encode_multipart_formdata(self, fields, files):
         """
-            Prepare a POST message to upload media content in the body of the message
+        Prepare a POST message with a body containing a media content
 
-            Used by Flickr
+        .. note:: Needed by Flickr API
         """        
         #BOUNDARY = mimetools.choose_boundary()
         BOUNDARY = uuid4().hex
@@ -73,7 +98,7 @@ class OauthClient(object):
     #=========================================================================
     def oauth_sig(self,method,uri,params):
         """
-        Creates the valid OAuth signature
+        Creates a valid OAuth signature
         """
         s = method + '&'+ urllib.quote(uri).replace('/','%2F')+ '&' + '%26'.join(
             [urllib.quote(k) +'%3D'+ urllib.quote(params[k]).replace('/','%2F') for k in sorted(params.keys())]
@@ -84,7 +109,7 @@ class OauthClient(object):
 
     def oauth_gen(self,method,url,iparams,headers):
         """
-        Creates the oauth parameters we're going to need to sign the body
+        Creates the oauth parameters needed to sign the body
         """
         params = dict([(x[0], urllib.quote(str(x[1])).replace('/','%2F')) for x in iparams.iteritems()]) 
         params['oauth_consumer_key'] = self.CONSUMER_KEY

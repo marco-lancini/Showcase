@@ -71,6 +71,7 @@ INSTALLED_APPS = (
     'respite',
     'registration',
     'social_auth',
+    #'django_extensions',    # pip install django-extensions && pip install pygraphviz
     # CUSTOM APPS
     'app_auth',
     'app_collaborations',
