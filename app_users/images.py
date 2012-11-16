@@ -1,12 +1,20 @@
 from django.core.files.storage import FileSystemStorage
 
 class MyFileStorage(FileSystemStorage):
+    """
+    Workaround to store images on GAE
+
+    .. warning:: DEPRECATED
+    """
     # http://stackoverflow.com/a/8337264/1183090
 
     # This method is actually defined in Storage
     def get_available_name(self, name):
       return name # simply returns the name passed
 
+
+#from images import MyFileStorage
+#mfs = MyFileStorage()
 
 
 #=========================================================================

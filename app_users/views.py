@@ -24,16 +24,18 @@ from app_socialnetworks.oauthclient import NotConnectedException
 #=========================================================================
 class UserProfileViews(Views):
     """
-    UserProfile 
-    
+    View that manage access to the service that handles projects
 
-    :supported_formats: blablbabla
-    :template_path: bbbba
+    :supported_formats: html, json
+    :template_path: path to html files
     """
     supported_formats = ['html', 'json']
     template_path = 'app_users/'
 
     def _form_validation(self, request, form, status, messages=None):
+        """
+        Validate the form for editing a user
+        """
         if form.is_valid():
             form.save()
             return self.show(request, username=request.user, messages=messages)
@@ -49,30 +51,66 @@ class UserProfileViews(Views):
         )
 
 
+    #=========================================================================
+    # INDEX
+    #=========================================================================
     def index(self, request):
         """
-        List all users - FORBIDDEN 
+        List all users
         
-        :param request: blablbabla
+        :Rest Types: ``GET``
+        :URL: ``^(?:$|index.(html|json)$)``
 
-        .. note:: GET
-        .. warning:: WARNING
+        .. warning:: FORBIDDEN 
         """
         return HttpResponseForbidden()
 
+
+    #=========================================================================
+    # NEW
+    #=========================================================================
     def new(self, request):
-        ''' Render form to create a new user - FORBIDDEN '''
+        """
+        Render form for create a new user
+        
+        :Rest Types: ``GET``
+        :URL: ``^new(?:/$|.(html|json)$)``
+
+        .. warning:: FORBIDDEN 
+        """
         return HttpResponseForbidden()
 
+
+    #=========================================================================
+    # CREATE
+    #=========================================================================
     def create(self, request):
-        ''' Create a new user - FORBIDDEN '''
+        """
+        Create a new user
+        
+        :Rest Types: ``POST``
+        :URL: ``^(?:$|index.(html|json)$)``
+
+        .. warning:: FORBIDDEN 
+        """
         return HttpResponseForbidden()
 
 
+    #=========================================================================
+    # SHOW
+    #=========================================================================
     @rest_login_required
     def show(self, request, username, messages=None, errors=None):
         """
-        Render the user with the specified username
+        Show a :class:`app_users.models.UserProfile` with all its informations
+
+            - projects owned
+            - projects in which collaborate
+            - all the data from the connected accounts
+        
+        :Decorators: ``rest_login_required``
+        :Rest Types: ``GET``
+        :URL: ``^(?P<username>\w+)(?:/$|.(html|json)$)``
         """
         username = str(username)
         u = get_object_or_404(UserProfile, user__username__iexact=username)
@@ -92,7 +130,6 @@ class UserProfileViews(Views):
         else:
             itself = False
 
-        
         # Render the page    
         return self._render(
             request = request,
@@ -108,10 +145,20 @@ class UserProfileViews(Views):
             status = 200
         )
 
+
+    #=========================================================================
+    # EDIT
+    #=========================================================================
     @rest_login_required
     @must_be_itself
     def edit(self, request, username):
-        ''' Render a form to edit a user '''
+        """
+        Edit the basic informations of a UserProfile
+        
+        :Decorators: ``rest_login_required, must_be_itself``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<username>\w+)/edit(?:/$|.(html|json)$)``
+        """
         username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
 
@@ -124,9 +171,19 @@ class UserProfileViews(Views):
             return self._form_validation(request, form, 200)
 
 
+    #=========================================================================
+    # REPLACE
+    #=========================================================================
     @rest_login_required
     @must_be_itself
     def replace(self, request, username):
+        """
+        Replace the basic informations of a UserProfile
+        
+        :Decorators: ``rest_login_required, must_be_itself``
+        :Rest Types: ``PUT``
+        :URL: ``^(?P<username>\w+)(?:/$|.(html|json)$)``
+        """
         username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
         form = UserProfileForm(request.PUT, instance=u)
@@ -134,9 +191,19 @@ class UserProfileViews(Views):
         return self._form_validation(request, form, 400, messages="Profile replaced")
 
     
+    #=========================================================================
+    # UPDATE
+    #=========================================================================
     @rest_login_required
     @must_be_itself
     def update(self, request, username):
+        """
+        Update the basic informations of a UserProfile
+        
+        :Decorators: ``rest_login_required, must_be_itself``
+        :Rest Types: ``PATCH``
+        :URL: ``^(?P<username>\w+)(?:/$|.(html|json)$)``
+        """
         username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
         fields = []
@@ -153,11 +220,19 @@ class UserProfileViews(Views):
         return self._form_validation(request, form, 400, messages="Profile updated")
 
 
-
+    #=========================================================================
+    # DESTROY
+    #=========================================================================
     @rest_login_required
     @must_be_itself
     def destroy(self, request, username):
-        ''' Delete an user '''
+        """
+        Destroy a user and all the connected data
+        
+        :Decorators: ``rest_login_required, must_be_itself``
+        :Rest Types: ``GET, DELETE``
+        :URL: ``^(?P<username>\w+)/destroy(?:/$|.(html|json)$)``
+        """
         username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
 
@@ -177,6 +252,13 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def settings(self, request, username, messages=None):
+        """
+        Show the personal settings of the user
+        
+        :Decorators: ``rest_login_required, must_be_itself``
+        :Rest Types: ``GET``
+        :URL: ``^(?P<username>\w+)/settings(?:/$|.(html|json)$)``
+        """
         username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
         u_dict = u.wrapper()
@@ -203,6 +285,13 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def settings_edit(self, request, username):
+        """
+        Edit the personal settings of the user
+        
+        :Decorators: ``rest_login_required, must_be_itself``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<username>\w+)/settings/edit(?:/$|.(html|json)$)``
+        """
         username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
 
@@ -229,11 +318,19 @@ class UserProfileViews(Views):
             status = 200
         )
 
+
     #=========================================================================
     # VOTED
     #=========================================================================
     @rest_login_required
     def voted(self, request, username):
+        """
+        List all projects voted by the user
+        
+        :Decorators: ``rest_login_required``
+        :Rest Types: ``GET``
+        :URL: ``^(?P<username>\w+)/voted(?:/$|.(html|json)$)``
+        """
         # Retrieve users
         username = str(username)
         u = get_object_or_404(UserProfile, user__username__iexact=username)
@@ -241,8 +338,6 @@ class UserProfileViews(Views):
 
         # Retrieve voted projects
         projects = u.get_projects_voted()
-
-        #TODO
 
         # Check if the user is trying to see its personal profile
         if str(username) == str(request.user):
@@ -269,6 +364,13 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def creative_fields_manage(self, request, username, field_id=None, errors=None):
+        """
+        Manage creative fields (add/delete)
+        
+        :Decorators: ``rest_login_required, must_be_itself``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<username>\w+)/fields(?:/$|.(html|json)$)``
+        """
         username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
 
@@ -292,7 +394,6 @@ class UserProfileViews(Views):
             if field_id != None:
                 u.delete_creative_field(field_id)
 
-
         # Render the page
         return self._render(
             request = request,
@@ -305,10 +406,16 @@ class UserProfileViews(Views):
             status = 200
         )
 
-
     @rest_login_required
     @must_be_itself
     def creative_fields_delete(self, request, username, field_id):
+        """
+        Delete a creative field
+        
+        :Decorators: ``rest_login_required, must_be_itself``
+        :Rest Types: ``POST``
+        :URL: ``^(?P<username>\w+)/fields/delete/(?P<field_id>\w+)(?:/$|.(html|json)$)``
+        """
         username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
 
@@ -320,13 +427,19 @@ class UserProfileViews(Views):
             return self.creative_fields_manage(request, username, errors="That field wasn't selected")
 
 
-
     #=========================================================================
     # EMPLOYMENT
     #=========================================================================
     @rest_login_required
     @must_be_itself
     def employment_manage(self, request, username):
+        """
+        Manage employment data
+        
+        :Decorators: ``rest_login_required, must_be_itself``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<username>\w+)/employment(?:/$|.(html|json)$)``
+        """
         username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
 
@@ -336,11 +449,9 @@ class UserProfileViews(Views):
         except:
             employment = None
 
-
         # Check if is connected to linkedin
         connected_accounts = u.get_connected_accounts()
         linkedin = True if 'linkedin' in connected_accounts['names'] else False
-
 
         if request.method == 'POST':
             form = EmploymentForm(request.POST, instance=employment)
@@ -357,10 +468,8 @@ class UserProfileViews(Views):
 
                 # Redirect to profile
                 return self.show(request, username, "Employment Details successfully edited!")
-
             else:
                 status = 400
-
         else:
             form   = EmploymentForm(instance=employment)
             status = 200
@@ -380,6 +489,13 @@ class UserProfileViews(Views):
     @rest_login_required
     @must_be_itself
     def employment_linkedin(self, request, username):
+        """
+        Fetch employment data from LinkedIn
+        
+        :Decorators: ``rest_login_required, must_be_itself``
+        :Rest Types: ``GET``
+        :URL: ``^(?P<username>\w+)/employment/linkedin(?:/$|.(html|json)$)``
+        """
         username = str(username)
         u = UserProfile.objects.get(user__username__iexact=username)
 

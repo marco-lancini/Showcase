@@ -4,6 +4,13 @@ Users Management Module
 .. automodule:: app_users
 
 
+Decorators
+==========
+
+.. automodule:: app_users.decorators
+   :members:
+
+
 Forms
 =====
 
@@ -15,6 +22,9 @@ Models
 ======
 
 .. automodule:: app_users.models
+   :members:
+
+.. automodule:: app_users.models_nn
    :members:
 
 

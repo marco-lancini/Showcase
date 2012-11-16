@@ -210,7 +210,7 @@ class Material(models.Model):
     #=========================================================================
     def wrapper(self):
         """
-        Return a wrapper for a `Material` object, ie a dictionary with elem=true if the project has that piece of material
+        Return a wrapper for a `Material` object, i.e. a dictionary with elem=true if the project has that piece of material
         """
         temp = model_to_dict(self)
         del temp['id']
@@ -449,7 +449,7 @@ class Project(models.Model):
     #=========================================================================
     def wrapper(self):
         """
-        Return a wrapper for a `Project` object, ie a dictionary containing all the data
+        Return a wrapper for a `Project` object, i.e. a dictionary containing all the data
         """
         wrapper = model_to_dict(self)
         wrapper['category'] = {'id': self.category, 'name': get_category_verbose(self.category)}

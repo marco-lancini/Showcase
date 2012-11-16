@@ -263,7 +263,6 @@ COUNTRIES = (
 )
 
 
-
 class CountryField(models.CharField):    
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('max_length', 2)

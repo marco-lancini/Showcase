@@ -4,7 +4,7 @@ OPERATION_NOT_PERMITTED = "You don't have the permission to take this action"
 
 def must_be_itself(method_name):
     """
-        Avoid that a user can edit the profile of another one
+        Avoid that a user can edit another profile (different from himself)
     """
     def decorator(function):
         @wraps(function)

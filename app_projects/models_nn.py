@@ -5,7 +5,7 @@ class Votes(models.Model):
     Model for a `Vote`, a many-to-many relationship between 
     projects (:class:`app_projects.models.Project`) and users (:class:`app_users.models.UserProfile`)
 
-    :project: the project of interests
+    :project: the project of interest
     :users: the users that have voted the project
     """
     project = models.ForeignKey('app_projects.Project')
@@ -18,7 +18,7 @@ class Collaborations(models.Model):
     Model for a `Collaboration`, a many-to-many relationship between 
     projects (:class:`app_projects.models.Project`) and users (:class:`app_users.models.UserProfile`)
 
-    :project: the project of interests
+    :project: the project of interest
     :userprofile: the users that collaborates to the project
     :date_joined: date in which the collaborator joined the project
     """
@@ -28,7 +28,7 @@ class Collaborations(models.Model):
 
     def wrapper(self):
         """
-        Return a wrapper for a `Collaborations` object, ie a dictionary containing the wrappers of the involved objects
+        Return a wrapper for a `Collaborations` object, i.e. a dictionary containing the wrappers of the involved objects
         """
         wrapper = {}
         wrapper['userprofile'] = self.userprofile.wrapper()

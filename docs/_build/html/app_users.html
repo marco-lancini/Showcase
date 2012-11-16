@@ -52,36 +52,54 @@
   <div class="section" id="module-app_users">
 <span id="users-management-module"></span><h1>Users Management Module<a class="headerlink" href="#module-app_users" title="Permalink to this headline">¶</a></h1>
 <p>Module that manage the interaction with a <a class="reference internal" href="#app_users.models.UserProfile" title="app_users.models.UserProfile"><tt class="xref py py-class docutils literal"><span class="pre">models.UserProfile</span></tt></a> resource</p>
+<div class="section" id="module-app_users.decorators">
+<span id="decorators"></span><h2>Decorators<a class="headerlink" href="#module-app_users.decorators" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="app_users.decorators.must_be_itself">
+<tt class="descclassname">app_users.decorators.</tt><tt class="descname">must_be_itself</tt><big>(</big><em>method_name</em><big>)</big><a class="headerlink" href="#app_users.decorators.must_be_itself" title="Permalink to this definition">¶</a></dt>
+<dd><p>Avoid that a user can edit another profile (different from himself)</p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-app_users.forms">
 <span id="forms"></span><h2>Forms<a class="headerlink" href="#module-app_users.forms" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
+<dt id="app_users.forms.CreativeFieldsAddForm">
+<em class="property">class </em><tt class="descclassname">app_users.forms.</tt><tt class="descname">CreativeFieldsAddForm</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.forms.CreativeFieldsAddForm" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Manage the creative fields of a user</div></blockquote>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#app_users.models_nn.CreativeFields" title="app_users.models_nn.CreativeFields"><tt class="xref py py-class docutils literal"><span class="pre">app_users.models_nn.CreativeFields</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="app_users.forms.EmploymentForm">
+<em class="property">class </em><tt class="descclassname">app_users.forms.</tt><tt class="descname">EmploymentForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="headerlink" href="#app_users.forms.EmploymentForm" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Manage the employment data of a user</div></blockquote>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#app_users.models.Employment" title="app_users.models.Employment"><tt class="xref py py-class docutils literal"><span class="pre">app_users.models.Employment</span></tt></a></p>
+</div>
+</dd></dl>
+
+<dl class="class">
 <dt id="app_users.forms.UserAuthForm">
 <em class="property">class </em><tt class="descclassname">app_users.forms.</tt><tt class="descname">UserAuthForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="headerlink" href="#app_users.forms.UserAuthForm" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div>Form tailored on the</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">form</td>
-</tr>
-</tbody>
-</table>
+<dd><p>Manage the account informations of a user profile</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="app_users.forms.UserProfileForm">
 <em class="property">class </em><tt class="descclassname">app_users.forms.</tt><tt class="descname">UserProfileForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="headerlink" href="#app_users.forms.UserProfileForm" title="Permalink to this definition">¶</a></dt>
 <dd><blockquote>
-<div>Form tailored on the <tt class="xref py py-class docutils literal"><span class="pre">UserProfile</span></tt> model</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">form with all the fields of a <tt class="xref py py-class docutils literal"><span class="pre">UserProfile</span></tt> (data related to the authentication are excluded)</td>
-</tr>
-</tbody>
-</table>
+<div>Manage the basic informations of a user profile</div></blockquote>
+<div class="admonition-see-also admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="#app_users.models.UserProfile" title="app_users.models.UserProfile"><tt class="xref py py-class docutils literal"><span class="pre">app_users.models.UserProfile</span></tt></a></p>
+</div>
 </dd></dl>
 
 </div>
@@ -90,13 +108,237 @@
 <dl class="class">
 <dt id="app_users.models.Employment">
 <em class="property">class </em><tt class="descclassname">app_users.models.</tt><tt class="descname">Employment</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.models.Employment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Employment(id, headline, industry, company, title)</p>
+<dd><p>Model for <cite>Employment</cite> objects, that contains informations about the current employment history of the user</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Headline :</th><td class="field-body">short description</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Industry :</th><td class="field-body">industry of specialization</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Company :</th><td class="field-body">actual employer</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Title :</th><td class="field-body">position in the company</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="app_users.models.Employment.wrapper">
+<tt class="descname">wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.Employment.wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a wrapper for an <cite>Employment</cite> object, ie a dictionary containing all the data</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="app_users.models.UserProfile">
 <em class="property">class </em><tt class="descclassname">app_users.models.</tt><tt class="descname">UserProfile</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.models.UserProfile" title="Permalink to this definition">¶</a></dt>
-<dd><p>UserProfile(id, user_id, first_name, last_name, sex, birthday, website, phone, country, address, availability, fee, bio, employment_id)</p>
+<dd><p>Model for a <cite>UserProfile</cite>, one of the main resources</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">User :</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">django.contrib.auth.models.User</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">First_name :</th><td class="field-body">first name</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Last_name :</th><td class="field-body">last name</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Sex :</th><td class="field-body">sex (m,f)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Birthday :</th><td class="field-body">birthday</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Website :</th><td class="field-body">personal website</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Phone :</th><td class="field-body">telephone number</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Country :</th><td class="field-body">nationality</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Address :</th><td class="field-body">address</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Availability :</th><td class="field-body">availability (Full-Time, Part-Time, Consulting, Freelance, Internship)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Fee :</th><td class="field-body">boolean that state if the user is available to work for free</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Bio :</th><td class="field-body">short biography</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Employment :</th><td class="field-body"><a class="reference internal" href="#app_users.models.Employment" title="app_users.models.Employment"><tt class="xref py py-class docutils literal"><span class="pre">app_users.models.Employment</span></tt></a></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="app_users.models.UserProfile.create_user_profile">
+<tt class="descname">create_user_profile</tt><big>(</big><em>sender</em>, <em>instance</em>, <em>created</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.create_user_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an <cite>UserProfile</cite> instance when creating a <cite>User</cite></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.delete_connected_accounts">
+<tt class="descname">delete_connected_accounts</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.delete_connected_accounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all the connected accounts</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.delete_connected_data">
+<tt class="descname">delete_connected_data</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.delete_connected_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete <strong>all</strong> connected data</p>
+<ul class="simple">
+<li>connected accounts</li>
+<li>creative fields</li>
+<li>employment data</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.delete_creative_field">
+<tt class="descname">delete_creative_field</tt><big>(</big><em>field_id</em><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.delete_creative_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the specified creative field</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.delete_creative_fields">
+<tt class="descname">delete_creative_fields</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.delete_creative_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete all the creative fields</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.delete_employment">
+<tt class="descname">delete_employment</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.delete_employment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the connected employment data</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="app_users.models.UserProfile.full_name">
+<tt class="descname">full_name</tt><a class="headerlink" href="#app_users.models.UserProfile.full_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the full name of the user (first_name + last_name)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_connected_accounts">
+<tt class="descname">get_connected_accounts</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_connected_accounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a dictionary containing 2 lists</p>
+<ul class="simple">
+<li>one list of connected accounts (provider, url)</li>
+<li>one list of only names of the actually connected accounts</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_creative_fields">
+<tt class="descname">get_creative_fields</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_creative_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of all the creative fields of the user</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_employment">
+<tt class="descname">get_employment</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_employment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return employment data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_employment_wrapper">
+<tt class="descname">get_employment_wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_employment_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return wrapper of employment data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_linkedin_employment">
+<tt class="descname">get_linkedin_employment</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_linkedin_employment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch employment data from LinkedIn</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_linkedin_skills">
+<tt class="descname">get_linkedin_skills</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_linkedin_skills" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch skills from LinkedIn</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_profile_pic">
+<tt class="descname">get_profile_pic</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_profile_pic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the URL of the Gravatar profile picture</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_projects_collaborate">
+<tt class="descname">get_projects_collaborate</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_projects_collaborate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all the projects in which the user collaborate</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_projects_collaborate_wrapper">
+<tt class="descname">get_projects_collaborate_wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_projects_collaborate_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the wrappers of all the projects in which the user collaborate</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_projects_own">
+<tt class="descname">get_projects_own</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_projects_own" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all the projects onwned by the user</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_projects_own_wrapper">
+<tt class="descname">get_projects_own_wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_projects_own_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the wrappers of all the projects onwned by the user</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_projects_voted">
+<tt class="descname">get_projects_voted</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_projects_voted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all the projects voted by the user</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_projects_voted_wrapper">
+<tt class="descname">get_projects_voted_wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_projects_voted_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the wrappers of all the projects voted by the user</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.get_user_auth_wrapper">
+<tt class="descname">get_user_auth_wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.get_user_auth_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a wrapper for the <tt class="xref py py-class docutils literal"><span class="pre">django.contrib.auth.models.User</span></tt> connected to the <cite>UserProfile</cite>, 
+avoiding that sensitive informations can be exposed to clients</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models.UserProfile.wrapper">
+<tt class="descname">wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models.UserProfile.wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a wrapper for a <cite>UserProfile</cite> object, i.e. a dictionary containing all the data</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-app_users.models_nn"></span><dl class="class">
+<dt id="app_users.models_nn.CreativeFields">
+<em class="property">class </em><tt class="descclassname">app_users.models_nn.</tt><tt class="descname">CreativeFields</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.models_nn.CreativeFields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model for a many-to-many relationship between 
+users (<a class="reference internal" href="#app_users.models.UserProfile" title="app_users.models.UserProfile"><tt class="xref py py-class docutils literal"><span class="pre">app_users.models.UserProfile</span></tt></a>) and <cite>CreativeFields</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Userprofile :</th><td class="field-body">the user of interest</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Creative_field :</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">creative field associated to the user</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="app_users.models_nn.CreativeFields.get_creative_field">
+<tt class="descname">get_creative_field</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models_nn.CreativeFields.get_creative_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string representation of the creative field</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.models_nn.CreativeFields.wrapper">
+<tt class="descname">wrapper</tt><big>(</big><big>)</big><a class="headerlink" href="#app_users.models_nn.CreativeFields.wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a wrapper for a <cite>CreativeFields</cite> object, ie a dictionary containing the wrappers of the involved objects</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -105,68 +347,299 @@
 <dl class="class">
 <dt id="app_users.views.UserProfileViews">
 <em class="property">class </em><tt class="descclassname">app_users.views.</tt><tt class="descname">UserProfileViews</tt><a class="headerlink" href="#app_users.views.UserProfileViews" title="Permalink to this definition">¶</a></dt>
-<dd><p>UserProfile</p>
+<dd><p>View that manage access to the service that handles projects</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name" colspan="2">Supported_formats :</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">blablbabla</td>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">html, json</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Template_path :</th><td class="field-body">bbbba</td>
+<tr class="field-even field"><th class="field-name">Template_path :</th><td class="field-body">path to html files</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="app_users.views.UserProfileViews.create">
 <tt class="descname">create</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.create" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new user - FORBIDDEN</p>
+<dd><p>Create a new user</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">POST</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?:$|index.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">FORBIDDEN</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.views.UserProfileViews.creative_fields_delete">
+<tt class="descname">creative_fields_delete</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.creative_fields_delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a creative field</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_itself</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">POST</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)/fields/delete/(?P&lt;field_id&gt;\w+)(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.views.UserProfileViews.creative_fields_manage">
+<tt class="descname">creative_fields_manage</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.creative_fields_manage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage creative fields (add/delete)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_itself</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET,</span> <span class="pre">POST</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)/fields(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="app_users.views.UserProfileViews.destroy">
 <tt class="descname">destroy</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.destroy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete an user</p>
+<dd><p>Destroy a user and all the connected data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_itself</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET,</span> <span class="pre">DELETE</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)/destroy(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="app_users.views.UserProfileViews.edit">
 <tt class="descname">edit</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.edit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Render a form to edit a user</p>
+<dd><p>Edit the basic informations of a UserProfile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_itself</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET,</span> <span class="pre">POST</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)/edit(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.views.UserProfileViews.employment_linkedin">
+<tt class="descname">employment_linkedin</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.employment_linkedin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch employment data from LinkedIn</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_itself</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)/employment/linkedin(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.views.UserProfileViews.employment_manage">
+<tt class="descname">employment_manage</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.employment_manage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage employment data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_itself</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET,</span> <span class="pre">POST</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)/employment(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="app_users.views.UserProfileViews.index">
 <tt class="descname">index</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.index" title="Permalink to this definition">¶</a></dt>
-<dd><p>List all users - FORBIDDEN</p>
+<dd><p>List all users</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>request</strong> &#8211; blablbabla</td>
+<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?:$|index.(html|json)$)</span></tt></td>
 </tr>
 </tbody>
 </table>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">GET</p>
-</div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">WARNING</p>
+<p class="last">FORBIDDEN</p>
 </div>
 </dd></dl>
 
 <dl class="method">
 <dt id="app_users.views.UserProfileViews.new">
 <tt class="descname">new</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.new" title="Permalink to this definition">¶</a></dt>
-<dd><p>Render form to create a new user - FORBIDDEN</p>
+<dd><p>Render form for create a new user</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^new(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">FORBIDDEN</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.views.UserProfileViews.replace">
+<tt class="descname">replace</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace the basic informations of a UserProfile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_itself</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">PUT</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.views.UserProfileViews.settings">
+<tt class="descname">settings</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show the personal settings of the user</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_itself</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)/settings(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.views.UserProfileViews.settings_edit">
+<tt class="descname">settings_edit</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.settings_edit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Edit the personal settings of the user</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_itself</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET,</span> <span class="pre">POST</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)/settings/edit(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="app_users.views.UserProfileViews.show">
 <tt class="descname">show</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.show" title="Permalink to this definition">¶</a></dt>
-<dd><p>Render the user with the specified username</p>
+<dd><p>Show a <a class="reference internal" href="#app_users.models.UserProfile" title="app_users.models.UserProfile"><tt class="xref py py-class docutils literal"><span class="pre">app_users.models.UserProfile</span></tt></a> with all its informations</p>
+<blockquote>
+<div><ul class="simple">
+<li>projects owned</li>
+<li>projects in which collaborate</li>
+<li>all the data from the connected accounts</li>
+</ul>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.views.UserProfileViews.update">
+<tt class="descname">update</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the basic informations of a UserProfile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required,</span> <span class="pre">must_be_itself</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">PATCH</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="app_users.views.UserProfileViews.voted">
+<tt class="descname">voted</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#app_users.views.UserProfileViews.voted" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all projects voted by the user</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Decorators :</th><td class="field-body"><tt class="docutils literal"><span class="pre">rest_login_required</span></tt></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rest Types:</th><td class="field-body"><tt class="docutils literal"><span class="pre">GET</span></tt></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Url :</th><td class="field-body"><tt class="docutils literal"><span class="pre">^(?P&lt;username&gt;\w+)/voted(?:/$|.(html|json)$)</span></tt></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -183,6 +656,7 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Users Management Module</a><ul>
+<li><a class="reference internal" href="#module-app_users.decorators">Decorators</a></li>
 <li><a class="reference internal" href="#module-app_users.forms">Forms</a></li>
 <li><a class="reference internal" href="#module-app_users.models">Models</a></li>
 <li><a class="reference internal" href="#module-app_users.views">Views</a></li>

@@ -6,11 +6,14 @@ from app_users.models_nn import CreativeFields
 from app_collaborations.options import CREATIVE_FIELDS
 
 
+#=========================================================================
+# USER
+#=========================================================================
 class UserProfileForm(ModelForm):
 	"""
-	Form tailored on the :class:`UserProfile` model
+	Manage the basic informations of a user profile
 
-    :returns:  form with all the fields of a :class:`UserProfile` (data related to the authentication are excluded)
+    .. seealso:: :class:`app_users.models.UserProfile`
 	"""
 	class Meta:
 		model = UserProfile
@@ -19,24 +22,35 @@ class UserProfileForm(ModelForm):
 
 class UserAuthForm(ModelForm):
 	"""
-	Form tailored on the
-
-    :returns:  form 
+	Manage the account informations of a user profile
 	"""
 	class Meta:
 		model = User
 		fields = ('email',)
 
 
-
+#=========================================================================
+# EMPLOYMENT
+#=========================================================================
 class EmploymentForm(ModelForm):
+	"""
+	Manage the employment data of a user
+
+    .. seealso:: :class:`app_users.models.Employment`
+	"""
 	class Meta:
 		model = Employment
 
 
-
-
+#=========================================================================
+# CREATIVE FIELDS
+#=========================================================================
 class CreativeFieldsAddForm(forms.Form):
+	"""
+	Manage the creative fields of a user
+
+    .. seealso:: :class:`app_users.models_nn.CreativeFields`
+	"""
 	class Meta:
 		model = CreativeFields
 		exclude = ('userprofile',)

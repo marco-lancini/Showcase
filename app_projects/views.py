@@ -475,6 +475,13 @@ class ProjectViews(Views):
     @rest_login_required
     @must_be_owner
     def collaborators_manage(self, request, id, p, coll=None, errors=None):
+        """
+        Manage collaborators of the project (add/remove)
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<id>[0-9]+)/collaborators(?:/$|.(html|json)$)``
+        """
         # Add Collaborator
         if 'collaborator-add' in request.POST:
             if request.method == 'POST':
@@ -495,10 +502,8 @@ class ProjectViews(Views):
             if coll != None:
                 p.delete_collaborator(coll)
 
-
         # Already active collaborations
         collaborators = p.get_collaborators_wrapper()
-
 
         # Render the page
         return self._render(
@@ -513,10 +518,16 @@ class ProjectViews(Views):
             status = 200
         )
 
-
     @rest_login_required
     @must_be_owner
     def collaborators_delete(self, request, id, p, username):
+        """
+        Remove collaborator from a project
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``POST``
+        :URL: ``^(?P<id>[0-9]+)/collaborators/delete/(?P<username>\w+)(?:/$|.(html|json)$)``
+        """
         # Check that username is a collaborator
         username = str(username)
         collaborators = p.get_collaborators_wrapper()
@@ -532,16 +543,21 @@ class ProjectViews(Views):
     @rest_login_required
     @must_be_owner
     def material(self, request, id, p):
+        """
+        Manage the `Material` connected to the project (add/edit/remove)
+                
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<id>[0-9]+)/material(?:/$|.(html|json)$)``
+        """        
         # Try to fetch the related material
         try:
             material = p.get_material()
         except:
             material = None
 
-
         if request.method == 'POST':
             form = MaterialForm(request.POST, instance=material)
-
             if form.is_valid():
                 new_material = form.save(commit=False)
 
@@ -554,10 +570,8 @@ class ProjectViews(Views):
 
                 # Redirect to the new project
                 return self.show(request, id, "Material successfully edited!")
-
             else:
                 status = 400
-
         else:
             form   = MaterialForm(instance=material)
             status = 200
@@ -585,16 +599,21 @@ class ProjectViews(Views):
     @rest_login_required
     @must_be_owner
     def flickr_add(self, request, id, p):
+        """
+        Post a new photo to the connected Flickr photoset
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<id>[0-9]+)/flickr/add(?:/$|.(html|json)$)``
+        """
         material_dict = p.get_material_wrapper()
 
         # Check if this project is connected to a Flickr Photoset
         if not material_dict['flickr']:
             return self.show(request, id, errors='You have to connect a Flickr Photoset in order to complete this action. Click on "Manage Material" to link one of your Photosets to this project.')
 
-
         if request.method == 'POST':
             form = FlickrForm(request.POST, request.FILES)
-
             if form.is_valid():
                 new_title       = form.cleaned_data['title']
                 new_description = form.cleaned_data['description']
@@ -612,17 +631,13 @@ class ProjectViews(Views):
                     log('error', unicode(e), exc_info=True, extra={'request': request})
                     return self.show(request, id, errors="Something went wrong. Please, retry")
 
-
                 # Redirect to the project
                 return self.show(request, id, messages="Photo added!")
-
             else:
                 status = 400
-
         else:
             form   = FlickrForm()
             status = 200
-
 
         # Render page
         return self._render(
@@ -648,20 +663,24 @@ class ProjectViews(Views):
     @rest_login_required
     @must_be_owner
     def tumblr_text(self, request, id, p):
+        """
+        Post a text blogpost to the connected Tumblr blog
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<id>[0-9]+)/tumblr/text(?:/$|.(html|json)$)``
+        """
         material_dict = p.get_material_wrapper()
 
         # Check if this project is connected to a Tumblt blog
         if not material_dict['tumblr']:
             return self.show(request, id, errors='You have to connect a Tumblr Blog in order to complete this action. Click on "Manage Material" to link your blog to this project.')
 
-
         if request.method == 'POST':
             form = Tumblr_TextForm(request.POST)
-
             if form.is_valid():
                 new_title = form.cleaned_data['title']
                 new_body  = form.cleaned_data['body']
-                
                 try:
                     p.material.tumblr_add_text(request.user, new_title, new_body)
                 except UploadException, e:
@@ -675,14 +694,11 @@ class ProjectViews(Views):
 
                 # Redirect to the project
                 return self.show(request, id, messages="Post added!")
-
             else:
                 status = 400
-
         else:
             form   = Tumblr_TextForm()
             status = 200
-
 
         # Render page
         return self._render(
@@ -700,25 +716,27 @@ class ProjectViews(Views):
             prefix_template_path = False
         )
 
-
-
     @rest_login_required
     @must_be_owner
     def tumblr_link(self, request, id, p):
+        """
+        Post a link blogpost to the connected Tumblr blog
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<id>[0-9]+)/tumblr/link(?:/$|.(html|json)$)``
+        """
         material_dict = p.get_material_wrapper()
 
         # Check if this project is connected to a Tumblt blog
         if not material_dict['tumblr']:
             return self.show(request, id, errors='You have to connect a Tumblr Blog in order to complete this action. Click on "Manage Material" to link your blog to this project.')
 
-
         if request.method == 'POST':
             form = Tumblr_LinkForm(request.POST)
-
             if form.is_valid():
                 new_title = form.cleaned_data['title']
                 new_url   = form.cleaned_data['url']
-                
                 try:
                     p.material.tumblr_add_link(request.user, new_title, new_url)
                 except UploadException, e:
@@ -732,14 +750,11 @@ class ProjectViews(Views):
 
                 # Redirect to the project
                 return self.show(request, id, messages="Post added!")
-
             else:
                 status = 400
-
         else:
             form   = Tumblr_LinkForm()
             status = 200
-
 
         # Render page
         return self._render(
@@ -757,24 +772,26 @@ class ProjectViews(Views):
             prefix_template_path = False
         )
 
-
-
     @rest_login_required
     @must_be_owner
     def tumblr_quote(self, request, id, p):
+        """
+        Post a quote blogpost to the connected Tumblr blog
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<id>[0-9]+)/tumblr/quote(?:/$|.(html|json)$)``
+        """
         material_dict = p.get_material_wrapper()
 
         # Check if this project is connected to a Tumblt blog
         if not material_dict['tumblr']:
             return self.show(request, id, errors='You have to connect a Tumblr Blog in order to complete this action. Click on "Manage Material" to link your blog to this project.')
 
-
         if request.method == 'POST':
             form = Tumblr_QuoteForm(request.POST)
-
             if form.is_valid():
                 new_quote = form.cleaned_data['quote']
-                
                 try:
                     p.material.tumblr_add_quote(request.user, new_quote)
                 except UploadException, e:
@@ -788,14 +805,11 @@ class ProjectViews(Views):
 
                 # Redirect to the project
                 return self.show(request, id, messages="Post added!")
-
             else:
                 status = 400
-
         else:
             form   = Tumblr_QuoteForm()
             status = 200
-
 
         # Render page
         return self._render(
@@ -813,24 +827,27 @@ class ProjectViews(Views):
             prefix_template_path = False
         )
 
-
     @rest_login_required
     @must_be_owner
     def tumblr_chat(self, request, id, p):
+        """
+        Post a chat blogpost to the connected Tumblr blog
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<id>[0-9]+)/tumblr/chat(?:/$|.(html|json)$)``
+        """
         material_dict = p.get_material_wrapper()
 
         # Check if this project is connected to a Tumblt blog
         if not material_dict['tumblr']:
             return self.show(request, id, errors='You have to connect a Tumblr Blog in order to complete this action. Click on "Manage Material" to link your blog to this project.')
 
-
         if request.method == 'POST':
             form = Tumblr_ChatForm(request.POST)
-
             if form.is_valid():
                 new_title        = form.cleaned_data['title']
                 new_conversation = form.cleaned_data['conversation']
-                
                 try:
                     p.material.tumblr_add_chat(request.user, new_title, new_conversation)
                 except UploadException, e:
@@ -844,14 +861,11 @@ class ProjectViews(Views):
 
                 # Redirect to the project
                 return self.show(request, id, messages="Post added!")
-
             else:
                 status = 400
-
         else:
             form   = Tumblr_ChatForm()
             status = 200
-
 
         # Render page
         return self._render(
@@ -869,25 +883,27 @@ class ProjectViews(Views):
             prefix_template_path = False
         )
 
-
-
     @rest_login_required
     @must_be_owner
     def tumblr_photo(self, request, id, p):
+        """
+        Post a photo blogpost to the connected Tumblr blog
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<id>[0-9]+)/tumblr/photo(?:/$|.(html|json)$)``
+        """
         material_dict = p.get_material_wrapper()
 
         # Check if this project is connected to a Tumblt blog
         if not material_dict['tumblr']:
             return self.show(request, id, errors='You have to connect a Tumblr Blog in order to complete this action. Click on "Manage Material" to link your blog to this project.')
 
-
         if request.method == 'POST':
             form = Tumblr_PhotoForm(request.POST, request.FILES)
-
             if form.is_valid():
                 new_source  = form.cleaned_data['source']
                 new_data    = form.cleaned_data['data']
-                
                 try:
                     p.material.tumblr_add_photo(request.user, new_source, new_data)
                 except UploadException, e:
@@ -901,14 +917,11 @@ class ProjectViews(Views):
 
                 # Redirect to the project
                 return self.show(request, id, messages="Post added!")
-
             else:
                 status = 400
-
         else:
             form   = Tumblr_PhotoForm()
             status = 200
-
 
         # Render page
         return self._render(
@@ -926,23 +939,26 @@ class ProjectViews(Views):
             prefix_template_path = False
         )
 
-
     @rest_login_required
     @must_be_owner
     def tumblr_audio(self, request, id, p):
+        """
+        Post an audio blogpost to the connected Tumblr blog
+        
+        :Decorators: ``rest_login_required, must_be_owner``
+        :Rest Types: ``GET, POST``
+        :URL: ``^(?P<id>[0-9]+)/tumblr/audio(?:/$|.(html|json)$)``
+        """
         material_dict = p.get_material_wrapper()
 
         # Check if this project is connected to a Tumblt blog
         if not material_dict['tumblr']:
             return self.show(request, id, errors='You have to connect a Tumblr Blog in order to complete this action. Click on "Manage Material" to link your blog to this project.')
 
-
         if request.method == 'POST':
             form = Tumblr_AudioForm(request.POST, request.FILES)
-
             if form.is_valid():
                 new_source  = form.cleaned_data['source']
-                
                 try:
                     p.material.tumblr_add_audio(request.user, new_source)
                 except UploadException, e:
@@ -956,14 +972,11 @@ class ProjectViews(Views):
 
                 # Redirect to the project
                 return self.show(request, id, messages="Post added!")
-
             else:
                 status = 400
-
         else:
             form   = Tumblr_AudioForm()
             status = 200
-
 
         # Render page
         return self._render(
