@@ -1,0 +1,4 @@
+python_openid==2.2.5
+oauth2==1.5.211
+oauth
+httplib2==0.7.2
