@@ -15,17 +15,16 @@ As special feature, Showcase offers a service that automatically finds the best 
 
 
 
+## Resources
+* Running app: http://showcase-st1.appspot.com/
+* Source code: https://github.com/marco-lancini/Showcase
+
+
+
 ## Technologies
 Showcase is realized with [Django](https://www.djangoproject.com/) and deployed on [Google App Engine](https://developers.google.com/appengine/) thanks to [Django-nonrel](http://www.allbuttonspressed.com/projects/django-nonrel) (a NoSQL support for Django)
 
 The layout is made with [Twitter Bootstrap](http://twitter.github.com/bootstrap/index.html) plus [Font Awesome](http://fortawesome.github.com/Font-Awesome/)
-
-
-
-## Resources
-* Running app: http://showcase-st1.appspot.com/
-* Source code: https://github.com/marco-lancini/Showcase
-* Documentation: https://showcase.readthedocs.org/en/latest/
 
 
 

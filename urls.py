@@ -1,10 +1,5 @@
 from django.conf.urls.defaults import *
 
-# Search for "dbindexes.py" in all installed apps
-import dbindexer
-dbindexer.autodiscover()
-
-
 urlpatterns = patterns('',
     ('^_ah/warmup$', 'djangoappengine.views.warmup'),
 
@@ -28,16 +23,9 @@ urlpatterns = patterns('',
 )
 
 
-
-
-
-
-#     #=========================================================================
-
-     
-
-
+#=========================================================================
 # Serve MEDIA
+#=========================================================================
 # http://www.muhuk.com/2009/05/25/serving-static-media-in-django-development-server.html
 # import settings
 # from django.views.static import serve
