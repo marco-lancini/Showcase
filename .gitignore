@@ -3,3 +3,7 @@
 .gaedata/
 settings_private_localhost.py
 settings_private_fake.py
+httplib2
+oauth
+oauth2
+openid
