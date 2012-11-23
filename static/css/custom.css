@@ -172,7 +172,8 @@ form.form-compact { margin: 0 0 0px; }
 
 /* FOOTER */
 footer{background:#292727; margin:40px 0 0; padding:20px 0 0; color:#ccc}
-#legal { display: inline; text-align: right; color: #999; width: 40%; font-size: 80%; }
+#gae { display: inline; float: left; padding-bottom: 10px;}
+#legal { display: inline; text-align: right; color: #999; width: 40%; font-size: 80%; padding-top: 5px;}
 #etc { display: inline; float: left; text-align: right; color: #999; width: 60%; font-size: 80%; }
 #etc ul { padding: 0px; border: 0px; margin: 0px; overflow: hidden; }
 #etc ul li { list-style-image: none; list-style-type: none; margin-left: 0px; white-space: nowrap; display: inline; float: left; padding-left: 10px; padding-right: 10px; border-right: 1px solid #292727; }

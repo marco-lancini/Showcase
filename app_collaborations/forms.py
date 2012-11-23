@@ -34,7 +34,6 @@ class CollaborationsForm(forms.Form):
         p = kwargs.pop('pj_filter')
         super(CollaborationsForm, self).__init__(*args, **kwargs)
 
-
         # Filter creative fields based on the category of the project
         category = p.get_category_complete()
         filtered_fields = get_creative_fields(category)

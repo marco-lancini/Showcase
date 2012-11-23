@@ -447,12 +447,25 @@ class Project(models.Model):
     #=========================================================================
     # WRAPPER
     #=========================================================================
+    def get_category_verbose(self):
+        """
+        Return the complete name of the category
+        """
+        return get_category_verbose(self.category)
+
+    def get_category_complete(self):
+        """
+        Return a tuple of category id and category name
+        """
+        return (self.category, self.get_category_verbose())
+
+
     def wrapper(self):
         """
         Return a wrapper for a `Project` object, i.e. a dictionary containing all the data
         """
         wrapper = model_to_dict(self)
-        wrapper['category'] = {'id': self.category, 'name': get_category_verbose(self.category)}
+        wrapper['category'] = {'id': self.category, 'name': self.get_category_verbose()}
 
         if wrapper['end_date'] == None:
             wrapper['end_date'] = 'Ongoing'

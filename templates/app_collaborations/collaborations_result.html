@@ -10,6 +10,7 @@
 
 <div class="well span9">
     <span class="text-info">These are the users suggested for each creative field needed</span>
+    <br>
     {% for group, users in groups %}
         <div>
             <h3>{{ group }}</h3>
@@ -23,13 +24,13 @@
                             {{ user.num_votes }} total vote{{ user.num_votes|pluralize }}
                     </li>
                 {% empty %}
-                    <span class="text-error">Sorry, no suggestion for this creative field</span>
+                    <span class="text-error">Sorry, no suggestions for this creative field</span>
                 {% endfor %}
             </ul>
         </div>
         <hr>
     {% empty %}
-        <span class="text-error">Sorry, no suggestions available</span>
+        <p class="text-error">Sorry, no suggestions available</p>
     {% endfor %}
 
     <p><a href="{{ url_project }}" class="btn btn-small"><i class="icon-circle-arrow-left"></i> Back to {{ p.title }} Page</a></p>
