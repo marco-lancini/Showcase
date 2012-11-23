@@ -123,8 +123,8 @@ class CollaborationViews(Views):
             2. keep only those users with a matching availability
             3. filter based on location
             4. filter based on willingness to pay (if yes use all the users, otherwise use all the users with fee equal to true or null)
-            5. for each category, order users by number of projects and votes
-            6. for each category, select only the first ones
+            5. for each creative field, order users by number of projects and votes
+            6. for each creative field, select only the first ones
         
         :Decorators: ``rest_login_required, must_be_owner``
         :Rest Types: ``GET``
@@ -150,14 +150,14 @@ class CollaborationViews(Views):
         #   pay = no  --> use all the users with fee=true or null
         groups = self.__filter_pay(groups, pay)
 
-        # For each category, order users by number of projects and votes
+        # For each creative field, order users by number of projects and votes
         # users_ordered:
         #   {'WD': [{'num_projects': 4, 'num_votes': 2, 'u': <UserProfile: altro>},
         #           {'num_projects': 1, 'num_votes': 0, 'u': <UserProfile: aa>}],
         #    'WV': [{'num_projects': 1, 'num_votes': 0, 'u': <UserProfile: aa>}]}
         groups = self.__order_by_projects(groups)
 
-        # For each category, select only the first LIMIT users
+        # For each creative field, select only the first LIMIT users
         limit  = 10
         groups = self.__limit(groups, limit)
 
