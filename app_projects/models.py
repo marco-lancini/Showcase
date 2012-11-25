@@ -269,14 +269,20 @@ class Project(models.Model):
         """
         Getter for the owner
         """
-        return self.owner
+        try:
+            return self.owner
+        except:
+            return None
 
     def get_owner_wrapper(self):
         """
         Getter for the wrapper of the owner
         """
-        owner = self.get_owner()
-        return owner.wrapper()
+        try:
+            owner = self.get_owner()
+            return owner.wrapper()
+        except:
+            return None
 
 
     #=========================================================================
@@ -319,7 +325,12 @@ class Project(models.Model):
         if material_dict['flickr']:
             del material_dict['flickr']
             material_dict['flickr_photos'] = self.material.flickr_get_photos()
-            material_dict['flickr_url']    = self.material.flickr_get_url(self.owner)
+
+            owner = self.get_owner()
+            if owner:
+                material_dict['flickr_url'] = self.material.flickr_get_url(owner)
+            else:
+                material_dict['flickr_url'] = None
 
         if material_dict['tumblr']:
             del material_dict['tumblr']
@@ -329,7 +340,6 @@ class Project(models.Model):
             del material_dict['youtube1']
             del material_dict['youtube2']
             material_dict['youtube_videos'] = self.material.youtube_get_videos()
-
 
         return material_dict
 

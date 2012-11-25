@@ -162,9 +162,13 @@ class ProjectViews(Views):
         p_dict = p.wrapper()
         
         # Check Owner
-        if str(p.owner.user.username) == str(request.user):
-            is_owner = True
-        else:
+        try:
+            owner = p.get_owner
+            if str(p.owner.user.username) == str(request.user):
+                is_owner = True
+            else:
+                is_owner = False
+        except:
             is_owner = False
 
         # Check Collaborators
