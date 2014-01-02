@@ -1,4 +1,9 @@
 ## Scope
+
+![status](http://b.repl.ca/v1/status-completed-red.png "status") 
+![build](http://b.repl.ca/v1/build-passing-brightgreen.png "build")  
+
+
 Showcase is a REST-based webservice developed for the "Service Technologies" course at **Politecnico di Milano** during my second year of Master.
 
 
