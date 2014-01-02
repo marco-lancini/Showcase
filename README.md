@@ -1,4 +1,4 @@
-## Scope
+## Showcase
 
 ![status](http://b.repl.ca/v1/status-completed-red.png "status") 
 ![build](http://b.repl.ca/v1/build-passing-brightgreen.png "build")  
