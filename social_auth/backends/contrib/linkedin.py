@@ -14,7 +14,9 @@ from social_auth.backends.exceptions import AuthCanceled, AuthUnknownError
 LINKEDIN_SERVER = 'linkedin.com'
 LINKEDIN_SCOPE  = 'r_fullprofile+r_network'
 
-LINKEDIN_REQUEST_TOKEN_URL = 'https://api.%s/uas/oauth/requestToken?scope=%s' % (LINKEDIN_SERVER, LINKEDIN_SCOPE)
+LINKEDIN_REQUEST_TOKEN_URL = 'https://api.%s/uas/oauth/requestToken?scope=%s' % (LINKEDIN_SERVER, LINKEDIN_SCOPE)  # original
+#LINKEDIN_REQUEST_TOKEN_URL = 'https://api.%s/uas/oauth/requestToken' % LINKEDIN_SERVER
+
 LINKEDIN_ACCESS_TOKEN_URL = 'https://api.%s/uas/oauth/accessToken' % LINKEDIN_SERVER
 LINKEDIN_AUTHORIZATION_URL = 'https://www.%s/uas/oauth/authenticate' % LINKEDIN_SERVER
 LINKEDIN_CHECK_AUTH = 'https://api.%s/v1/people/~' % LINKEDIN_SERVER
@@ -54,7 +56,7 @@ class LinkedinAuth(ConsumerBasedOAuth):
         """Return user data provided"""
         fields_selectors = LINKEDIN_FIELD_SELECTORS + \
                            setting('LINKEDIN_EXTRA_FIELD_SELECTORS', [])
-        url = LINKEDIN_CHECK_AUTH + ':(%s)' % ','.join(fields_selectors)
+        url = LINKEDIN_CHECK_AUTH + ':(%s)' % ','.join(set(fields_selectors))
         request = self.oauth_request(access_token, url)
         raw_xml = self.fetch_response(request)
         try:
@@ -72,6 +74,22 @@ class LinkedinAuth(ConsumerBasedOAuth):
                 raise AuthUnknownError(self, 'LinkedIn error was %s' % \
                                                     oauth_problem)
         return super(LinkedinAuth, self).auth_complete(*args, **kwargs)
+
+
+    # def unauthorized_token(self):
+    #     """Makes first request to oauth. Returns an unauthorized Token."""
+    #     request_token_url = self.REQUEST_TOKEN_URL
+
+    #     qs = 'scope=' + LINKEDIN_SCOPE
+    #     request_token_url = request_token_url + '?' + qs
+
+    #     request = self.oauth_request(
+    #         token=None,
+    #         url=request_token_url,
+    #         extra_params=self.request_token_extra_arguments()
+    #     )
+    #     response = self.fetch_response(request)
+    #     return Token.from_string(response)
 
 
 def to_dict(xml):

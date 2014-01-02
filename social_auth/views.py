@@ -53,6 +53,7 @@ def disconnect(request, backend, association_id=None):
     ''' Disconnects given backend from current logged in user '''
     backend.disconnect(request.user, association_id)
 
+    # MARCO
     u = User.objects.get(username__exact=str(request.user))
     connected_accounts = u.social_auth.filter(user=u.id)
 
